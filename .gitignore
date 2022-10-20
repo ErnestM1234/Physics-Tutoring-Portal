@@ -1,5 +1,9 @@
 # dotenv environment variable files
 */.env
 
+# pycache
+__pycache__
+*/__pycache__
+
 # vs code
 .vscode
