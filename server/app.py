@@ -22,6 +22,7 @@ db = SQLAlchemy(app)
 # pylint: disable-next=wrong-import-position
 from models import Users
 with app.app_context():
+    db.drop_all() # this is temporary fix for running db migrations
     db.create_all()
 
 @app.route('/')
