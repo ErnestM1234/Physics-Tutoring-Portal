@@ -25,3 +25,49 @@ class Users(db.Model):
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+
+
+class Classes(db.Model):
+    __tablename__ = 'classes'
+
+    id = db.Column('id',db.Integer,primary_key=True)
+    name = db.Column('name',db.String(300),nullable=False)
+    dept_course = db.Column('name',db.String(100),nullable=False)
+
+    def __init__(self,name, dept_course):
+        self.name = name
+        self.dept_course = dept_course
+
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
+
+
+class Tutorships(db.Model):
+    __tablename__ = 'tutorships'
+
+    id = db.Column('id',db.Integer,primary_key=True)
+    student_id = db.Column('student_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    tutor_id = db.Column('tutor_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    class_id = db.Column('class_id', db.Integer, db.ForeignKey('classes.id'), primary_key=True)
+
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
+
+
+class TutorClass(db.Model):
+    __tablename__ = 'tutor_classes'
+
+    id = db.Column('id',db.Integer,primary_key=True)
+
+    tutor_id = db.Column('tutor_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    class_id = db.Column('class_id', db.Integer, db.ForeignKey('classes.id'), primary_key=True)
+    status = db.Column('status',db.String(100),nullable=False)
+
+    def __init__(self, tutor_id, class_id, status):
+        self.tutor_id = tutor_id
+        self.class_id = class_id
+        self.status = status
+
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
