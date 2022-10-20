@@ -17,6 +17,10 @@ class Users(db.Model):
     isAdmin = db.Column('is_admin',db.Boolean,default=False)
 
 
+    tutor_classes = db.relationship('tutor_classes', backref='users', lazy=True)
+    student_tutorships = db.relationship('tutorships', backref='users', lazy=True)
+    tutor_tutorships = db.relationship('tutorships', backref='users', lazy=True)
+
     def __init__(self, netid, name, email):
         self.netid = netid
         self.name = name
@@ -35,6 +39,9 @@ class Classes(db.Model):
     name = db.Column('name',db.String(300),nullable=False)
     dept_course = db.Column('name',db.String(100),nullable=False)
 
+    tutor_classes = db.relationship('tutor_classes', backref='classes', lazy=True)
+    tutorships = db.relationship('tutorships', backref='classes', lazy=True)
+
     def __init__(self,name, dept_course):
         self.name = name
         self.dept_course = dept_course
@@ -47,21 +54,21 @@ class Tutorships(db.Model):
     __tablename__ = 'tutorships'
 
     id = db.Column('id',db.Integer,primary_key=True)
-    student_id = db.Column('student_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    tutor_id = db.Column('tutor_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    class_id = db.Column('class_id', db.Integer, db.ForeignKey('classes.id'), primary_key=True)
+    student_id = db.Column('student_id', db.Integer, db.ForeignKey('users.id'))
+    tutor_id = db.Column('tutor_id', db.Integer, db.ForeignKey('users.id'))
+    class_id = db.Column('class_id', db.Integer, db.ForeignKey('classes.id'))
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
 
-class TutorClass(db.Model):
+class TutorClasses(db.Model):
     __tablename__ = 'tutor_classes'
 
     id = db.Column('id',db.Integer,primary_key=True)
 
-    tutor_id = db.Column('tutor_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    class_id = db.Column('class_id', db.Integer, db.ForeignKey('classes.id'), primary_key=True)
+    tutor_id = db.Column('tutor_id', db.Integer, db.ForeignKey('users.id'), nullable=False)
+    class_id = db.Column('class_id', db.Integer, db.ForeignKey('classes.id'), nullable=False)
     status = db.Column('status',db.String(100),nullable=False)
 
     def __init__(self, tutor_id, class_id, status):
