@@ -20,7 +20,7 @@ db = SQLAlchemy(app)
 
 # pylint: disable-next=unused-import
 # pylint: disable-next=wrong-import-position
-from models import Users
+from src.database.models import Users
 with app.app_context():
     db.drop_all() # this is temporary fix for running db migrations
     db.create_all()
@@ -28,6 +28,10 @@ with app.app_context():
 @app.route('/')
 def hello_world():
     return 'Physics Tutoring Portal Client Time!'
+
+# pylint: disable-next=unused-import
+# pylint: disable-next=wrong-import-position
+from src.api.user.user import user
 
 
 if __name__ == '__main__':
