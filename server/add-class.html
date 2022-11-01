@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Add a class</title>
+  </head>
+  <body>
+    <h1>Add a class</h1>
+    <h2>Class details</h2>
+    <hr>
+    <form action="/add-class" method="get">
+      <table> 
+        <tr>
+          <td align = 'right'>Number: </td>
+          <td><input type="text" name="number" value = "{{number}}">
+            <br></td>
+        </tr>
+        <tr>
+          <td align = 'right'>Title: </td>
+          <td><input type="text" name="title" value = "{{title}}">
+            <br></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="submit" value="Add class"></td>
+        </tr>
+      </table>
+   
+    </form>
+    <hr>
+
+    <table>
+      <tr>
+        <th align = 'left'>Number</th>
+        <th align = 'left'>Title</th>
+      </tr>
+      {% for course in courses: %}
+      <tr>
+        {{course}}
+      </tr>
+      {% endfor %}
+    </table>
+    
+  </body>
+  
+
+</html>
