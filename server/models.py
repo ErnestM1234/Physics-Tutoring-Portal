@@ -41,12 +41,18 @@ class Classes(db.Model):
     tutor_classes = db.relationship('TutorClasses', backref='classes', lazy=True, primaryjoin="Classes.id == TutorClasses.class_id")
     tutorships = db.relationship('Tutorships', backref='classes', lazy=True, primaryjoin="Classes.id == Tutorships.class_id")
 
-    def __init__(self,name, dept_course):
+    def __init__(self, name, dept_course):
         self.name = name
         self.dept_course = dept_course
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+    def get_name(self):
+        return self.name
+
+    def get_dept_course(self):
+        return self.dept_course
 
 
 class Tutorships(db.Model):

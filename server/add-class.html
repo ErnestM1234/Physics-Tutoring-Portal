@@ -12,12 +12,12 @@
       <table> 
         <tr>
           <td align = 'right'>Department and Number: </td>
-          <td><input type="text" name="number" value = "">
+          <td><input type="text" name="number" value = "{{number}}">
             <br></td>
         </tr>
         <tr>
           <td align = 'right'>Title: </td>
-          <td><input type="text" name="title" value = "">
+          <td><input type="text" name="title" value = "{{title}}">
             <br></td>
         </tr>
         <tr>
@@ -30,10 +30,22 @@
     <hr>
 
     <h2>Classes</h2>
+
+    <table>
+      <tr>
+      <th align = 'left'>Department & Number</th>
+      <th align = 'left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <th align = 'left'>Title</th>
+      </tr>
+
       {% for course in courses: %}
-      <strong>{{'%s' % course}}</strong>
-      <br>
+      <tr>
+      <td>{{'%s' % course.get_dept_course()}}</td>
+      <td></td>
+      <td>{{'%s' % course.get_name()}}</td>
+      </tr>
       {% endfor %}
+    </table>
     
   </body>
   
