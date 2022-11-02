@@ -6,40 +6,34 @@
   </head>
   <body>
     <h1>Add a class</h1>
-    <h2>Class details</h2>
     <hr>
+    <h2>Class details</h2>
     <form action="/add-class" method="get">
       <table> 
         <tr>
-          <td align = 'right'>Number: </td>
-          <td><input type="text" name="number" value = "{{number}}">
+          <td align = 'right'>Department and Number: </td>
+          <td><input type="text" name="number" value = "">
             <br></td>
         </tr>
         <tr>
           <td align = 'right'>Title: </td>
-          <td><input type="text" name="title" value = "{{title}}">
+          <td><input type="text" name="title" value = "">
             <br></td>
         </tr>
         <tr>
           <td></td>
-          <td><input type="submit" value="Add class"></td>
+          <td><input type="submit" name="submit" value="Add class"></td>
         </tr>
       </table>
    
     </form>
     <hr>
 
-    <table>
-      <tr>
-        <th align = 'left'>Number</th>
-        <th align = 'left'>Title</th>
-      </tr>
+    <h2>Classes</h2>
       {% for course in courses: %}
-      <tr>
-        {{course}}
-      </tr>
+      <strong>{{'%s' % course}}</strong>
+      <br>
       {% endfor %}
-    </table>
     
   </body>
   

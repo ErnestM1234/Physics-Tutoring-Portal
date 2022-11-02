@@ -64,7 +64,8 @@ class Classes(db.Model):
 
     def __repr__(self):
         #return '<id {}>'.format(self.id)
-        return '{} {}'.format(self.name, self.dept_course)
+        return '{} {}'.format(self.dept_course, self.name)
+        #return [self.dept_course, self.name]
 
 
 class Tutorships(db.Model):
@@ -117,6 +118,7 @@ def hello_world():
 def add_class():
     number = flask.request.args.get('number')
     title = flask.request.args.get('title')
+    #isSubmitted = flask.request.args.get('submit')
 
     if number is None:
         number = ''
@@ -124,20 +126,23 @@ def add_class():
     if title is None:
         title = ''
 
+    #print("--------------> "+ isSubmitted)
+
     #engine.execute("CREATE TABLE IF NOT EXISTS classes (id text, name text, dept_course text)")
 
     #engine.execute("INSERT INTO classes (id, name, dept_course) VALUES ('one', 'two', 'three')")
-    stmt = db.insert(Classes).values(name = title, dept_course = number)
+    if (number!='') and (title!=''):
+        stmt = db.insert(Classes).values(name = title, dept_course = number)
 
-    with engine.connect() as conn:
-        result = conn.execute(stmt)
-        #conn.commit()
+        with engine.connect() as conn:
+            result = conn.execute(stmt)
+            #conn.commit()
 
     courses = Classes.query.all()
-    #courses = engine.execute("SELECT * FROM classes")
     print(courses)
+    #courses = engine.execute("SELECT * FROM classes")
 
-    html_code = flask.render_template('add-class.html', courses = courses, number = number, title = title)
+    html_code = flask.render_template('add-class.html', courses = courses)
     response = flask.make_response(html_code)
     return response
 
