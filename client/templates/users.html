@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>Users</title>
+    </head>
+
+    <body>
+        <form action="http://localhost:5000/api/user/create" method="POST">
+            <input type="text" name="netid">
+            <input type="text" name="name">
+            <input type="text" name="email">
+            <input type="submit">
+        </form>
+        {% for user in users %}
+            <Strong>User:</Strong>{{user}}
+            <br/>
+        {% endfor %}
+    </body>
+</html>
