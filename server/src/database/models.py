@@ -1,5 +1,4 @@
 # this is a file containing our datamodels
-
 from app import db
 
 class Users(db.Model):
@@ -17,9 +16,7 @@ class Users(db.Model):
     isAdmin = db.Column('is_admin',db.Boolean,default=False)
 
 
-    tutor_classes = db.relationship('tutor_classes', backref='users', lazy=True)
-    student_tutorships = db.relationship('tutorships', backref='users', lazy=True)
-    tutor_tutorships = db.relationship('tutorships', backref='users', lazy=True)
+    tutor_classes = db.relationship('TutorClasses', backref='tutor', lazy=True)
 
     def __init__(self, netid, name, email):
         self.netid = netid
@@ -30,6 +27,19 @@ class Users(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
+    # temporary manual serializer
+    # to do (Ernest): use a package: https://stackoverflow.com/questions/5022066/how-to-serialize-sqlalchemy-result-to-json
+    def serialize(self):
+        return {
+            'id': self.id,
+            'netid': self.netid,
+            'name': self.name,
+            'email': self.email,
+            'bio': self.bio,
+            'isStudent': self.isStudent,
+            'isTutor': self.isTutor,
+            'isAdmin': self.isAdmin,
+        }
 
 
 class Classes(db.Model):
@@ -37,10 +47,10 @@ class Classes(db.Model):
 
     id = db.Column('id',db.Integer,primary_key=True)
     name = db.Column('name',db.String(300),nullable=False)
-    dept_course = db.Column('name',db.String(100),nullable=False)
+    dept_course = db.Column('dept_course',db.String(100),nullable=False)
 
-    tutor_classes = db.relationship('tutor_classes', backref='classes', lazy=True)
-    tutorships = db.relationship('tutorships', backref='classes', lazy=True)
+    tutor_classes = db.relationship('TutorClasses', backref='classes', lazy=True)
+    tutorships = db.relationship('Tutorships', backref='classes', lazy=True)
 
     def __init__(self,name, dept_course):
         self.name = name
@@ -54,8 +64,12 @@ class Tutorships(db.Model):
     __tablename__ = 'tutorships'
 
     id = db.Column('id',db.Integer,primary_key=True)
-    student_id = db.Column('student_id', db.Integer, db.ForeignKey('users.id'))
-    tutor_id = db.Column('tutor_id', db.Integer, db.ForeignKey('users.id'))
+
+    student_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    tutor_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    student = db.relationship("Users", foreign_keys=[student_id])
+    tutor = db.relationship("Users", foreign_keys=[tutor_id])
+
     class_id = db.Column('class_id', db.Integer, db.ForeignKey('classes.id'))
 
     def __repr__(self):
