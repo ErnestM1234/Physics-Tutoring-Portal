@@ -36,9 +36,9 @@ class Users(db.Model):
             'name': self.name,
             'email': self.email,
             'bio': self.bio,
-            'isStudent': self.isStudent,
-            'isTutor': self.isTutor,
-            'isAdmin': self.isAdmin,
+            'is_student': self.isStudent,
+            'is_tutor': self.isTutor,
+            'is_admin': self.isAdmin,
         }
 
 
