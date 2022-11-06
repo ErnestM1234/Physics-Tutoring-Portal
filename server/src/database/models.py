@@ -11,9 +11,9 @@ class Users(db.Model):
     email = db.Column('email',db.String(50),unique=True,nullable=False)
     bio = db.Column('bio',db.String(500),nullable=True)
 
-    isStudent = db.Column('is_student',db.Boolean,default=True)
-    isTutor = db.Column('is_tutor',db.Boolean,default=False)
-    isAdmin = db.Column('is_admin',db.Boolean,default=False)
+    is_student = db.Column('is_student',db.Boolean,default=True)
+    is_tutor = db.Column('is_tutor',db.Boolean,default=False)
+    is_admin = db.Column('is_admin',db.Boolean,default=False)
 
 
     tutor_classes = db.relationship('TutorClasses', backref='tutor', lazy=True)
@@ -36,9 +36,9 @@ class Users(db.Model):
             'name': self.name,
             'email': self.email,
             'bio': self.bio,
-            'is_student': self.isStudent,
-            'is_tutor': self.isTutor,
-            'is_admin': self.isAdmin,
+            'is_student': self.is_student,
+            'is_tutor': self.is_tutor,
+            'is_admin': self.is_admin,
         }
 
 
@@ -59,11 +59,21 @@ class Classes(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
+    # temporary manual serializer
+    # to do (Ernest): use a package: https://stackoverflow.com/questions/5022066/how-to-serialize-sqlalchemy-result-to-json
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.netid,
+            'dept_course': self.name,
+        }
+
 
 class Tutorships(db.Model):
     __tablename__ = 'tutorships'
 
     id = db.Column('id',db.Integer,primary_key=True)
+    status = db.Column('status',db.String(),nullable=False)
 
     student_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     tutor_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -72,8 +82,34 @@ class Tutorships(db.Model):
 
     class_id = db.Column('class_id', db.Integer, db.ForeignKey('classes.id'))
 
+
+    VALID_STATUS = ['requested', 'accepted', 'blocked', 'none']
+
+
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+    def __init__(self, status, student_id, tutor_id, class_id):
+        self.student_id = student_id
+        self.tutor_id = tutor_id
+        self.class_id = class_id
+        self.status = status
+        if status not in self.VALID_STATUS:
+            raise Exception("Error: Invalid status given. Tutorships can have only one of the following statuses: " + str(self.VALID_STATUS))
+        
+
+
+    # temporary manual serializer
+    # to do (Ernest): use a package: https://stackoverflow.com/questions/5022066/how-to-serialize-sqlalchemy-result-to-json
+    def serialize(self):
+        return {
+            'id': self.id,
+            'student_id': self.netid,
+            'tutor_id': self.name,
+            'class_id': self.class_id,
+            'status': self.status
+        }
+
 
 
 class TutorClasses(db.Model):

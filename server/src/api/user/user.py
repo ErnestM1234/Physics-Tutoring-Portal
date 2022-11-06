@@ -25,24 +25,20 @@ def get_user():
         user = Users.query.filter(Users.id == id).first()
         if user is None:
             return {"message": "User could not be found."}, 400
+        return jsonify(user.serialize())
     except Exception as e:
         return {"error": str(e)}, 400
-
-    if user is None:
-        return {"message": "No user with id " + str(id) + " exists."}
-
-    return jsonify(user.serialize())
 
 
 
 
 """ GET /api/users/
 Parameters:
-    - netid        (str)
-    - email        (str)
-    - is_student   (bool)
-    - is_tutor     (bool)
-    - is_admin     (bool)
+    - netid        (str)?
+    - email        (str)?
+    - is_student   (bool)?
+    - is_tutor     (bool)?
+    - is_admin     (bool)?
 """
 class GetUsersInputSchema(Schema):
     id = fields.Integer()
@@ -61,7 +57,31 @@ def get_users():
         return {"message": str(errors) }, 400
 
     try:
-        users = Users.query.all()
+        id = request.args.get('id')
+        netid = request.args.get('netid')
+        name = request.args.get('name')
+        email = request.args.get('email')
+        is_student = request.args.get('is_student')
+        is_tutor = request.args.get('is_tutor')
+        is_admin = request.args.get('is_admin')
+
+        filters = []
+        if id:
+            filters.append(Users.id == id)
+        if netid:
+            filters.append(Users.netid == netid)
+        if name:
+            filters.append(Users.name == name)
+        if email:
+            filters.append(Users.email == email)
+        if is_student:
+            filters.append(Users.is_student == is_student)
+        if is_tutor:
+            filters.append(Users.is_tutor == is_tutor)
+        if is_admin:
+            filters.append(Users.is_admin == is_admin)
+
+        users = Users.query.filter(*filters).all()
         return jsonify([user.serialize() for user in users])
     except Exception as e:
         return {"error": str(e)}, 400
