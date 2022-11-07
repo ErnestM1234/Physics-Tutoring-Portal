@@ -16,7 +16,7 @@ class Users(db.Model):
     is_admin = db.Column('is_admin',db.Boolean,default=False)
 
 
-    tutor_classes = db.relationship('TutorClasses', backref='tutor', lazy=True)
+    tutor_courses = db.relationship('TutorCourses', backref='tutor', lazy=True)
 
     def __init__(self, netid, name, email):
         self.netid = netid
@@ -42,15 +42,15 @@ class Users(db.Model):
         }
 
 
-class Classes(db.Model):
-    __tablename__ = 'classes'
+class Courses(db.Model):
+    __tablename__ = 'courses'
 
     id = db.Column('id',db.Integer,primary_key=True)
     name = db.Column('name',db.String(300),nullable=False)
     dept_course = db.Column('dept_course',db.String(100),nullable=False)
 
-    tutor_classes = db.relationship('TutorClasses', backref='classes', lazy=True)
-    tutorships = db.relationship('Tutorships', backref='classes', lazy=True)
+    tutor_courses = db.relationship('TutorCourses', backref='courses', lazy=True)
+    tutorships = db.relationship('Tutorships', backref='courses', lazy=True)
 
     def __init__(self,name, dept_course):
         self.name = name
@@ -64,8 +64,8 @@ class Classes(db.Model):
     def serialize(self):
         return {
             'id': self.id,
-            'name': self.netid,
-            'dept_course': self.name,
+            'name': self.name,
+            'dept_course': self.dept_course,
         }
 
 
@@ -80,7 +80,7 @@ class Tutorships(db.Model):
     student = db.relationship("Users", foreign_keys=[student_id])
     tutor = db.relationship("Users", foreign_keys=[tutor_id])
 
-    class_id = db.Column('class_id', db.Integer, db.ForeignKey('classes.id'))
+    course_id = db.Column('course_id', db.Integer, db.ForeignKey('courses.id'))
 
 
     VALID_STATUS = ['requested', 'accepted', 'blocked', 'none']
@@ -89,10 +89,10 @@ class Tutorships(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
-    def __init__(self, status, student_id, tutor_id, class_id):
+    def __init__(self, status, student_id, tutor_id, course_id):
         self.student_id = student_id
         self.tutor_id = tutor_id
-        self.class_id = class_id
+        self.course_id = course_id
         self.status = status
         if status not in self.VALID_STATUS:
             raise Exception("Error: Invalid status given. Tutorships can have only one of the following statuses: " + str(self.VALID_STATUS))
@@ -104,27 +104,37 @@ class Tutorships(db.Model):
     def serialize(self):
         return {
             'id': self.id,
-            'student_id': self.netid,
-            'tutor_id': self.name,
-            'class_id': self.class_id,
+            'student_id': self.student_id,
+            'tutor_id': self.tutor_id,
+            'course_id': self.course_id,
             'status': self.status
         }
 
 
 
-class TutorClasses(db.Model):
-    __tablename__ = 'tutor_classes'
+class TutorCourses(db.Model):
+    __tablename__ = 'tutor_courses'
 
     id = db.Column('id',db.Integer,primary_key=True)
 
     tutor_id = db.Column('tutor_id', db.Integer, db.ForeignKey('users.id'), nullable=False)
-    class_id = db.Column('class_id', db.Integer, db.ForeignKey('classes.id'), nullable=False)
+    course_id = db.Column('course_id', db.Integer, db.ForeignKey('courses.id'), nullable=False)
     status = db.Column('status',db.String(100),nullable=False)
 
-    def __init__(self, tutor_id, class_id, status):
+    def __init__(self, tutor_id, course_id, status):
         self.tutor_id = tutor_id
-        self.class_id = class_id
+        self.course_id = course_id
         self.status = status
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+     # temporary manual serializer
+    # to do (Ernest): use a package: https://stackoverflow.com/questions/5022066/how-to-serialize-sqlalchemy-result-to-json
+    def serialize(self):
+        return {
+            'id': self.id,
+            'tutor_id': self.tutor_id,
+            'course_id': self.course_id,
+            'status': self.status
+        }

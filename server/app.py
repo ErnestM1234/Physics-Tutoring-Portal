@@ -34,6 +34,9 @@ def hello_world():
 # pylint: disable-next=unused-wildcard-import
 # pylint: disable-next=wildcard-import
 from src.api.user.user import *
+from src.api.course.course import *
+from src.api.tutorship.tutorship import *
+from src.api.tutor_course.tutor_course import *
 
 
 if __name__ == '__main__':

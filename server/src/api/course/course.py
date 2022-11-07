@@ -1,31 +1,28 @@
 from app import app, db
 from flask import jsonify, request
-from src.database.models import Classes
+from src.database.models import Courses
 from marshmallow import Schema, fields
 
 
-
-
-
-""" GET /api/class/
+""" GET /api/course/
 Parameters:
     - id (int)!
 """
-class GetClassInputSchema(Schema):
+class GetCourseInputSchema(Schema):
     id = fields.Integer(required=True)
-get_class_input_schema = GetClassInputSchema()
+get_course_input_schema = GetCourseInputSchema()
 
-@app.route('/api/class/', methods=['GET'])
-def read_class():
-    errors = get_class_input_schema.validate(request.args)
+@app.route('/api/course/', methods=['GET'])
+def read_course():
+    errors = get_course_input_schema.validate(request.args)
     if errors:
         return {"message": str(errors) }, 400
     
     try:
         id = request.args['id']
-        course = Classes.query.filter(Classes.id == id).first()
+        course = Courses.query.filter(Courses.id == id).first()
         if course is None:
-            return {"message": "Class could not be found."}, 400
+            return {"message": "Course could not be found."}, 400
     except Exception as e:
         return {"error": str(e)}, 400
 
@@ -35,21 +32,21 @@ def read_class():
 
 
 
-""" GET /api/classes/
+""" GET /api/courses/
 Parameters:
     - id            (int)?
     - name          (str)?
     - dept_course   (str)?
 """
-class GetClassesInputSchema(Schema):
+class GetCoursesInputSchema(Schema):
     id = fields.Integer()
     name = fields.String()
     dept_course = fields.String()
-get_classes_input_schema = GetClassesInputSchema()
+get_courses_input_schema = GetCoursesInputSchema()
 
-@app.route('/api/classes/', methods=['GET'])
-def get_classes():
-    errors = get_classes_input_schema.validate(request.args)
+@app.route('/api/courses/', methods=['GET'])
+def get_courses():
+    errors = get_courses_input_schema.validate(request.args)
     if errors:
         return {"message": str(errors) }, 400
 
@@ -60,13 +57,13 @@ def get_classes():
 
         filter = []
         if id:
-            filter.append(Classes.id == id)
+            filter.append(Courses.id == id)
         if name:
-            filter.append(Classes.name == name)
+            filter.append(Courses.name == name)
         if dept_course:
-            filter.append(Classes.dept_course == dept_course)
-        classes = Classes.query.filter(*filter).all()
-        return jsonify([course.serialize() for course in classes])
+            filter.append(Courses.dept_course == dept_course)
+        courses = Courses.query.filter(*filter).all()
+        return jsonify([course.serialize() for course in courses])
     except Exception as e:
         return {"error": str(e)}, 400
 
@@ -74,24 +71,24 @@ def get_classes():
 
 
 
-""" POST /api/class/create
+""" POST /api/course/create
 Parameters:
     - name          (str)!
     - dept_course   (str)!
 """
-class CreateClassInputSchema(Schema):
+class CreateCourseInputSchema(Schema):
     name = fields.String(required=True)
     dept_course = fields.String(required=True)
-create_class_input_schema = CreateClassInputSchema()
+create_course_input_schema = CreateCourseInputSchema()
 
-@app.route('/api/class/create', methods=['POST'])
-def create_class():
-    errors = create_class_input_schema.validate(request.form)
+@app.route('/api/course/create', methods=['POST'])
+def create_course():
+    errors = create_course_input_schema.validate(request.form)
     if errors:
         return {"message": str(errors) }, 400
     
     try:
-        course = Classes(request.form['name'], request.form['dept_course'])
+        course = Courses(request.form['name'], request.form['dept_course'])
         db.session.add(course)
         db.session.commit()
         return {"message": "success" }, 200
@@ -101,27 +98,27 @@ def create_class():
 
 
 
-""" POST /api/class/update
+""" POST /api/course/update
 Parameters:
     - id            (int)!
     - name          (str)?
     - dept_course   (str)?
 """
-class UpdateClassInputSchema(Schema):
+class UpdateCourseInputSchema(Schema):
     id = fields.Integer(required=True)
     name = fields.String()
     dept_course = fields.String()
-update_class_input_schema = UpdateClassInputSchema()
+update_course_input_schema = UpdateCourseInputSchema()
 
-@app.route('/api/class/update', methods=['POST'])
-def  update_class():
-    errors = update_class_input_schema.validate(request.form)
+@app.route('/api/course/update', methods=['POST'])
+def  update_course():
+    errors = update_course_input_schema.validate(request.form)
     if errors:
         return {"message": str(errors) }, 400
     
     try:
         id = request.form['id']
-        course = Classes.query.filter(Classes.id == id).first()
+        course = Courses.query.filter(Courses.id == id).first()
         if course is None:
             return {"message": "Course could not be found."}, 400
         
@@ -139,25 +136,25 @@ def  update_class():
 
 
 
-""" POST /api/class/
+""" POST /api/course/
 Parameters:
     - id (int)!
 """
-class DeleteClassInputSchema(Schema):
+class DeleteCourseInputSchema(Schema):
     id = fields.Integer(required=True)
-delete_class_input_schema = DeleteClassInputSchema()
+delete_course_input_schema = DeleteCourseInputSchema()
 
-@app.route('/api/class/delete', methods=['POST'])
-def delete_class():
-    errors = delete_class_input_schema.validate(request.form)
+@app.route('/api/course/delete', methods=['POST'])
+def delete_course():
+    errors = delete_course_input_schema.validate(request.form)
     if errors:
         return {"message": str(errors) }, 400
 
     try:
         id = request.form['id']
-        course = Classes.query.filter(Classes.id == id).first()
+        course = Courses.query.filter(Courses.id == id).first()
         if course is None:
-            return {"message": "Class could not be found."}, 400
+            return {"message": "Course could not be found."}, 400
         db.session.delete(course)
         db.session.commit()
         return {"message": "success" }, 200

@@ -37,14 +37,14 @@ Parameters:
     - status        (str)?
     - student_id    (int)?
     - tutor_id      (int)?
-    - class_id      (int)?
+    - course_id      (int)?
 """
 class GetTutorshipsInputSchema(Schema):
     id = fields.Integer()
     status = fields.String()
     student_id = fields.Integer()
     tutor_id = fields.Integer()
-    class_id = fields.Integer()
+    course_id = fields.Integer()
 get_tutorships_input_schema = GetTutorshipsInputSchema()
 
 @app.route('/api/tutorship/', methods=['GET'])
@@ -58,7 +58,7 @@ def get_tutorships():
         status = request.args['status']
         student_id = request.args['student_id']
         tutor_id = request.args['tutor_id']
-        class_id = request.args['class_id']
+        course_id = request.args['course_id']
 
         filters = []
         if id:
@@ -69,8 +69,8 @@ def get_tutorships():
             filters.append(Tutorships.student_id == student_id)
         if tutor_id:
             filters.append(Tutorships.tutor_id == tutor_id)
-        if class_id:
-            filters.append(Tutorships.class_id == class_id)
+        if course_id:
+            filters.append(Tutorships.course_id == course_id)
 
         tutorships = Tutorships.query.filter(*filters).all()
         return jsonify([tutorship.serialize() for tutorship in tutorships])
@@ -85,13 +85,13 @@ Parameters:
     - status        (str)!
     - student_id    (int)!
     - tutor_id      (int)!
-    - class_id      (int)!
+    - course_id      (int)!
 """
 class CreateTutorshipsInputSchema(Schema):
     status = fields.String(required=True)
     student_id = fields.Integer(required=True)
     tutor_id = fields.Integer(required=True)
-    class_id = fields.Integer(required=True)
+    course_id = fields.Integer(required=True)
 create_tutorships_input_schema = CreateTutorshipsInputSchema()
 
 @app.route('/api/tutorship/create', methods=['POST'])
@@ -104,8 +104,8 @@ def create_tutorship():
         status = request.form.get('status')
         student_id = request.form.get('student_id')
         tutor_id = request.form.get('tutor_id')
-        class_id = request.form.get('class_id')
-        tutorship = Tutorships(status, student_id, tutor_id, class_id)
+        course_id = request.form.get('course_id')
+        tutorship = Tutorships(status, student_id, tutor_id, course_id)
         db.session.add(tutorship)
         db.session.commit()
 
@@ -123,14 +123,14 @@ Parameters:
     - status        (str)?
     - student_id    (int)?
     - tutor_id      (int)?
-    - class_id      (int)?
+    - course_id      (int)?
 """
 class UpdateTutorshipsInputSchema(Schema):
     id = fields.Integer(required=True)
     status = fields.String()
     student_id = fields.Integer()
     tutor_id = fields.Integer()
-    class_id = fields.Integer()
+    course_id = fields.Integer()
 update_tutorships_input_schema = UpdateTutorshipsInputSchema()
 
 @app.route('/api/tutorship/update', methods=['POST'])
@@ -152,13 +152,17 @@ def  update_tutorship():
             tutorship.student_id = request.form['student_id']
         if request.form['tutor_id'] not in [None, '']:
             tutorship.tutor_id = request.form['tutor_id']
-        if request.form['class_id'] not in [None, '']:
-            tutorship.class_id = request.form['class_id']
+        if request.form['course_id'] not in [None, '']:
+            tutorship.course_id = request.form['course_id']
 
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
         return {"error": str(e)}, 400
+
+
+
+
 
 """ POST /api/tutorship/delete
 Parameters:
@@ -185,8 +189,4 @@ def delete_tutorship():
         return {"message": "success"}
     except Exception as e:
         return {"error": str(e)}, 400
-
-
-    
-    return 'delete tutorship'
 
