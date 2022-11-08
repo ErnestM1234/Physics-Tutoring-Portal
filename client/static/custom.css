@@ -1,6 +1,7 @@
 @import "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css";
+@import "https://fonts.googleapis.com/css?family=Arvo";
 .princeton-gradient {
-  background-image: linear-gradient(45deg, rgb(255, 236, 207), rgb(255, 219, 207));
+  background-image: linear-gradient(45deg, rgb(249, 214, 162), rgb(250, 175, 151));
 }
 
 /*# sourceMappingURL=custom.css.map */
