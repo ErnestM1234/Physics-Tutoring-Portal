@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"version":3,"sourceRoot":"","sources":["custom.scss"],"names":[],"mappings":"AAAQ;AACA;AAOR;EAHE","file":"custom.css"}
+=======
+{"version":3,"sourceRoot":"","sources":["custom.scss"],"names":[],"mappings":"AAAQ;AACA;AAER;EACE;EACA;;;AAGF;EACE;;;AAGF;EACE;EACA;;;AAOF;EAHE;;;AAOF;EACE;EACA;;;AAGF;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;;AAGF;EACE;EACA","file":"custom.css"}
+>>>>>>> aa55d85c217c254c0ab7cbeec6861b571d6d77d7
