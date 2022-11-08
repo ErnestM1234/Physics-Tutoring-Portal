@@ -34,3 +34,16 @@ def dashboard():
     return render_template(
         'dashboard.html'
     )
+
+@app.route('/tutordashboard')
+def tutorDash():
+    # request list of users
+
+    # res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
+    # data = res.json()
+    # print(data)
+
+    # return 'hi'
+    return render_template(
+        'tutordash.html'
+    )
