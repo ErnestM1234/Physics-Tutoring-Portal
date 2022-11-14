@@ -19,7 +19,7 @@ def get_tutor_course():
         return {"message": str(errors) }, 400
     
     try:
-        id = request.args['id']
+        id = request.args.get('id')
         tutor_course = TutorCourses.query.filter(TutorCourses.id == id).first()
         if tutor_course is None:
             return {"message": "Tutor course could not be found."}, 400

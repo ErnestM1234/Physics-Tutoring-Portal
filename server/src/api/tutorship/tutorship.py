@@ -19,7 +19,7 @@ def get_tutorship():
         return {"message": str(errors) }, 400
     
     try:
-        id = request.args['id']
+        id = request.args.get('id')
         tutorship = Tutorships.query.filter(Tutorships.id == id).first()
         if tutorship is None:
             return {"message": "Tutorship could not be found."}, 400
@@ -47,18 +47,18 @@ class GetTutorshipsInputSchema(Schema):
     course_id = fields.Integer()
 get_tutorships_input_schema = GetTutorshipsInputSchema()
 
-@app.route('/api/tutorship/', methods=['GET'])
+@app.route('/api/tutorships/', methods=['GET'])
 def get_tutorships():
     errors = get_tutorships_input_schema.validate(request.args)
     if errors:
         return {"message": str(errors) }, 400
     
     try:
-        id = request.args['id']
-        status = request.args['status']
-        student_id = request.args['student_id']
-        tutor_id = request.args['tutor_id']
-        course_id = request.args['course_id']
+        id = request.args.get('id')
+        status = request.args.get('status')
+        student_id = request.args.get('student_id')
+        tutor_id = request.args.get('tutor_id')
+        course_id = request.args.get('course_id')
 
         filters = []
         if id:
@@ -179,7 +179,7 @@ def delete_tutorship():
         return {"message": str(errors) }, 400
 
     try:
-        id = request.args['id']
+        id = request.args.get('id')
         tutorship = Tutorships.query.filter(Tutorships.id == id).first()
         if tutorship is None:
             return {"message": "Tutorship could not be found."}, 400

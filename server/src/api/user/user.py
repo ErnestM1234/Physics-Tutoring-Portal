@@ -21,7 +21,7 @@ def get_user():
         return {"message": str(errors) }, 400
     
     try:
-        id = request.args['id']
+        id = request.args.get('id')
         user = Users.query.filter(Users.id == id).first()
         if user is None:
             return {"message": "User could not be found."}, 400
