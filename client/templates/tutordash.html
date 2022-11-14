@@ -1,49 +1,89 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
-    <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
-    <style>
-    body {
-        font-family: 'Arvo';font-size: 22px;
-    }
-    </style>
+      <title>Physics Tutoring Portal Tutor Dashboard</title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 
     <body class="princeton-gradient">
 
-        <h1 style="position:relative; left:300px; font-size: 64px">Welcome, Jane Doe</h1>
+        <div class="non-sidebar">
+            <br>
+            <h1>Welcome, Jane Doe.</h1>
+
+            <br><br><br>
+
+            <h3>MY STUDENTS</h3>
+    
 
 
-        <h3 style="position:relative; left:300px; font-size: 40px">My Students</h3>
+
+     
 
 
-        <table style = "position:relative; left:300px;" class="table">
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Course</th>
-                <th scope="col">Contact</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="bg-white">Anjali</td>
-                <td class="bg-white">Kapoor</td>
-                <td class="bg-white">Physics 103</td>
-              </tr>
-              <tr>
-                <td class="bg-white">Lane</td>
-                <td class="bg-white">Glisic</td>
-                <td class="bg-white">Physics 103</td>
-              </tr>
-              
-            </tbody>
-          </table>
-          <br>
+            <div class ="list">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th class="bg-white" scope="col">Name</th>
+                    <th class="bg-white" scope="col">Course</th>
+                    <th class="bg-white" scope="col">Contact</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="bg-white" >Anjali Kapoor</td>
+                    <td class="bg-white">Physics 103</td>
+                    <td class="bg-white">akkapoor@princeton.edu</td>
+                  </tr>
+                  <tr>
+                    <td class="bg-white">Lana Glisic</td>
+                    <td class="bg-white">Physics 103</td>
+                    <td class="bg-white">lglisic@princeton.edu</td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+            
+              <br>
+    
+    
+              <h3>MY CLASSES</h3>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td class="bg-white">Physics 101</td>
+                  </tr>
+                  <tr>
+                    <td class="bg-white">Physics 103</td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+    
+    
+        </div>
+
+        &nbsp;
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>PHYSICS<br>TUTORING<br>PORTAL</h3>
+                </div>
+
+                <hr>
 
 
-          <h3 style="position:relative; left:300px; font-size: 40px">My Classes</h3>
+                <img src="{{ 'static/PU-standard.png' }}" width="250px">
+        
+            </nav>
+        
+        </div>
 
 
         
