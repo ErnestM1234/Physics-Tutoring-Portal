@@ -1,6 +1,24 @@
 @import "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css";
+<<<<<<< HEAD
 @import "https://fonts.googleapis.com/css?family=Arvo";
 
+=======
+@import "https://fonts.googleapis.com/css?family=Arvo:400,700";
+
+body {
+  font-family: 'Arvo', sans-serif;
+  background: black;
+}
+
+hr{
+  border-top: 3px solid black;
+}
+
+.non-sidebar{
+  position: fixed;
+  left: 300px;
+}
+>>>>>>> aa55d85c217c254c0ab7cbeec6861b571d6d77d7
 
 @mixin gradient-directional($start-color: $gray-700, $end-color: $gray-800, $deg: 45deg) {
   background-image: linear-gradient($deg, $start-color, $end-color);
@@ -8,4 +26,28 @@
 
 .princeton-gradient {
     @include gradient-directional(rgb(249, 214, 162), rgb(250, 175, 151)); 
+<<<<<<< HEAD
+=======
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+}
+
+#sidebar {
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background: #FFFAF3;
+  color: black;
+  box-shadow: 10px 0px 5px rgba(0, 0, 0, 0.25);
+}
+
+#sidebar .sidebar-header {
+  padding-top: 20px;
+  padding-left: 20px;
+>>>>>>> aa55d85c217c254c0ab7cbeec6861b571d6d77d7
 }
