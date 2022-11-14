@@ -52,3 +52,16 @@ def dashboard():
         data = data
 
     )
+
+@app.route('/tutordashboard')
+def tutorDash():
+    # request list of users
+
+    # res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
+    # data = res.json()
+    # print(data)
+
+    # return 'hi'
+    return render_template(
+        'tutordash.html'
+    )
