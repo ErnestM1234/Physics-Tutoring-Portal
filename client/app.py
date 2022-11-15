@@ -89,8 +89,9 @@ def admin_dashboard():
     # get admin
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId})
     user = res.json()
+    print(user)
     # verify is admin
-    if user['is_admin'] == False:
+    if id not in user.keys() or user['is_admin'] == False:
         return redirect('/')
 
     # get courses

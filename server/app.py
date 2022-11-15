@@ -22,7 +22,7 @@ db = SQLAlchemy(app)
 # pylint: disable-next=wrong-import-position
 from src.database.models import *
 with app.app_context():
-    # db.drop_all() # this is temporary fix for running db migrations (remove this line in future)
+    db.drop_all() # this is temporary fix for running db migrations (remove this line in future)
     db.create_all()
 
 @app.route('/')

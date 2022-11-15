@@ -1,3 +1,4 @@
+import json
 from app import app, db
 from flask import jsonify, request
 from src.database.models import Tutorships
@@ -96,15 +97,16 @@ create_tutorships_input_schema = CreateTutorshipsInputSchema()
 
 @app.route('/api/tutorship/create', methods=['POST'])
 def create_tutorship():
-    errors = create_tutorships_input_schema.validate(request.form)
+    data = json.loads(request.data)
+    errors = create_tutorships_input_schema.validate(data)
     if errors:
         return {"message": str(errors) }, 400
     
     try:
-        status = request.form.get('status')
-        student_id = request.form.get('student_id')
-        tutor_id = request.form.get('tutor_id')
-        course_id = request.form.get('course_id')
+        status = data.get('status')
+        student_id = data.get('student_id')
+        tutor_id = data.get('tutor_id')
+        course_id = data.get('course_id')
         tutorship = Tutorships(status, student_id, tutor_id, course_id)
         db.session.add(tutorship)
         db.session.commit()
@@ -135,25 +137,26 @@ update_tutorships_input_schema = UpdateTutorshipsInputSchema()
 
 @app.route('/api/tutorship/update', methods=['POST'])
 def  update_tutorship():
-    errors = update_tutorships_input_schema.validate(request.form)
+    data = json.loads(request.data)
+    errors = update_tutorships_input_schema.validate(data)
     if errors:
         return {"message": str(errors) }, 400
     
     try:
-        id = request.form.get('id')
+        id = data.get('id')
 
         tutorship = Tutorships.query.filter(Tutorships.id == id).first()
         if tutorship is None:
             return {"message": "Tutorship could not be found."}, 400
         
-        if request.form['status'] not in [None, '']:
-            tutorship.status = request.form['status']
-        if request.form['student_id'] not in [None, '']:
-            tutorship.student_id = request.form['student_id']
-        if request.form['tutor_id'] not in [None, '']:
-            tutorship.tutor_id = request.form['tutor_id']
-        if request.form['course_id'] not in [None, '']:
-            tutorship.course_id = request.form['course_id']
+        if data.get('status') not in [None, '']:
+            tutorship.status = data.get('status')
+        if data.get('student_id') not in [None, '']:
+            tutorship.student_id = data.get('student_id')
+        if data.get('tutor_id') not in [None, '']:
+            tutorship.tutor_id = data.get('tutor_id')
+        if data.get('course_id') not in [None, '']:
+            tutorship.course_id = data.get('course_id')
 
         db.session.commit()
         return {"message": "success" }, 200
@@ -174,12 +177,13 @@ delete_tutorship_input_schema = DeleteTutorshipInputSchema()
 
 @app.route('/api/tutorship/delete', methods=['POST'])
 def delete_tutorship():
-    errors = delete_tutorship_input_schema.validate(request.form)
+    data = json.loads(request.data)
+    errors = delete_tutorship_input_schema.validate(data)
     if errors:
         return {"message": str(errors) }, 400
 
     try:
-        id = request.args.get('id')
+        id = data.get('id')
         tutorship = Tutorships.query.filter(Tutorships.id == id).first()
         if tutorship is None:
             return {"message": "Tutorship could not be found."}, 400
