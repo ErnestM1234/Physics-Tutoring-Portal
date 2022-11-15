@@ -19,7 +19,7 @@ def read_course():
         return {"message": str(errors) }, 400
     
     try:
-        id = request.args['id']
+        id = request.args.get('id')
         course = Courses.query.filter(Courses.id == id).first()
         if course is None:
             return {"message": "Course could not be found."}, 400
