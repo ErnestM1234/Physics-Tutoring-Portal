@@ -15,14 +15,17 @@ def home():
     # request list of users
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
     res2 = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'))
+    res3 = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'))
 
     data = res.json()
     data2 = res2.json()
+    data3 = res3.json()
     # return 'hi'
     return render_template(
         'users.html',
         users=data,
-        tutorships=data2
+        tutorships=data2,
+        courses=data3
     )
 
 @app.route('/dashboard')

@@ -88,7 +88,9 @@ def create_course():
         return {"message": str(errors) }, 400
     
     try:
-        course = Courses(request.form['name'], request.form['dept_course'])
+        name = request.form.get('name')
+        dept_course = request.form.get('dept_course')
+        course = Courses(name, dept_course)
         db.session.add(course)
         db.session.commit()
         return {"message": "success" }, 200
