@@ -30,16 +30,45 @@ def get_tutor_course():
 
 
 
+""" GET /api/tutor_courses/
+Parameters:
+    - tutor_id (int)?
+    - course_id (int)?
+    - status (string)?
+"""
+class GetTutorCoursesInputSchema(Schema):
+    tutor_id = fields.Integer()
+    course_id = fields.Integer()
+    status = fields.String()
+get_tutor_courses_input_schema = GetTutorCoursesInputSchema()
+
+@app.route('/api/tutor_courses/', methods=['GET']) 
+def get_tutor_courses():
+    errors = get_tutor_courses_input_schema.validate(request.args)
+    if errors:
+        return {"message": str(errors) }, 400
+
+    try:
+        tutor_id = request.args.get('tutor_id')
+        course_id = request.args.get('course_id')
+        status = request.args.get('status')
+
+        filters = []
+        if tutor_id:
+            filters.append(TutorCourses.tutor_id == tutor_id)
+        if course_id:
+            filters.append(TutorCourses.course_id == course_id)
+        if status:
+            filters.append(TutorCourses.status == status)
+
+        tutor_courses = TutorCourses.query.filter(*filters).all()
+        return jsonify([tutor_course.serialize() for tutor_course in tutor_courses ])
+   
+    except Exception as e:
+        return {"error": str(e)}, 400
 
 
-
-
-@app.route('/api/tutor_courses/', methods=['GET'])
-def get_tutor_clases():
-    return 'read tutor_courses'
-
-
-
+             
 
 """ POST /api/tutor_course/create/
 Parameters:
@@ -67,9 +96,36 @@ def create_tutor_course():
     except Exception as e:
         return {"error": str(e)}, 400
 
+
+
+
+""" POST /api/user/update
+Parameters:
+    - id          (int)!
+    - name        (string)?
+    - netid       (string)?
+    - email       (string)?
+    - bio         (string)?
+    - is_student  (boolean)?
+    - is_tutor    (boolean)?
+    - is_admin    (boolean)?
+"""
+class UpdateUserInputSchema(Schema):
+    id = fields.String(required=True)
+    netid = fields.String()
+    name = fields.String()
+    email = fields.String()
+    bio = fields.String()
+    is_student = fields.Boolean()
+    is_tutor = fields.Boolean()
+    is_admin = fields.Boolean()
+update_user_input_schema = UpdateUserInputSchema()
+
 @app.route('/api/tutor_course/update', methods=['POST'])
 def  update_tutor_course():
     return 'update tutor_course'
+
+
 
 @app.route('/api/tutor_course/delete', methods=['POST'])
 def delete_tutor_course():
