@@ -126,7 +126,7 @@ def  update_tutor_course():
         id = data.get('id')
         tutor_course = TutorCourses.query.filter(TutorCourses.id == id).first()
         if tutor_course is None:
-            return {"message": "User could not be found."}, 400
+            return {"message": "Tutor course could not be found."}, 400
         # todo (Ernest): find if there is a better way to do this
         if data.get('tutor_id') not in [None, '']:
             tutor_course.tutor_id = data.get('tutor_id')
@@ -159,7 +159,7 @@ def delete_tutor_course():
         id = data.get('id')
         tutor_course = TutorCourses.query.filter(TutorCourses.id == id).first()
         if tutor_course is None:
-            tutor_course {"message": "User could not be found."}, 400
+            tutor_course = {"message": "Tutor course could not be found."}, 400
         db.session.delete(tutor_course)
         db.session.commit()
         return {"message": "success" }, 200
