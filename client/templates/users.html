@@ -20,6 +20,17 @@
 
         <br>
 
+        CREATE A COURSE<br>
+        <form action="http://localhost:5000/api/course/create" method="POST">
+            name
+            <input type="text" name="name"><br>
+            dept & num
+            <input type="text" name="dept_course"><br>
+            <input type="submit">
+        </form>
+
+        <br>
+
         CREATE A TUTORSHIP<br>
         <form action="http://localhost:5000/api/tutorship/create" method="POST">
             status
@@ -37,6 +48,13 @@
 
         {% for user in users %}
             <Strong>User:</Strong>{{user}}
+            <br/>
+        {% endfor %}
+
+        <br>
+
+        {% for course in courses %}
+            <Strong>Course:</Strong>{{course}}
             <br/>
         {% endfor %}
 
