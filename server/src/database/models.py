@@ -18,10 +18,14 @@ class Users(db.Model):
 
     tutor_courses = db.relationship('TutorCourses', backref='tutor', lazy=True)
 
-    def __init__(self, netid, name, email):
+    def __init__(self, netid, name, email, bio, is_student, is_tutor, is_admin):
         self.netid = netid
         self.name = name
         self.email = email
+        self.bio = bio
+        self.is_student = is_student
+        self.is_tutor = is_tutor
+        self.is_admin = is_admin
 
 
     def __repr__(self):

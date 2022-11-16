@@ -1,6 +1,4 @@
-import json
 import os
-import string
 from dotenv import load_dotenv
 from app import app
 import requests
@@ -8,17 +6,19 @@ from flask import redirect, render_template, request
 
 load_dotenv()
 
-@app.route('/admin/tutorships/')
-def admin_tutorships():
+@app.route('/admin/student-profile/')
+def student_profile():
     # param validation
-    course_id = request.args.get('course_id')
-    tutorship_params = {"course_id": None}
-    if course_id is not None:
-        if course_id.isnumeric() and int(float(course_id)) >= 0:
-            tutorship_params['course_id'] = int(float(course_id))
-            course_id = int(float(course_id))
+    student_id = request.args.get('student_id')
+    tutorship_params = {"id": None}
+    if student_id is not None:
+        if student_id.isnumeric() and int(float(student_id)) >= 0:
+            tutorship_params['id'] = int(float(student_id))
         else:
-            return redirect('/')
+            return render_template(
+            'confirmation.html',
+            message="You have supplied an invalid user id"
+        )
 
     # this is temporary, this will be given to us by CAS or smth
     userId = 1
@@ -27,37 +27,46 @@ def admin_tutorships():
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId})
     user = res.json()
     # verify is admin
-    if 'id' not in user.keys() or user['is_admin'] == False:
+    if "id" not in user.keys() or user['is_admin'] == False:
         return redirect('/')
 
+
+    # get student
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": student_id})
+    student = res.json()
+    # check if they are a student
+    if "id" not in student.keys() or not student['is_student']:
+        return render_template(
+            'confirmation.html',
+            message="This ID does not belong to a 'Student'"
+        )
+
     # get tutorships
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params=tutorship_params)
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': student_id})
     tutorships = res.json()
 
     for tutorship in tutorships:
         # TODO: implement a faster way of doing this (python lists have O(1) look up time)
         
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('student_id')})
-        student = res.json()
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('tutor_id')})
         tutor = res.json()
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutorship.get('course_id')})
         course = res.json()
 
-        if not student or not tutor or not course:
+        if not tutor or not course:
             return render_template(
                 'confirmation.html',
                 message="There is a missing tutor or course associated with this user!"
             )
 
-
-        tutorship['student'] = student
         tutorship['tutor'] = tutor
         tutorship['course'] = course
 
+
+
     return render_template(
-        'admin-tutorships.html',
-        tutorships=tutorships,
-        course_id=course_id
+        'profile-student.html',
+        student=student,
+        tutorships=tutorships
     )
 

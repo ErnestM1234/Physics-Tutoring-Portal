@@ -41,6 +41,7 @@ def admin_tutors():
     if course_id is not None:
         if course_id.isnumeric() and int(float(course_id)) >= 0:
             tutor_course_params['course_id'] = int(float(course_id))
+            course_id = int(float(course_id))
         else:
             return redirect('/')
 
@@ -78,6 +79,7 @@ def admin_tutors():
         student_count=student_count,
         tutor_requests=tutor_requests,
         denied_tutors=denied_tutors,
-        get_name=get_name
+        get_name=get_name,
+        course_id=course_id
     )
 
