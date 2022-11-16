@@ -122,6 +122,7 @@ class TutorCourses(db.Model):
     status = db.Column('status',db.String(100),nullable=False)
 
     # todo (Ernest or Elise): add statuses and validation
+    VALID_STATUS = ['REQUESTED', 'ACCEPTED', 'DENIED', 'NONE']
 
     def __init__(self, tutor_id, course_id, status):
         self.tutor_id = tutor_id

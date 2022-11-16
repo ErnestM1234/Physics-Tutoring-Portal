@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Course List </title>
+      <title>Physics Tutoring Portal Tutorship </title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -16,28 +16,30 @@
             <br><br><br>
 
             <h3>TUTORSHIPS</h3>
+
+            <a href="/admin/tutorships/create-tutorship">create tutorship</a><br>
     
             <div class ="list">
             <table class="table">
                 <thead>
                   <tr>
                     <th class="bg-white" scope="col">Courses</th>
-                    <th class="bg-white" scope="col">Student</th>
-                    <th class="bg-white" scope="col">Tutor</th>
-                    <th class="bg-white" scope="col">Class</th>
-                    <th class="bg-white" scope="col">Action</th>
+                    <th class="bg-white" scope="col">Student Id</th>
+                    <th class="bg-white" scope="col">Tutor Id</th>
+                    <th class="bg-white" scope="col">Course Id</th>
                     <th class="bg-white" scope="col">Status</th>
+                    <th class="bg-white" scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                     {% for tutorship in tutorships %}
                         <tr>
                             <td class="bg-white">{{tutorship.id}}</td>
-                            <td class="bg-white"><button>Student</button></td>
-                            <td class="bg-white"><button>Tutor</button></td>
-                            <td class="bg-white"><button>Class</button></td>
-                            <td class="bg-white"><button>Disolve</button></td>
+                            <td class="bg-white">{{tutorship.student_id}}</td>
+                            <td class="bg-white">{{tutorship.tutor_id}}</td>
+                            <td class="bg-white">{{tutorship.course_id}}</td>
                             <td class="bg-white">{{tutorship.status}}</td>
+                            <td class="bg-white"><button>Disolve</button></td>
                         </tr>
                     {% endfor %}
                 </tbody>

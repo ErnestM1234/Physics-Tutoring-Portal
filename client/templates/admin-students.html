@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Course List </title>
+      <title>Physics Tutoring Portal Students </title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -22,24 +22,22 @@
                     <thead>
                     <tr>
                         <th class="bg-white" scope="col">Id</th>
-                        <th class="bg-white" scope="col">Student Netid</th>
-                        <th class="bg-white" scope="col">Student Name</th>
-                        <th class="bg-white" scope="col">Student Email</th>
-                        <th class="bg-white" scope="col">Is a Student?</th>
-                        <th class="bg-white" scope="col">Is a Tutor?</th>
-                        <th class="bg-white" scope="col">Is an Admin?</th>
+                        <th class="bg-white" scope="col">Student Id</th>
+                        <th class="bg-white" scope="col">Tutor Id</th>
+                        <th class="bg-white" scope="col">Course</th>
+                        <th class="bg-white" scope="col">Status</th>
+                        <th class="bg-white" scope="col">Profile</th>
                     </tr>
                     </thead>
                     <tbody>
-                        {% for student in students %}
+                        {% for tutorship in tutorships %}
                             <tr>
-                                <td class="bg-white">{{student.id}}</td>
-                                <td class="bg-white">{{student.netid}}</td>
-                                <td class="bg-white">{{student.name}}</td>
-                                <td class="bg-white">{{student.email}}</td>
-                                <td class="bg-white">{{student.is_student}}</td>
-                                <td class="bg-white">{{student.is_tutor}}</td>
-                                <td class="bg-white">{{student.is_admin}}</td>
+                                <td class="bg-white">{{tutorship.id}}</td>
+                                <td class="bg-white">{{tutorship.student_id}}</td>
+                                <td class="bg-white">{{tutorship.tutor_id}}</td>
+                                <td class="bg-white">{{tutorship.course_id}}</td>
+                                <td class="bg-white">{{tutorship.status}}</td>
+                                <td class="bg-white">Profile</td>
                             </tr>
                         {% endfor %}
                     </tbody>

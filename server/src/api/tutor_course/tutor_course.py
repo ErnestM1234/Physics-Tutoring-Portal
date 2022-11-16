@@ -103,13 +103,13 @@ def create_tutor_course():
 
 """ POST /api/tutor_course/update
 Parameters:
-    - id         (int)!
+    - id        (int)!
     - tutor_id  (int)?
     - course_id (int)?
     - status    (string)?
 """
 class UpdateTutorCourseInputSchema(Schema):
-    id = fields.String(required=True)
+    id = fields.Integer(required=True)
     tutor_id = fields.Integer()
     course_id = fields.Integer()
     status = fields.String()

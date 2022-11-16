@@ -9,6 +9,19 @@
     </head>
 
     <body class="princeton-gradient">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            function set_tutor_course_status(tutor_course_id, status) {
+                const data = {
+                    tutor_course_id,
+                    status
+                }
+                $.post("/admin/tutors/update_status", data, function(result){
+                    // $("#course-results").html(result);
+                    console.log(result)
+                });
+            }
+        </script>
 
         <div class="non-sidebar">
             <br>
@@ -16,6 +29,7 @@
             <br><br><br>
 
             <h3>TUTORS</h3>
+            <a href="/admin/create-tutor-course">add tutor</a><br>
     
             <div class ="list">
             <table class="table">
@@ -23,8 +37,10 @@
                   <tr>
                     <th class="bg-white" scope="col">Id</th>
                     <th class="bg-white" scope="col">Name</th>
-                    <th class="bg-white" scope="col">Tutorships</th>
-                    <th class="bg-white" scope="col">Tutors</th>
+                    <th class="bg-white" scope="col">Course Id</th>
+                    <th class="bg-white" scope="col">Status</th>
+                    <th class="bg-white" scope="col">Student Count</th>
+                    <th class="bg-white" scope="col">Profile</th>
                     <th class="bg-white" scope="col">Action</th>
                   </tr>
                 </thead>
@@ -32,10 +48,12 @@
                     {% for tutor_course in tutor_courses %}
                         <tr>
                             <td class="bg-white">{{tutor_course.id}}</td>
-                            <td class="bg-white">{{tutor_course.name}}</td>
+                            <td class="bg-white">{{get_name(tutor_course.tutor_id)}}</td>
+                            <td class="bg-white">{{tutor_course.course_id}}</td>
+                            <td class="bg-white">{{tutor_course.status}}</td>
                             <td class="bg-white">{{student_count[loop.index0]}}</td>
-                            <td class="bg-white"><button>Tutors</button></td>
-                            <td class="bg-white"><button>Remove</button></td>
+                            <td class="bg-white"><button>Profile</button></td>
+                            <td class="bg-white"><button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">REVOKE</button></td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -53,19 +71,55 @@
                   <tr>
                     <th class="bg-white" scope="col">Id</th>
                     <th class="bg-white" scope="col">Name</th>
+                    <th class="bg-white" scope="col">Course Id</th>
                     <th class="bg-white" scope="col">Tutorships</th>
-                    <th class="bg-white" scope="col">Tutors</th>
+                    <th class="bg-white" scope="col">Profile</th>
                     <th class="bg-white" scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                    {% for tutor_course in tutor_requests %}
+                    {% for tutor_request in tutor_requests %}
                         <tr>
-                            <td class="bg-white">{{tutor_course.id}}</td>
-                            <td class="bg-white">TODO: Get tutor name</td>
+                            <td class="bg-white">{{tutor_request.id}}</td>
+                            <td class="bg-white">{{get_name(tutor_request.tutor_id)}}</td>
+                            <td class="bg-white">{{tutor_request.course_id}}</td>
                             <td class="bg-white">{{student_count[loop.index0]}}</td>
-                            <td class="bg-white"><button>Tutors</button></td>
-                            <td class="bg-white"><button>Remove</button></td>
+                            <td class="bg-white"><button>Profile</button></td>
+                            <td class="bg-white">
+                                <button onclick="set_tutor_course_status( {{tutor_request.id}}, 'APPROVED' )">APPROVE</button>
+                                <button onclick="set_tutor_course_status( {{tutor_request.id}}, 'DENIED' )">DENY</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <br><br><br>
+
+            <h3>DENIED TUTORS</h3>
+    
+            <div class ="list">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th class="bg-white" scope="col">Id</th>
+                    <th class="bg-white" scope="col">Name</th>
+                    <th class="bg-white" scope="col">Course Id</th>
+                    <th class="bg-white" scope="col">Profile</th>
+                    <th class="bg-white" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for denied_tutor in denied_tutors %}
+                        <tr>
+                            <td class="bg-white">{{denied_tutor.id}}</td>
+                            <td class="bg-white">{{get_name(denied_tutor.tutor_id)}}</td>
+                            <td class="bg-white">{{denied_tutor.course_id}}</td>
+                            <td class="bg-white"><button>Profile</button></td>
+                            <td class="bg-white">
+                                <button onclick="set_tutor_course_status( {{denied_tutor.id}}, 'APPROVED' )">APPROVE</button>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

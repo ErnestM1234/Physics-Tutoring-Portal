@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Course List </title>
+      <title>Physics Tutoring Portal Courses </title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -17,7 +17,7 @@
 
             <h3>COURSES</h3>
 
-            <a href="/admin/courses/create-course">add class</a><br>
+            <a href="/admin/courses/create-course">add course</a><br>
     
             <div class ="list">
             <table class="table">
@@ -35,8 +35,8 @@
                         <tr>
                             <td class="bg-white">{{course.id}}</td>
                             <td class="bg-white">{{course.name}}</td>
-                            <td class="bg-white"><a href="{{'/admin/courses/' + course.id | string + '/tutorships'}}">Tutorships</a></td>
-                            <td class="bg-white"><button>Tutors</button></td>
+                            <td class="bg-white"><a href="{{'/admin/tutorships/?course_id=' + course.id | string}}">Tutorships</a></td>
+                            <td class="bg-white"><a href="{{'/admin/tutors/?course_id=' + course.id | string}}">Tutors</a></td>
                             <td class="bg-white"><button>Remove</button></td>
                         </tr>
                     {% endfor %}

@@ -21,13 +21,13 @@ def admin_students():
         return redirect('/')
         
     # get tutorships
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
-    students = res.json()
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'))
+    tutorships = res.json()
 
 
 
     return render_template(
         'admin-students.html',
-        students=students
+        tutorships=tutorships
     )
 

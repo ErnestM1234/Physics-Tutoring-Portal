@@ -95,7 +95,7 @@ class CreateTutorshipsInputSchema(Schema):
     course_id = fields.Integer(required=True)
 create_tutorships_input_schema = CreateTutorshipsInputSchema()
 
-@app.route('/api/tutorship/create', methods=['POST'])
+@app.route('/api/tutorship/create/', methods=['POST'])
 def create_tutorship():
     data = json.loads(request.data)
     errors = create_tutorships_input_schema.validate(data)
