@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Course List </title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+            <br>
+
+            <br><br><br>
+
+            <h3>STUDENTS</h3>
+    
+            <div class ="list">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="bg-white" scope="col">Id</th>
+                        <th class="bg-white" scope="col">Student Netid</th>
+                        <th class="bg-white" scope="col">Student Name</th>
+                        <th class="bg-white" scope="col">Student Email</th>
+                        <th class="bg-white" scope="col">Is a Student?</th>
+                        <th class="bg-white" scope="col">Is a Tutor?</th>
+                        <th class="bg-white" scope="col">Is an Admin?</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                            <tr>
+                                <td class="bg-white">{{student.id}}</td>
+                                <td class="bg-white">{{student.netid}}</td>
+                                <td class="bg-white">{{student.name}}</td>
+                                <td class="bg-white">{{student.email}}</td>
+                                <td class="bg-white">{{student.is_student}}</td>
+                                <td class="bg-white">{{student.is_tutor}}</td>
+                                <td class="bg-white">{{student.is_admin}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+    
+        </div>
+
+        &nbsp;
+        {% include '/components/admin-navbar.html' %}
+
+
+
+
+    </body>
+
+</html>

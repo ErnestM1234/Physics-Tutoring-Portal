@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Course List </title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+            <br>
+
+            <br><br><br>
+
+            <h3>COURSES</h3>
+
+            <a href="/admin/courses/create-course">add class</a><br>
+    
+            <div class ="list">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th class="bg-white" scope="col">Id</th>
+                    <th class="bg-white" scope="col">Name</th>
+                    <th class="bg-white" scope="col">Tutorships</th>
+                    <th class="bg-white" scope="col">Tutors</th>
+                    <th class="bg-white" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                        <tr>
+                            <td class="bg-white">{{course.id}}</td>
+                            <td class="bg-white">{{course.name}}</td>
+                            <td class="bg-white"><a href="{{'/admin/courses/' + course.id | string + '/tutorships'}}">Tutorships</a></td>
+                            <td class="bg-white"><button>Tutors</button></td>
+                            <td class="bg-white"><button>Remove</button></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            
+    
+        </div>
+
+        &nbsp;
+        
+        {% include '/components/admin-navbar.html' %}
+
+        
+
+
+    </body>
+
+</html>

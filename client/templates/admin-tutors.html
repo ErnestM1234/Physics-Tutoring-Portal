@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Course List </title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+            <br>
+
+            <br><br><br>
+
+            <h3>TUTORS</h3>
+    
+            <div class ="list">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th class="bg-white" scope="col">Id</th>
+                    <th class="bg-white" scope="col">Name</th>
+                    <th class="bg-white" scope="col">Tutorships</th>
+                    <th class="bg-white" scope="col">Tutors</th>
+                    <th class="bg-white" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for tutor_course in tutor_courses %}
+                        <tr>
+                            <td class="bg-white">{{tutor_course.id}}</td>
+                            <td class="bg-white">{{tutor_course.name}}</td>
+                            <td class="bg-white">{{student_count[loop.index0]}}</td>
+                            <td class="bg-white"><button>Tutors</button></td>
+                            <td class="bg-white"><button>Remove</button></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+
+            <br><br><br>
+
+            <h3>TUTOR REQUESTS</h3>
+    
+            <div class ="list">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th class="bg-white" scope="col">Id</th>
+                    <th class="bg-white" scope="col">Name</th>
+                    <th class="bg-white" scope="col">Tutorships</th>
+                    <th class="bg-white" scope="col">Tutors</th>
+                    <th class="bg-white" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for tutor_course in tutor_requests %}
+                        <tr>
+                            <td class="bg-white">{{tutor_course.id}}</td>
+                            <td class="bg-white">TODO: Get tutor name</td>
+                            <td class="bg-white">{{student_count[loop.index0]}}</td>
+                            <td class="bg-white"><button>Tutors</button></td>
+                            <td class="bg-white"><button>Remove</button></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            
+    
+        </div>
+
+        &nbsp;
+        
+        {% include '/components/admin-navbar.html' %}
+
+        
+
+
+    </body>
+
+</html>

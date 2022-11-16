@@ -73,8 +73,8 @@ def createUsers():
 
 
 def main():
-    # createCourses()
-    createUsers()
+    createCourses()
+    # createUsers()
     
 
 

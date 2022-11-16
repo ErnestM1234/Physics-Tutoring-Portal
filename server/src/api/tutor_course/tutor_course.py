@@ -83,7 +83,7 @@ class CreateTutorCourseInputSchema(Schema):
     status = fields.String(required=True)
 create_tutor_course_input_schema = CreateTutorCourseInputSchema()
 
-@app.route('/api/tutor_course/create', methods=['POST'])
+@app.route('/api/tutor_course/create/', methods=['POST'])
 def create_tutor_course():
     data = json.loads(request.data)
     errors = create_tutor_course_input_schema.validate(data)
@@ -115,7 +115,7 @@ class UpdateTutorCourseInputSchema(Schema):
     status = fields.String()
 update_tutor_course_input_schema = UpdateTutorCourseInputSchema()
 
-@app.route('/api/tutor_course/update', methods=['POST'])
+@app.route('/api/tutor_course/update/', methods=['POST'])
 def  update_tutor_course():
     data = json.loads(request.data)
     errors = update_tutor_course_input_schema.validate(data)
@@ -148,7 +148,7 @@ class DeleteTutorCourseInputSchema(Schema):
     id = fields.String(required=True)
 delete_tutor_course_input_schema = DeleteTutorCourseInputSchema()
 
-@app.route('/api/tutor_course/delete', methods=['POST'])
+@app.route('/api/tutor_course/delete/', methods=['POST'])
 def delete_tutor_course():
     data = json.loads(request.data)
     errors = delete_tutor_course_input_schema.validate(data)

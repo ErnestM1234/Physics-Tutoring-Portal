@@ -82,7 +82,7 @@ class CreateCourseInputSchema(Schema):
     dept_course = fields.String(required=True)
 create_course_input_schema = CreateCourseInputSchema()
 
-@app.route('/api/course/create', methods=['POST'])
+@app.route('/api/course/create/', methods=['POST'])
 def create_course():
     data = json.loads(request.data)
     errors = create_course_input_schema.validate(data)
