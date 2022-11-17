@@ -34,6 +34,14 @@ def admin_tutorships():
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params=tutorship_params)
     tutorships = res.json()
 
+    if res.status_code != 200:
+        message = str(res)
+        return render_template(
+        'confirmation.html',
+        message=message
+    )
+
+
     for tutorship in tutorships:
         # TODO: implement a faster way of doing this (python lists have O(1) look up time)
         

@@ -6,7 +6,7 @@ body {
 }
 
 .non-sidebar {
-  position: fixed;
+  position: absolute;
   left: 325px;
   top: 50px;
 }

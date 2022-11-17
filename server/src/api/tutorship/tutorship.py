@@ -17,6 +17,7 @@ get_tutorship_input_schema = GetTutorshipInputSchema()
 def get_tutorship():
     errors = get_tutorship_input_schema.validate(request.args)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
     
     try:
@@ -25,6 +26,7 @@ def get_tutorship():
         if tutorship is None:
             return {"message": "Tutorship could not be found."}, 400
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
     return jsonify(tutorship.serialize())
@@ -52,6 +54,7 @@ get_tutorships_input_schema = GetTutorshipsInputSchema()
 def get_tutorships():
     errors = get_tutorships_input_schema.validate(request.args)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
     
     try:
@@ -76,6 +79,7 @@ def get_tutorships():
         tutorships = Tutorships.query.filter(*filters).all()
         return jsonify([tutorship.serialize() for tutorship in tutorships])
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -100,6 +104,7 @@ def create_tutorship():
     data = json.loads(request.data)
     errors = create_tutorships_input_schema.validate(data)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
     
     try:
@@ -113,6 +118,7 @@ def create_tutorship():
 
         return {"message": "success" }, 200
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -140,6 +146,7 @@ def  update_tutorship():
     data = json.loads(request.data)
     errors = update_tutorships_input_schema.validate(data)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
     
     try:
@@ -161,6 +168,7 @@ def  update_tutorship():
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -180,6 +188,7 @@ def delete_tutorship():
     data = json.loads(request.data)
     errors = delete_tutorship_input_schema.validate(data)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
 
     try:
@@ -192,5 +201,6 @@ def delete_tutorship():
         db.session.commit()
         return {"message": "success"}
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 

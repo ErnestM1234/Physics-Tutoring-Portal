@@ -17,6 +17,7 @@ get_tutor_course_input_schema = GetTutorCourseInputSchema()
 def get_tutor_course():
     errors = get_tutor_course_input_schema.validate(request.args)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
     
     try:
@@ -26,6 +27,7 @@ def get_tutor_course():
             return {"message": "Tutor course could not be found."}, 400
         return jsonify(tutor_course.serialize())
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -47,6 +49,7 @@ get_tutor_courses_input_schema = GetTutorCoursesInputSchema()
 def get_tutor_courses():
     errors = get_tutor_courses_input_schema.validate(request.args)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
 
     try:
@@ -66,6 +69,7 @@ def get_tutor_courses():
         return jsonify([tutor_course.serialize() for tutor_course in tutor_courses ])
    
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -88,6 +92,7 @@ def create_tutor_course():
     data = json.loads(request.data)
     errors = create_tutor_course_input_schema.validate(data)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
     
     try:
@@ -96,6 +101,7 @@ def create_tutor_course():
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -120,6 +126,7 @@ def  update_tutor_course():
     data = json.loads(request.data)
     errors = update_tutor_course_input_schema.validate(data)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
 
     try:
@@ -137,6 +144,7 @@ def  update_tutor_course():
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -153,6 +161,7 @@ def delete_tutor_course():
     data = json.loads(request.data)
     errors = delete_tutor_course_input_schema.validate(data)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
 
     try:
@@ -164,4 +173,5 @@ def delete_tutor_course():
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
