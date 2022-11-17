@@ -1,12 +1,7 @@
 # run the following command to start the server: $ gunicorn app:app
 
 import os
-<<<<<<< HEAD
-import flask 
-from flask import Flask, render_template
-=======
 from flask import Flask, render_template, redirect
->>>>>>> 335dfe2f83cc00728266079562b32ad2f228bacb
 import requests
 from dotenv import load_dotenv
 
@@ -90,7 +85,6 @@ def tutor_dashboard():
 
     data = zip(names, netids, emails)
     return render_template(
-<<<<<<< HEAD
         'tutordash.html', data = data
     )
 
@@ -124,9 +118,6 @@ def editBio():
     return render_template(
         'editbio.html', tutorbio=tutorbio
     )
-=======
-        'tutordash.html'
-    )
 
 
 # pylint: disable-next=unused-import
@@ -150,4 +141,3 @@ from pages.tutor_profile import *
 
 if __name__ == '__main__':
     app.run()
->>>>>>> 335dfe2f83cc00728266079562b32ad2f228bacb
