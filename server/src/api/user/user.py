@@ -104,12 +104,13 @@ create_user_input_schema = CreateUserInputSchema()
 
 @app.route('/api/user/create', methods=['POST'])
 def create_user():
-    errors = create_user_input_schema.validate(request.form)
+    data = json.loads(request.data)
+    errors = create_user_input_schema.validate(data)
     if errors:
         return {"message": str(errors) }, 400
     
     try:
-        user = Users(request.form.get('netid'), request.form.get('name'), request.form.get('email'))
+        user = Users(data.get('netid'), data.get('name'), data.get('email'))
         db.session.add(user)
         db.session.commit()
         return {"message": "success" }, 200
@@ -186,12 +187,13 @@ delete_user_input_schema = DeleteUserInputSchema()
 
 @app.route('/api/user/delete', methods=['POST'])
 def delete_user():
-    errors = delete_user_input_schema.validate(request.form)
+    data = json.loads(request.data)
+    errors = delete_user_input_schema.validate(data)
     if errors:
         return {"message": str(errors) }, 400
 
     try:
-        id = request.form.get('id')
+        id = data.get('id')
         user = Users.query.filter(Users.id == id).first()
         if user is None:
             return {"message": "User could not be found."}, 400
