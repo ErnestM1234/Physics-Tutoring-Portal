@@ -88,7 +88,7 @@ def tutor_dashboard():
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id})
         course = res.json()
         tutorship['course'] = course
-    
+   
     for tutor_course in tutor_courses:
         course_id = tutor_course['course_id']
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id})
@@ -112,7 +112,7 @@ def allClasses():
 
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'))
     courses = res.json()
-    
+   
     return render_template(
         'allclasses.html', courses=courses
     )
@@ -146,14 +146,14 @@ def edit_bio_confirm():
     if bio is None or tutor_id is None:
         return redirect('/editbio')
 
-    
+   
     data = {
         'bio': bio,
         'id': tutor_id
     }
 
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps(data))
-    
+   
     message = str(res)
 
 
@@ -183,7 +183,16 @@ from pages.student_profile import *
 from pages.tutor_profile import *
 
 
+from pages.student_dashboard import *
+from pages.student_courses import *
+from pages.student_course import *
+from pages.student_tutor import *
+from pages.student_tutor_request import *
+from pages.student_tutor_cancel import *
+from pages.student_tutor_dissolve import *
+from pages.student_tutor_request_confirm import *
+from pages.student_tutor_cancel_confirm import *
+from pages.student_tutor_dissolve_confirm import *
+
 if __name__ == '__main__':
     app.run()
-
-
