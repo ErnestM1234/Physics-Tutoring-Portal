@@ -51,7 +51,7 @@ def tutor_profile():
 
     for tutor_course in tutor_courses:
         # get tutorship count (number of students that the tutor is tutoring) by class
-        student_count = len(list(filter(lambda tutorship: tutorship['status'] == 'ACCEPTED' and tutorship['course_id'] == tutor_course['course_id'] and tutor_course['status'] == "APPROVED", tutorships)))
+        student_count = len(list(filter(lambda tutorship: tutorship['status'] == 'ACCEPTED' and tutorship['course_id'] == tutor_course['course_id'] and tutor_course['status'] == "ACCEPTED", tutorships)))
         tutor_course["student_count"] = student_count
 
 

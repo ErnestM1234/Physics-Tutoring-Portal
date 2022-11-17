@@ -59,7 +59,7 @@ def admin_tutors():
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params=tutor_course_params)
     tutor_courses = res.json()
 
-    approved_tutor_courses = list(filter(lambda tutor_course: tutor_course['status'] == 'APPROVED', tutor_courses))
+    approved_tutor_courses = list(filter(lambda tutor_course: tutor_course['status'] == 'ACCEPTED', tutor_courses))
 
 
     student_count = []
