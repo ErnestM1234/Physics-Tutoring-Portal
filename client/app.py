@@ -32,41 +32,24 @@ def home():
 
 @app.route('/dashboard')
 def dashboard():
-    # request list of users
 
-    # res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
-    # data = res.json()
-    # print(data)
-
-    # return 'hi'
-
-    #student_netid = "lglisic"
-    #student_id = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'student_id':"NAME"})
-
-    #student_id = 1
-
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={"id": 1})
     data = res.json()
 
-    names=[]
-    netids=[]
-    emails=[]
+    tutors = []
 
-    for user in data:
-        names.append(user['name'])
-        netids.append(user['netid'])
-        emails.append(user['email'])
+    for tutorship in data:
+        tutor_id = tutorship["tutor_id"]
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={"id": tutor_id})
+        data = res.json()
+        tutors.append(data)
 
-    data = zip(names, netids, emails)
-
-    # get tutors
-
-
-    #res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': student_id})
+    print("-------------------")
+    print(tutors)
 
     return render_template(
         'dashboard.html',
-        data = data
+        data = tutors
 
     )
 

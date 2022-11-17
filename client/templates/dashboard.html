@@ -22,11 +22,11 @@
                 <tbody id="userlist">
 
                 {% for tutor in data: %}
-                  <tr>
-                    {% for col in tutor: %}
-                    <td>{{col}}</td>
-                    {% endfor %}
-                  </tr>
+                <tr>
+                <td>{{'%s' % tutor.get_name()}}</td>
+                <td>{{'%s' % tutor.get_netid()}}</td>
+                <td>{{'%s' % tutor.get_email()}}</td>
+                </tr>
                 {% endfor %}
 
                 </tbody>
