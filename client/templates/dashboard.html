@@ -21,11 +21,11 @@
                 </thead>
                 <tbody id="userlist">
 
-                {% for tutor in data: %}
+                {% for tutor in tutors: %}
                 <tr>
-                <td>{{'%s' % tutor.get_name()}}</td>
-                <td>{{'%s' % tutor.get_netid()}}</td>
-                <td>{{'%s' % tutor.get_email()}}</td>
+                <td>{{tutor['name']}}</td>
+                <td>{{tutor['netid']}}</td>
+                <td>{{tutor['email']}}</td>
                 </tr>
                 {% endfor %}
 
@@ -39,7 +39,7 @@
             <!-- Sidebar -->
             <nav id="sidebar">
 
-                <img src="{{ 'static/p_logo_v1.png' }}" width="210px" style="position:absolute;left:25px;top:40px;">
+              <img src="{{url_for('static', filename='p_logo_v1.png')}}" width="210px" style="position:absolute;left:25px;top:40px;">
 
                 <div class="sidebar-button" style="position:absolute;top:210px;">
                   <a href="/dashboard"><button type="button" class="btn"><h5>Dashboard</h5></button></a>
@@ -53,9 +53,8 @@
                     <button type="button" class="btn"><h5>Become a tutor</h5></button>
                 </div>
 
+                <img src="{{url_for('static', filename='PU-standard.png')}}" width="180px" style="position:fixed;bottom:10px;left:25px;">
 
-                <img src="{{ 'static/PU-standard.png' }}" width="180px" style="position:fixed;bottom:10px;left:25px;">
-        
             </nav>
         
         </div>
