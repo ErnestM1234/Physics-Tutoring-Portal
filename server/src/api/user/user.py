@@ -150,7 +150,7 @@ class UpdateUserInputSchema(Schema):
     is_admin = fields.Boolean()
 update_user_input_schema = UpdateUserInputSchema()
 
-@app.route('/api/user/update', methods=['POST'])
+@app.route('/api/user/update/', methods=['POST'])
 def  update_user():
     data = json.loads(request.data)
     errors = update_user_input_schema.validate(data)

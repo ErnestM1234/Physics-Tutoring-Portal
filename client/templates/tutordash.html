@@ -12,7 +12,7 @@
 
         <div class="non-sidebar">
             <br>
-            <h1>Welcome, Jane Doe.</h1>
+            <h1>Welcome, {{tutor.name}}.</h1>
 
             <br><br><br>
 
@@ -29,13 +29,39 @@
                 </thead>
                 <tbody id="userlist">
 
-                {% for tutor in data: %}
+                {% for tutorship in tutorships: %}
                   <tr>
-                    {% for col in tutor: %}
-                    <td>{{col}}</td>
-                    {% endfor %}
+                    <td>{{tutorship.student.name}}</td>
+                    <td>{{tutorship.student.netid}}</td>
+                    <td>{{tutorship.student.email}}</td>
                   </tr>
                 {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+
+            <br>
+            <br>
+            <br>
+
+            <div class ="list">
+              <h3>MY COURSES</h3> 
+              <br>
+              <table id="userlisttable">
+                <thead id="userlistheader">
+                  <tr>
+                    <td><h5>Course ID</h5></td>
+                    <td><h5>Course Name</h5></td>
+                  </tr>
+                </thead>
+                <tbody id="userlist">
+                    {% for tutor_course in tutor_courses: %}
+                    <tr>
+                      <td>{{tutor_course.course.id}}</td>
+                      <td>{{tutor_course.course.name}}</td>
+                    </tr>
+                    {% endfor %}
 
                 </tbody>
               </table>

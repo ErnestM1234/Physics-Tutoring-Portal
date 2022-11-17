@@ -17,20 +17,19 @@
             <br>
 
 
-            <p> {{'%s' % (tutorbio)}}</p>
+            <p> {{tutor.bio}}</p>
 
             
               <br>
             
-            <form>
+            <form action = "/editbio/confirm" method = "POST">
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Edit bio</label>
-                    <textarea class="form-control" id="tutorbio" rows="5"></textarea>
+                    <textarea class="form-control" name="bio" rows="5"></textarea>
+                    <input type = "submit" > 
+                    <input type = "hidden" name = "tutor_id" value = "{{tutor.id}}">
                 </div>
             </form>
-            <div class = "text-right">
-                <button type="button" class="btn btn-outline-danger btn-sm">Submit</button>
-            </div>
 
   
     
