@@ -5,27 +5,31 @@
 
     <body class="princeton-gradient">
         <div class="non-sidebar">
-            <h1>Welcome, <strong>Jane Doe</strong>.</h1>
+            <h1>Welcome,&nbsp;<b>{{user.name}}</b>.</h1>
 
             <br><br><br>
 
-            <h2>My tutors</h2>
+            <h2>My tutorships</h2>
             <br>
             <table id="userlisttable">
                 <thead id="userlistheader">
                   <tr>
-                    <td><h5>Name</h5></td>
-                    <td><h5>NetID</h5></td>
-                    <td><h5>Email</h5></td>
+                    <td><h5>Course</h5></td>
+                    <td><h5>Tutor name</h5></td>
+                    <td><h5>Tutor netID</h5></td>
+                    <td><h5>Tutor email</h5></td>
+                    <td><h5>Status</h5></td>
                   </tr>
                 </thead>
                 <tbody id="userlist">
 
-                {% for tutor in tutors: %}
+                {% for tutorship in tutorships: %}
                 <tr>
-                <td>{{tutor['name']}}</td>
-                <td>{{tutor['netid']}}</td>
-                <td>{{tutor['email']}}</td>
+                <td>{{tutorship.get('course').get('dept_course')}}</td>
+                <td><a href="/student/tutor?tutor_id={{tutorship.get('tutor').get('id')}}&course_id={{tutorship.get('course').get('id')}}">{{tutorship.get('tutor').get('name')}}</a></td>
+                <td>{{tutorship.get('tutor').get('netid')}}</td>
+                <td>{{tutorship.get('tutor').get('email')}}</td>
+                <td>{{tutorship.get('status')}}</td>
                 </tr>
                 {% endfor %}
 
@@ -42,11 +46,11 @@
               <img src="{{url_for('static', filename='p_logo_v1.png')}}" width="210px" style="position:absolute;left:25px;top:40px;">
 
                 <div class="sidebar-button" style="position:absolute;top:210px;">
-                  <a href="/dashboard"><button type="button" class="btn"><h5>Dashboard</h5></button></a>
+                  <a href="/student/dashboard"><button type="button" class="btn"><h5>Dashboard</h5></button></a>
                 </div>
 
                 <div class="sidebar-button" style="position:absolute;top:285px;">
-                    <a href="/"><button type="button" class="btn"><h5>Find a tutor</h5></button></a>
+                    <a href="/student/courses"><button type="button" class="btn"><h5>Find a tutor</h5></button></a>
                 </div>
 
                 <div class="sidebar-button" style="position:absolute;top:360px;">

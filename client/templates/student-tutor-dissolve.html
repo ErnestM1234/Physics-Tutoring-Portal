@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+    <head>
+    <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+    </head>
+
+    <body class="princeton-gradient">
+        <div class="non-sidebar">
+            <h1></b>Dissolve tutorship</h1>
+
+            <br><br><br>
+
+            Dissolve tutorship for {{course.get('dept_course')}} tutor {{tutor.get('name')}}?
+            <br>
+            <a href="/student/tutor/dissolve/confirm?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}"><button>Confirm</button></a>
+        </div>
+
+        &nbsp;
+
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <nav id="sidebar">
+
+              <img src="{{url_for('static', filename='p_logo_v1.png')}}" width="210px" style="position:absolute;left:25px;top:40px;">
+
+                <div class="sidebar-button" style="position:absolute;top:210px;">
+                  <a href="/student/dashboard"><button type="button" class="btn"><h5>Dashboard</h5></button></a>
+                </div>
+
+                <div class="sidebar-button" style="position:absolute;top:285px;">
+                    <a href="/student/courses"><button type="button" class="btn"><h5>Find a tutor</h5></button></a>
+                </div>
+
+                <div class="sidebar-button" style="position:absolute;top:360px;">
+                    <button type="button" class="btn"><h5>Become a tutor</h5></button>
+                </div>
+
+                <img src="{{url_for('static', filename='PU-standard.png')}}" width="180px" style="position:fixed;bottom:10px;left:25px;">
+
+            </nav>
+        
+        </div>
+
+    </body>
+
+</html>
