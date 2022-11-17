@@ -32,7 +32,6 @@
                         <th class="bg-white" scope="col">Course</th>
                         <th class="bg-white" scope="col">Course Name</th>
                         <th class="bg-white" scope="col">Status</th>
-                        <th class="bg-white" scope="col">Profile</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,13 +39,12 @@
                             <tr>
                                 <td class="bg-white">{{tutorship.id}}</td>
                                 <td class="bg-white">{{tutorship.student_id}}</td>
-                                <td class="bg-white">{{tutorship.student.name}}</td>
+                                <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">{{tutorship.student.name}}</a></td>
                                 <td class="bg-white">{{tutorship.tutor_id}}</td>
-                                <td class="bg-white">{{tutorship.tutor.name}}</td>
+                                <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutorship.tutor_id | string}}">{{tutorship.tutor.name}}</a></td>
                                 <td class="bg-white">{{tutorship.course_id}}</td>
                                 <td class="bg-white">{{tutorship.course.name}}</td>
                                 <td class="bg-white">{{tutorship.status}}</td>
-                                <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">PROFILE</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

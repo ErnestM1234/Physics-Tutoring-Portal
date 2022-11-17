@@ -34,7 +34,7 @@ def admin_students():
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutorship.get('course_id')})
         course = res.json()
 
-        if not student or not tutor or not course:
+        if not student or 'id' not in student.keys() or not tutor  or 'id' not in tutor.keys() or not course  or 'id' not in course.keys():
             return render_template(
                 'confirmation.html',
                 message="There is a missing tutor or course associated with this user!"
