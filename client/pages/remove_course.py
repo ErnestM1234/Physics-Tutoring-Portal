@@ -25,6 +25,7 @@ def remove_user_confirm():
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'course_id': course_id})
     tutorships = res.json()
     if not isinstance(tutorships, list):
+        print(str(res.content))
         return render_template(
             'confirmation.html',
             message=str(tutorships)
@@ -33,6 +34,7 @@ def remove_user_confirm():
     for tutorship in tutorships:
         res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/delete/'), data=json.dumps({'id': tutorship['id']}))
         if res.status_code != 200:
+            print(str(res.content))
             return render_template(
             'confirmation.html',
             message=str(res)
@@ -43,15 +45,17 @@ def remove_user_confirm():
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'course_id': course_id})
     tutor_courses = res.json()
     if not isinstance(tutorships, list):
+        print(str(res.content))
         return render_template(
             'confirmation.html',
             message=str(tutor_courses)
         )
     # remove tutor_courses
     for tutor_course in tutor_courses:
-        res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/delete'), data=json.dumps({'id': tutor_course['id']}))
+        res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/delete/'), data=json.dumps({'id': tutor_course['id']}))
         tutorships = res.json()
         if res.status_code != 200:
+            print(str(res.content))
             return render_template(
             'confirmation.html',
             message=str(res)
