@@ -32,6 +32,35 @@ def home():
 
 @app.route('/dashboard')
 def dashboard():
+
+    student_tutorships = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={"id": 1})
+    student_tutorships = student_tutorships.json()
+
+    tutors = []
+
+    for tutorship in student_tutorships:
+        tutor_id = tutorship["tutor_id"]
+        student_tutors = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={"id": tutor_id})
+        student_tutors = student_tutors.json()
+        tutors.append(student_tutors)
+
+    print("-------------------")
+    print(tutors)
+
+    return render_template(
+        'dashboard.html',
+        tutors = tutors
+    )
+
+
+
+
+
+
+
+
+@app.route('/tutordashboard')
+def tutor_dashboard():
     # request list of users
 
     # res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
@@ -40,11 +69,8 @@ def dashboard():
 
     # return 'hi'
 
-    #student_netid = "lglisic"
-    #student_id = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'student_id':"NAME"})
-
-    #student_id = 1
-
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'is_student': True})
+    students = res.json()
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
     data = res.json()
 
@@ -58,20 +84,12 @@ def dashboard():
         emails.append(user['email'])
 
     data = zip(names, netids, emails)
-
-    # get tutors
-
-
-    #res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': student_id})
-
     return render_template(
-        'dashboard.html',
-        data = data
-
+        'tutordash.html', data = data
     )
 
-@app.route('/tutordashboard')
-def tutor_dashboard():
+@app.route('/allclasses')
+def allClasses():
     # request list of users
 
     # res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
@@ -79,8 +97,26 @@ def tutor_dashboard():
     # print(data)
 
     # return 'hi'
+
+    
     return render_template(
-        'tutordash.html'
+        'allclasses.html'
+    )
+
+@app.route('/editbio')
+def editBio():
+    # request list of users
+
+    # res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
+    # data = res.json()
+    # print(data)
+
+    # return 'hi'
+
+    tutorbio = flask.request.args.get('tutorbio')
+
+    return render_template(
+        'editbio.html', tutorbio=tutorbio
     )
 
 
