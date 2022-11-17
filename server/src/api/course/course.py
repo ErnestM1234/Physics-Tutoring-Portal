@@ -17,6 +17,7 @@ get_course_input_schema = GetCourseInputSchema()
 def read_course():
     errors = get_course_input_schema.validate(request.args)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
     
     try:
@@ -25,6 +26,7 @@ def read_course():
         if course is None:
             return {"message": "Course could not be found."}, 400
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
     return jsonify(course.serialize())
@@ -49,6 +51,7 @@ get_courses_input_schema = GetCoursesInputSchema()
 def get_courses():
     errors = get_courses_input_schema.validate(request.args)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
 
     try:
@@ -66,6 +69,7 @@ def get_courses():
         courses = Courses.query.filter(*filter).all()
         return jsonify([course.serialize() for course in courses])
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -87,6 +91,7 @@ def create_course():
     data = json.loads(request.data)
     errors = create_course_input_schema.validate(data)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
     
     try:
@@ -95,6 +100,7 @@ def create_course():
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -117,6 +123,7 @@ def  update_course():
     data = json.loads(request.data)
     errors = update_course_input_schema.validate(data)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
     
     try:
@@ -133,6 +140,7 @@ def  update_course():
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -152,6 +160,7 @@ def delete_course():
     data = json.loads(request.data)
     errors = delete_course_input_schema.validate(data)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
 
     try:
@@ -163,4 +172,5 @@ def delete_course():
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400

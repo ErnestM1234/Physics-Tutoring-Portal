@@ -24,6 +24,13 @@ def admin_students():
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'))
     tutorships = res.json()
 
+    if not tutorships or not isinstance(tutorships, list):
+        message = str(res)
+        return render_template(
+        'confirmation.html',
+        message=message
+    )
+
     for tutorship in tutorships:
         # TODO: implement a faster way of doing this (python lists have O(1) look up time)
         
