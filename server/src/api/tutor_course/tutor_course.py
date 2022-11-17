@@ -145,7 +145,7 @@ Parameters:
     - id (int)!
 """
 class DeleteTutorCourseInputSchema(Schema):
-    id = fields.String(required=True)
+    id = fields.Integer(required=True)
 delete_tutor_course_input_schema = DeleteTutorCourseInputSchema()
 
 @app.route('/api/tutor_course/delete/', methods=['POST'])

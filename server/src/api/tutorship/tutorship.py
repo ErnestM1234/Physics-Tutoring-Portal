@@ -175,7 +175,7 @@ class DeleteTutorshipInputSchema(Schema):
     id = fields.Integer(required=True)
 delete_tutorship_input_schema = DeleteTutorshipInputSchema()
 
-@app.route('/api/tutorship/delete', methods=['POST'])
+@app.route('/api/tutorship/delete/', methods=['POST'])
 def delete_tutorship():
     data = json.loads(request.data)
     errors = delete_tutorship_input_schema.validate(data)

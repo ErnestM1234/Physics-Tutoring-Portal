@@ -147,7 +147,7 @@ class DeleteCourseInputSchema(Schema):
     id = fields.Integer(required=True)
 delete_course_input_schema = DeleteCourseInputSchema()
 
-@app.route('/api/course/delete', methods=['POST'])
+@app.route('/api/course/delete/', methods=['POST'])
 def delete_course():
     data = json.loads(request.data)
     errors = delete_course_input_schema.validate(data)
