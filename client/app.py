@@ -195,3 +195,4 @@ from pages.student_tutor_cancel_confirm import *
 from pages.student_tutor_dissolve_confirm import *
 
 if __name__ == '__main__':
+    app.run()
