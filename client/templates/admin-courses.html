@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Courses </title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+            <br>
+
+            <br><br><br>
+
+            <h3>COURSES</h3>
+
+            <a href="/admin/courses/create-course">add course</a><br>
+    
+            <div class ="list">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th class="bg-white" scope="col">Id</th>
+                    <th class="bg-white" scope="col">Name</th>
+                    <th class="bg-white" scope="col">Tutorships</th>
+                    <th class="bg-white" scope="col">Tutors</th>
+                    <th class="bg-white" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                        <tr>
+                            <td class="bg-white">{{course.id}}</td>
+                            <td class="bg-white">{{course.name}}</td>
+                            <td class="bg-white"><a href="{{'/admin/tutorships/?course_id=' + course.id | string}}">Tutorships</a></td>
+                            <td class="bg-white"><a href="{{'/admin/tutors/?course_id=' + course.id | string}}">Tutors</a></td>
+                            <td class="bg-white"><a href="{{'/admin/courses/remove-course/?course_id=' + course.id | string}}"><button>Remove</button></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            
+    
+        </div>
+
+        &nbsp;
+        
+        {% include '/components/admin-navbar.html' %}
+
+        
+
+
+    </body>
+
+</html>

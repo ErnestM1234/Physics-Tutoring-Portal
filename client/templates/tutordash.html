@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Tutor Dashboard</title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+            <br>
+            <h1>Welcome, {{tutor.name}}.</h1>
+
+            <br><br><br>
+
+            <div class ="list">
+              <h3>MY STUDENTS</h3> 
+              <br>
+              <table id="userlisttable">
+                <thead id="userlistheader">
+                  <tr>
+                    <td><h5>Name</h5></td>
+                    <td><h5>NetID</h5></td>
+                    <td><h5>Email</h5></td>
+                  </tr>
+                </thead>
+                <tbody id="userlist">
+
+                {% for tutorship in tutorships: %}
+                  <tr>
+                    <td>{{tutorship.student.name}}</td>
+                    <td>{{tutorship.student.netid}}</td>
+                    <td>{{tutorship.student.email}}</td>
+                  </tr>
+                {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+
+            <br>
+            <br>
+            <br>
+
+            <div class ="list">
+              <h3>MY COURSES</h3> 
+              <br>
+              <table id="userlisttable">
+                <thead id="userlistheader">
+                  <tr>
+                    <td><h5>Course ID</h5></td>
+                    <td><h5>Course Name</h5></td>
+                  </tr>
+                </thead>
+                <tbody id="userlist">
+                    {% for tutor_course in tutor_courses: %}
+                    <tr>
+                      <td>{{tutor_course.course.id}}</td>
+                      <td>{{tutor_course.course.name}}</td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+            
+              <br>
+  
+    
+        </div>
+
+        &nbsp;
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <nav id="sidebar">
+
+              <img src="{{ 'static/p_logo_v1.png' }}" width="210px" style="position:absolute;left:25px;top:40px;">
+
+              <div class="sidebar-button" style="position:absolute;top:210px;">
+                <a href="/tutordashboard"><button type="button" class="btn"><h5>Tutor Dashboard</h5></button></a>
+              </div>
+              
+              <div class="sidebar-button" style="position:absolute;top:285px;">
+                <a href="/allclasses"><button type="button" class="btn"><h5>All Classes</h5></button></a>
+              </div>
+
+              <div class="sidebar-button" style="position:absolute;top:360px;">
+                  <a href="/editbio"><button type="button" class="btn"><h5>Edit Bio</h5></button></a>
+              </div>
+
+              <img src="{{ 'static/PU-standard.png' }}" width="180px" style="position:fixed;bottom:10px;left:25px;">
+      
+          </nav>
+        
+        </div>
+
+
+        
+
+
+    </body>
+
+</html>

@@ -2,6 +2,7 @@ from app import app, db
 from flask import jsonify, request
 from src.database.models import Users
 from marshmallow import Schema, fields
+import json
 
 
 
@@ -94,21 +95,30 @@ Parameters:
     - name  (string)!
     - netid (string)!
     - email (string)!
+    - bio         (string)?
+    - is_student  (boolean)?
+    - is_tutor    (boolean)?
+    - is_admin    (boolean)?
 """
 class CreateUserInputSchema(Schema):
     netid = fields.String(required=True)
     name = fields.String(required=True)
     email = fields.String(required=True)
+    bio = fields.String()
+    is_student = fields.Boolean()
+    is_tutor = fields.Boolean()
+    is_admin = fields.Boolean()
 create_user_input_schema = CreateUserInputSchema()
 
-@app.route('/api/user/create', methods=['POST'])
+@app.route('/api/user/create/', methods=['POST'])
 def create_user():
-    errors = create_user_input_schema.validate(request.form)
+    data = json.loads(request.data)
+    errors = create_user_input_schema.validate(data)
     if errors:
         return {"message": str(errors) }, 400
     
     try:
-        user = Users(request.form['netid'], request.form['name'], request.form['email'])
+        user = Users(data.get('netid'), data.get('name'), data.get('email'), data.get('bio'), data.get('is_student'), data.get('is_tutor'), data.get('is_admin'))
         db.session.add(user)
         db.session.commit()
         return {"message": "success" }, 200
@@ -140,32 +150,33 @@ class UpdateUserInputSchema(Schema):
     is_admin = fields.Boolean()
 update_user_input_schema = UpdateUserInputSchema()
 
-@app.route('/api/user/update', methods=['POST'])
+@app.route('/api/user/update/', methods=['POST'])
 def  update_user():
-    errors = update_user_input_schema.validate(request.form)
+    data = json.loads(request.data)
+    errors = update_user_input_schema.validate(data)
     if errors:
         return {"message": str(errors) }, 400
 
     try:
-        id = request.form['id']
+        id = data.get('id')
         user = Users.query.filter(Users.id == id).first()
         if user is None:
             return {"message": "User could not be found."}, 400
         # todo (Ernest): find if there is a better way to do this
-        if request.form['netid'] not in [None, '']:
-            user.netid = request.form['netid']
-        if request.form['name'] not in [None, '']:
-            user.name = request.form['name']
-        if request.form['email'] not in [None, '']:
-            user.email = request.form['email']
-        if request.form['bio'] not in [None, '']:
-            user.bio = request.form['bio']
-        if request.form['is_student'] not in [None, '']:
-            user.is_student = request.form['is_student']
-        if request.form['is_tutor'] not in [None, '']:
-            user.is_tutor = request.form['is_tutor']
-        if request.form['is_admin'] not in [None, '']:
-            user.is_admin = request.form['is_admin']
+        if data.get('netid') not in [None, '']:
+            user.netid = data.get('netid')
+        if data.get('name') not in [None, '']:
+            user.name = data.get('name')
+        if data.get('email') not in [None, '']:
+            user.email = data.get('email')
+        if data.get('bio') not in [None, '']:
+            user.bio = data.get('bio')
+        if data.get('is_student') not in [None, '']:
+            user.is_student = data.get('is_student')
+        if data.get('is_tutor') not in [None, '']:
+            user.is_tutor = data.get('is_tutor')
+        if data.get('is_admin') not in [None, '']:
+            user.is_admin = data.get('is_admin')
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
@@ -184,12 +195,13 @@ delete_user_input_schema = DeleteUserInputSchema()
 
 @app.route('/api/user/delete', methods=['POST'])
 def delete_user():
-    errors = delete_user_input_schema.validate(request.form)
+    data = json.loads(request.data)
+    errors = delete_user_input_schema.validate(data)
     if errors:
         return {"message": str(errors) }, 400
 
     try:
-        id = request.form['id']
+        id = data.get('id')
         user = Users.query.filter(Users.id == id).first()
         if user is None:
             return {"message": "User could not be found."}, 400
