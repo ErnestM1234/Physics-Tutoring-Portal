@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Tutorship </title>
+      <title>Physics Tutoring Portal Dissolve Tutorship</title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -15,13 +15,16 @@
 
             <br><br><br>
 
-            {% if course_id  %}
-                <h3>COURSE ID: {{course_id}}</h3>
-            {% endif %}
+            <h3>DISSOLVE A TUTORSHIP</h3>
+            <p>Are you sure you want to dissolve this tutorship?</p>
+            <form action="/admin/tutorships/remove-tutorship/confirm/" method="GET">
+                <input type="hidden" name="tutorship_id" value="{{tutorship.id}}" readonly><br>
+                <input type="submit" value="DISSOLVE">
+            </form>
 
-            <h3>TUTORSHIPS</h3>
-
-            <a href="/admin/tutorships/create-tutorship">create tutorship</a><br>
+            <br><br><br>
+            
+            <h3>TUTORSHIP</h3>
     
             <div class ="list">
             <table class="table">
@@ -35,29 +38,23 @@
                     <th class="bg-white" scope="col">Course Id</th>
                     <th class="bg-white" scope="col">Course Name</th>
                     <th class="bg-white" scope="col">Status</th>
-                    <th class="bg-white" scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                    {% for tutorship in tutorships %}
-                        <tr>
-                            <td class="bg-white">{{tutorship.id}}</td>
-                            <td class="bg-white">{{tutorship.student_id}}</td>
-                            <td class="bg-white">{{tutorship.student.name}}</td>
-                            <td class="bg-white">{{tutorship.tutor_id}}</td>
-                            <td class="bg-white">{{tutorship.tutor.name}}</td>
-                            <td class="bg-white">{{tutorship.course_id}}</td>
-                            <td class="bg-white">{{tutorship.course.name}}</td>
-                            <td class="bg-white">{{tutorship.status}}</td>
-                            <td class="bg-white"><a href={{"/admin/tutorships/remove-tutorship/?tutorship_id=" + tutorship.id | string}}><button>Disolve</button></a></td>
-                        </tr>
-                    {% endfor %}
+                    <tr>
+                        <td class="bg-white">{{tutorship.id}}</td>
+                        <td class="bg-white">{{tutorship.student_id}}</td>
+                        <td class="bg-white">{{tutorship.student.name}}</td>
+                        <td class="bg-white">{{tutorship.tutor.id}}</td>
+                        <td class="bg-white">{{tutorship.tutor.name}}</td>
+                        <td class="bg-white">{{tutorship.course_id}}</td>
+                        <td class="bg-white">{{tutorship.course.name}}</td>
+                        <td class="bg-white">{{tutorship.status}}</td>
+                    </tr>
                 </tbody>
               </table>
             </div>
-    
         </div>
-        <button>Add Class</button>
 
         &nbsp;
         

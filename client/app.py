@@ -135,6 +135,7 @@ from pages.create_tutor_course import *
 from pages.create_tutorship import *
 from pages.create_user import *
 from pages.remove_course import *
+from pages.remove_tutorship import *
 from pages.student_profile import *
 from pages.tutor_profile import *
 
