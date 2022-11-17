@@ -95,14 +95,22 @@ Parameters:
     - name  (string)!
     - netid (string)!
     - email (string)!
+    - bio         (string)?
+    - is_student  (boolean)?
+    - is_tutor    (boolean)?
+    - is_admin    (boolean)?
 """
 class CreateUserInputSchema(Schema):
     netid = fields.String(required=True)
     name = fields.String(required=True)
     email = fields.String(required=True)
+    bio = fields.String()
+    is_student = fields.Boolean()
+    is_tutor = fields.Boolean()
+    is_admin = fields.Boolean()
 create_user_input_schema = CreateUserInputSchema()
 
-@app.route('/api/user/create', methods=['POST'])
+@app.route('/api/user/create/', methods=['POST'])
 def create_user():
     data = json.loads(request.data)
     errors = create_user_input_schema.validate(data)
@@ -110,7 +118,7 @@ def create_user():
         return {"message": str(errors) }, 400
     
     try:
-        user = Users(data.get('netid'), data.get('name'), data.get('email'))
+        user = Users(data.get('netid'), data.get('name'), data.get('email'), data.get('bio'), data.get('is_student'), data.get('is_tutor'), data.get('is_admin'))
         db.session.add(user)
         db.session.commit()
         return {"message": "success" }, 200
