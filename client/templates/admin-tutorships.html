@@ -43,13 +43,13 @@
                         <tr>
                             <td class="bg-white">{{tutorship.id}}</td>
                             <td class="bg-white">{{tutorship.student_id}}</td>
-                            <td class="bg-white">{{tutorship.student.name}}</td>
+                            <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">{{tutorship.student.name}}</a></td>
                             <td class="bg-white">{{tutorship.tutor_id}}</td>
-                            <td class="bg-white">{{tutorship.tutor.name}}</td>
+                            <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutorship.tutor_id | string}}">{{tutorship.tutor.name}}</a></td>
                             <td class="bg-white">{{tutorship.course_id}}</td>
                             <td class="bg-white">{{tutorship.course.name}}</td>
                             <td class="bg-white">{{tutorship.status}}</td>
-                            <td class="bg-white"><button>Disolve</button></td>
+                            <td class="bg-white"><a href="{{'/admin/tutorships/remove-tutorship/?tutorship_id=' + tutorship.id | string}}"><button>Disolve</button></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

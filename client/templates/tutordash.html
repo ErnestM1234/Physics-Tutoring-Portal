@@ -12,59 +12,63 @@
 
         <div class="non-sidebar">
             <br>
-            <h1>Welcome, Jane Doe.</h1>
+            <h1>Welcome, {{tutor.name}}.</h1>
 
             <br><br><br>
 
-            <h3>MY STUDENTS</h3>
-    
-
-
-
-     
-
-
             <div class ="list">
-            <table class="table">
-                <thead>
+              <h3>MY STUDENTS</h3> 
+              <br>
+              <table id="userlisttable">
+                <thead id="userlistheader">
                   <tr>
-                    <th class="bg-white" scope="col">Name</th>
-                    <th class="bg-white" scope="col">Course</th>
-                    <th class="bg-white" scope="col">Contact</th>
+                    <td><h5>Name</h5></td>
+                    <td><h5>NetID</h5></td>
+                    <td><h5>Email</h5></td>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="userlist">
+
+                {% for tutorship in tutorships: %}
                   <tr>
-                    <td class="bg-white" >Anjali Kapoor</td>
-                    <td class="bg-white">Physics 103</td>
-                    <td class="bg-white">akkapoor@princeton.edu</td>
+                    <td>{{tutorship.student.name}}</td>
+                    <td>{{tutorship.student.netid}}</td>
+                    <td>{{tutorship.student.email}}</td>
                   </tr>
+                {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+
+            <br>
+            <br>
+            <br>
+
+            <div class ="list">
+              <h3>MY COURSES</h3> 
+              <br>
+              <table id="userlisttable">
+                <thead id="userlistheader">
                   <tr>
-                    <td class="bg-white">Lana Glisic</td>
-                    <td class="bg-white">Physics 103</td>
-                    <td class="bg-white">lglisic@princeton.edu</td>
+                    <td><h5>Course ID</h5></td>
+                    <td><h5>Course Name</h5></td>
                   </tr>
-                  
+                </thead>
+                <tbody id="userlist">
+                    {% for tutor_course in tutor_courses: %}
+                    <tr>
+                      <td>{{tutor_course.course.id}}</td>
+                      <td>{{tutor_course.course.name}}</td>
+                    </tr>
+                    {% endfor %}
+
                 </tbody>
               </table>
             </div>
             
               <br>
-    
-    
-              <h3>MY CLASSES</h3>
-              <table class="table">
-                <tbody>
-                  <tr>
-                    <td class="bg-white">Physics 101</td>
-                  </tr>
-                  <tr>
-                    <td class="bg-white">Physics 103</td>
-                  </tr>
-                  
-                </tbody>
-              </table>
-    
+  
     
         </div>
 
@@ -72,16 +76,24 @@
         <div class="wrapper">
             <!-- Sidebar -->
             <nav id="sidebar">
-                <div class="sidebar-header">
-                    <h3>PHYSICS<br>TUTORING<br>PORTAL</h3>
-                </div>
 
-                <hr>
+              <img src="{{ 'static/p_logo_v1.png' }}" width="210px" style="position:absolute;left:25px;top:40px;">
 
+              <div class="sidebar-button" style="position:absolute;top:210px;">
+                <a href="/tutordashboard"><button type="button" class="btn"><h5>Tutor Dashboard</h5></button></a>
+              </div>
+              
+              <div class="sidebar-button" style="position:absolute;top:285px;">
+                <a href="/allclasses"><button type="button" class="btn"><h5>All Classes</h5></button></a>
+              </div>
 
-                <img src="{{ 'static/PU-standard.png' }}" width="250px">
-        
-            </nav>
+              <div class="sidebar-button" style="position:absolute;top:360px;">
+                  <a href="/editbio"><button type="button" class="btn"><h5>Edit Bio</h5></button></a>
+              </div>
+
+              <img src="{{ 'static/PU-standard.png' }}" width="180px" style="position:fixed;bottom:10px;left:25px;">
+      
+          </nav>
         
         </div>
 

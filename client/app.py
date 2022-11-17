@@ -1,6 +1,7 @@
 # run the following command to start the server: $ gunicorn app:app
 
 import os
+import flask
 from flask import Flask, render_template, redirect
 import requests
 from dotenv import load_dotenv
@@ -52,6 +53,13 @@ def dashboard():
         tutors = tutors
     )
 
+
+
+
+
+
+
+
 @app.route('/tutordashboard')
 def tutor_dashboard():
     # request list of users
@@ -61,8 +69,97 @@ def tutor_dashboard():
     # print(data)
 
     # return 'hi'
+
+    tutor_id = 1
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutor_id})
+    tutor = res.json()
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'tutor_id': tutor_id})
+    tutor_courses = res.json()
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'tutor_id': tutor_id})
+    tutorships = res.json()
+
+    for tutorship in tutorships:
+        student_id = tutorship['student_id']
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': student_id})
+        student = res.json()
+        tutorship['student'] = student
+
+        course_id = tutorship['course_id']
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id})
+        course = res.json()
+        tutorship['course'] = course
+    
+    for tutor_course in tutor_courses:
+        course_id = tutor_course['course_id']
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id})
+        course = res.json()
+        tutor_course['course'] = course
+
+
     return render_template(
-        'tutordash.html'
+        'tutordash.html', tutor=tutor, tutorships=tutorships, tutor_courses=tutor_courses
+    )
+
+@app.route('/allclasses')
+def allClasses():
+    # request list of users
+
+    # res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
+    # data = res.json()
+    # print(data)
+
+    # return 'hi'
+
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'))
+    courses = res.json()
+    
+    return render_template(
+        'allclasses.html', courses=courses
+    )
+
+@app.route('/editbio')
+def editBio():
+    # request list of users
+
+    # res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
+    # data = res.json()
+    # print(data)
+
+    # return 'hi'
+
+    tutor_id = 1
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutor_id})
+    tutor = res.json()
+
+    return render_template(
+        'editbio.html', tutor=tutor
+    )
+
+
+
+@app.route('/editbio/confirm', methods=['POST'])
+def edit_bio_confirm():
+
+    bio = request.form.get('bio')
+    tutor_id = request.form.get('tutor_id')
+
+    if bio is None or tutor_id is None:
+        return redirect('/editbio')
+
+    
+    data = {
+        'bio': bio,
+        'id': tutor_id
+    }
+
+    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps(data))
+    
+    message = str(res)
+
+
+    return render_template(
+        'confirmationtutor.html',
+        message=message
     )
 
 
@@ -81,6 +178,7 @@ from pages.create_tutor_course import *
 from pages.create_tutorship import *
 from pages.create_user import *
 from pages.remove_course import *
+from pages.remove_tutorship import *
 from pages.student_profile import *
 from pages.tutor_profile import *
 
@@ -98,3 +196,5 @@ from pages.student_tutor_dissolve_confirm import *
 
 if __name__ == '__main__':
     app.run()
+
+
