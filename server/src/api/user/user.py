@@ -19,6 +19,7 @@ get_user_input_schema = GetUserInputSchema()
 def get_user():
     errors = get_user_input_schema.validate(request.args)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
     
     try:
@@ -28,6 +29,7 @@ def get_user():
             return {"message": "User could not be found."}, 400
         return jsonify(user.serialize())
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -55,6 +57,7 @@ get_users_input_schema = GetUsersInputSchema()
 def get_users():
     errors = get_users_input_schema.validate(request.args)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
 
     try:
@@ -85,6 +88,7 @@ def get_users():
         users = Users.query.filter(*filters).all()
         return jsonify([user.serialize() for user in users])
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -115,6 +119,7 @@ def create_user():
     data = json.loads(request.data)
     errors = create_user_input_schema.validate(data)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
     
     try:
@@ -123,6 +128,7 @@ def create_user():
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -155,6 +161,7 @@ def  update_user():
     data = json.loads(request.data)
     errors = update_user_input_schema.validate(data)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
 
     try:
@@ -180,6 +187,7 @@ def  update_user():
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
 
 
@@ -198,6 +206,7 @@ def delete_user():
     data = json.loads(request.data)
     errors = delete_user_input_schema.validate(data)
     if errors:
+        print(str(errors))
         return {"message": str(errors) }, 400
 
     try:
@@ -209,4 +218,5 @@ def delete_user():
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}, 400
