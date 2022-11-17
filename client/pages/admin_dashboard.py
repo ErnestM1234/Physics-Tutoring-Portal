@@ -28,7 +28,7 @@ def admin_dashboard():
     # get tutees by course
     # todo(Ernest): spin up a diff process for these requests?? these two is a bit ~C~ ~H~ ~U~ ~N~ ~K~ ~Y~
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'status': "ACCEPTED"})
-    tutors = res.json()
+    tutor_courses = res.json()
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'status': "ACCEPTED"})
     tutorships = res.json()
 
@@ -36,16 +36,16 @@ def admin_dashboard():
     available_tutors_count = []
     tutees_count = []
     for course in courses: # todo (Ernest): this runs in like O(N^2) time. It can run in O(N) time. ATM I am too lazy to optimize this
-        filtered_tutors = tutors
+        filtered_tutors = tutor_courses
 
         # calculate approved tutors
-        approved_tutors_count.append(len(list(filter(lambda tutor: tutor['course_id'] == course['id'], tutors))))
+        approved_tutors_count.append(len(list(filter(lambda tutor_course: tutor_course['course_id'] == course['id'], tutor_courses))))
 
         # calculate available tutors
         available_tutors_count.append(3) # todo (Ernest): requires updates to the schema
 
         # calculate active tutees
-        tutees_count.append(len(list(filter(lambda tutorships: tutorships['course_id'] == tutorships['id'], tutorships))))
+        tutees_count.append(len(list(filter(lambda tutorship: tutorship['course_id'] == course['id'], tutorships))))
 
 
 
