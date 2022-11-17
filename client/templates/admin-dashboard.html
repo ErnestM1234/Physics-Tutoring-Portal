@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Admin Dashboard</title>
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+            <br>
+            <h1>Welcome, {{user.name}}.</h1>
+
+            <br><br><br>
+
+            <h3>COURSES</h3>
+    
+            <div class ="list">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th class="bg-white" scope="col">Courses</th>
+                    <th class="bg-white" scope="col">Approved Tutors</th>
+                    <th class="bg-white" scope="col">Available Tutors</th>
+                    <th class="bg-white" scope="col">Tutees</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                        <tr>
+                            <td class="bg-white" >{{course.name}}</td>
+                            <td class="bg-white">{{approved_tutors_count[loop.index0]}}</td>
+                            <td class="bg-white">{{available_tutors_count[loop.index0]}}</td>
+                            <td class="bg-white">{{tutees_count[loop.index0]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+    
+        </div>
+
+        &nbsp;
+    
+        {% include '/components/admin-navbar.html' %}
+
+        
+
+
+    </body>
+
+</html>

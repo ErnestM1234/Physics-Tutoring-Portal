@@ -18,10 +18,14 @@ class Users(db.Model):
 
     tutor_courses = db.relationship('TutorCourses', backref='tutor', lazy=True)
 
-    def __init__(self, netid, name, email):
+    def __init__(self, netid, name, email, bio, is_student, is_tutor, is_admin):
         self.netid = netid
         self.name = name
         self.email = email
+        self.bio = bio
+        self.is_student = is_student
+        self.is_tutor = is_tutor
+        self.is_admin = is_admin
 
 
     def __repr__(self):
@@ -83,7 +87,7 @@ class Tutorships(db.Model):
     course_id = db.Column('course_id', db.Integer, db.ForeignKey('courses.id'))
 
 
-    VALID_STATUS = ['requested', 'accepted', 'blocked', 'none']
+    VALID_STATUS = ['REQUESTED', 'ACCEPTED', 'BLOCKED', 'NONE']
 
 
     def __repr__(self):
@@ -120,6 +124,9 @@ class TutorCourses(db.Model):
     tutor_id = db.Column('tutor_id', db.Integer, db.ForeignKey('users.id'), nullable=False)
     course_id = db.Column('course_id', db.Integer, db.ForeignKey('courses.id'), nullable=False)
     status = db.Column('status',db.String(100),nullable=False)
+
+    # todo (Ernest or Elise): add statuses and validation
+    VALID_STATUS = ['REQUESTED', 'ACCEPTED', 'DENIED', 'NONE']
 
     def __init__(self, tutor_id, course_id, status):
         self.tutor_id = tutor_id

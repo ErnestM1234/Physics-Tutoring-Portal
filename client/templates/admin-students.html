@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Students </title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+            <br>
+
+            <br><br><br>
+
+            <h3>TUTORSHIPS BY STUDENT</h3>
+
+            <a href="/admin/user/create-user">add user</a><br>
+    
+    
+            <div class ="list">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="bg-white" scope="col">Id</th>
+                        <th class="bg-white" scope="col">Student Id</th>
+                        <th class="bg-white" scope="col">Student Name</th>
+                        <th class="bg-white" scope="col">Tutor Id</th>
+                        <th class="bg-white" scope="col">Tutor Name</th>
+                        <th class="bg-white" scope="col">Course</th>
+                        <th class="bg-white" scope="col">Course Name</th>
+                        <th class="bg-white" scope="col">Status</th>
+                        <th class="bg-white" scope="col">Profile</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for tutorship in tutorships %}
+                            <tr>
+                                <td class="bg-white">{{tutorship.id}}</td>
+                                <td class="bg-white">{{tutorship.student_id}}</td>
+                                <td class="bg-white">{{tutorship.student.name}}</td>
+                                <td class="bg-white">{{tutorship.tutor_id}}</td>
+                                <td class="bg-white">{{tutorship.tutor.name}}</td>
+                                <td class="bg-white">{{tutorship.course_id}}</td>
+                                <td class="bg-white">{{tutorship.course.name}}</td>
+                                <td class="bg-white">{{tutorship.status}}</td>
+                                <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">PROFILE</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+            <h3>STUDENTS</h3>
+
+
+            <div class ="list">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="bg-white" scope="col">Student Id</th>
+                        <th class="bg-white" scope="col">Student Name</th>
+                        <th class="bg-white" scope="col">Profile</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                            <tr>
+                                <td class="bg-white">{{student.id}}</td>
+                                <td class="bg-white">{{student.name}}</td>
+                                <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + student.id | string}}">PROFILE</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+    
+        </div>
+
+        &nbsp;
+        {% include '/components/admin-navbar.html' %}
+
+
+
+
+    </body>
+
+</html>

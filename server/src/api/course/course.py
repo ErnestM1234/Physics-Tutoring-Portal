@@ -1,3 +1,4 @@
+import json
 from app import app, db
 from flask import jsonify, request
 from src.database.models import Courses
@@ -19,7 +20,7 @@ def read_course():
         return {"message": str(errors) }, 400
     
     try:
-        id = request.args['id']
+        id = request.args.get('id')
         course = Courses.query.filter(Courses.id == id).first()
         if course is None:
             return {"message": "Course could not be found."}, 400
@@ -81,14 +82,15 @@ class CreateCourseInputSchema(Schema):
     dept_course = fields.String(required=True)
 create_course_input_schema = CreateCourseInputSchema()
 
-@app.route('/api/course/create', methods=['POST'])
+@app.route('/api/course/create/', methods=['POST'])
 def create_course():
-    errors = create_course_input_schema.validate(request.form)
+    data = json.loads(request.data)
+    errors = create_course_input_schema.validate(data)
     if errors:
         return {"message": str(errors) }, 400
     
     try:
-        course = Courses(request.form['name'], request.form['dept_course'])
+        course = Courses(data.get('name'), data.get('dept_course'))
         db.session.add(course)
         db.session.commit()
         return {"message": "success" }, 200
@@ -112,20 +114,21 @@ update_course_input_schema = UpdateCourseInputSchema()
 
 @app.route('/api/course/update', methods=['POST'])
 def  update_course():
-    errors = update_course_input_schema.validate(request.form)
+    data = json.loads(request.data)
+    errors = update_course_input_schema.validate(data)
     if errors:
         return {"message": str(errors) }, 400
     
     try:
-        id = request.form['id']
+        id = data.get('id')
         course = Courses.query.filter(Courses.id == id).first()
         if course is None:
             return {"message": "Course could not be found."}, 400
         
-        if request.form['name'] not in [None, '']:
-            course.name = request.form['name']
-        if request.form['dept_course'] not in [None, '']:
-            course.dept_course = request.form['dept_course']
+        if data.get('name') not in [None, '']:
+            course.name = data.get('name')
+        if data.get('dept_course') not in [None, '']:
+            course.dept_course = data.get('dept_course')
         db.session.add(course)
         db.session.commit()
         return {"message": "success" }, 200
@@ -146,12 +149,13 @@ delete_course_input_schema = DeleteCourseInputSchema()
 
 @app.route('/api/course/delete', methods=['POST'])
 def delete_course():
-    errors = delete_course_input_schema.validate(request.form)
+    data = json.loads(request.data)
+    errors = delete_course_input_schema.validate(data)
     if errors:
         return {"message": str(errors) }, 400
 
     try:
-        id = request.form['id']
+        id = data.get('id')
         course = Courses.query.filter(Courses.id == id).first()
         if course is None:
             return {"message": "Course could not be found."}, 400

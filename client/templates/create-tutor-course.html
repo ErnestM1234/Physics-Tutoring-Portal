@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Create Tutor-Course</title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+            <br>
+
+            <br><br><br>
+
+            <h3>CREATE A TUTOR-COURSE</h3>
+            <form action="/admin/create-tutor-course/confirm" method="POST">
+                tutor id
+                <input type="text" name="tutor_id"><br>
+                course id
+                <input type="text" name="course_id"><br>
+                status
+                <input type="text" name="status"><br>
+                <input type="submit">
+            </form>
+        </div>
+
+        &nbsp;
+        
+        {% include '/components/admin-navbar.html' %}
+
+        
+
+
+    </body>
+
+</html>
