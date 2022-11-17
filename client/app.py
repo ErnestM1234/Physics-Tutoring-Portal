@@ -54,6 +54,13 @@ def dashboard():
 
     )
 
+
+
+
+
+
+
+
 @app.route('/tutordashboard')
 def tutorDash():
     # request list of users
@@ -64,6 +71,8 @@ def tutorDash():
 
     # return 'hi'
 
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'is_student': True})
+    students = res.json()
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
     data = res.json()
 
