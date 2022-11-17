@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Tutor Dashboard</title>
+      <title>Edit Bio</title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -12,36 +12,26 @@
 
         <div class="non-sidebar">
             <br>
-            <h1>Welcome, Jane Doe.</h1>
+            <h1>Tutor Bio</h1>
 
-            <br><br><br>
+            <br>
 
-            <div class ="list">
-              <h3>MY STUDENTS</h3> 
-              <br>
-              <table id="userlisttable">
-                <thead id="userlistheader">
-                  <tr>
-                    <td><h5>Name</h5></td>
-                    <td><h5>NetID</h5></td>
-                    <td><h5>Email</h5></td>
-                  </tr>
-                </thead>
-                <tbody id="userlist">
 
-                {% for tutor in data: %}
-                  <tr>
-                    {% for col in tutor: %}
-                    <td>{{col}}</td>
-                    {% endfor %}
-                  </tr>
-                {% endfor %}
+            <p> {{'%s' % (tutorbio)}}</p>
 
-                </tbody>
-              </table>
-            </div>
             
               <br>
+            
+            <form>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Edit bio</label>
+                    <textarea class="form-control" id="tutorbio" rows="5"></textarea>
+                </div>
+            </form>
+            <div class = "text-right">
+                <button type="button" class="btn btn-outline-danger btn-sm">Submit</button>
+            </div>
+
   
     
         </div>
@@ -54,11 +44,11 @@
               <img src="{{ 'static/p_logo_v1.png' }}" width="210px" style="position:absolute;left:25px;top:40px;">
 
               <div class="sidebar-button" style="position:absolute;top:210px;">
-                <a href="/allclasses"><button type="button" class="btn"><h5>All Classes</h5></button></a>
+                <a href="/tutordashboard"><button type="button" class="btn"><h5>Tutor Dashboard</h5></button></a>
               </div>
 
               <div class="sidebar-button" style="position:absolute;top:285px;">
-                  <a href="/editbio"><button type="button" class="btn"><h5>Edit Bio</h5></button></a>
+                  <a href="/allclasses"><button type="button" class="btn"><h5>All Classes</h5></button></a>
               </div>
 
               <img src="{{ 'static/PU-standard.png' }}" width="180px" style="position:fixed;bottom:10px;left:25px;">

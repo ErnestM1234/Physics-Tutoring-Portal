@@ -47,7 +47,7 @@ class GetTutorshipsInputSchema(Schema):
     course_id = fields.Integer()
 get_tutorships_input_schema = GetTutorshipsInputSchema()
 
-@app.route('/api/tutorship/', methods=['GET'])
+@app.route('/api/tutorships/', methods=['GET'])
 def get_tutorships():
     errors = get_tutorships_input_schema.validate(request.args)
     if errors:

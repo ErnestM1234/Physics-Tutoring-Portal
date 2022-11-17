@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Tutor Dashboard</title>
+      <title>All Physics Classes</title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -11,38 +11,20 @@
     <body class="princeton-gradient">
 
         <div class="non-sidebar">
-            <br>
-            <h1>Welcome, Jane Doe.</h1>
 
-            <br><br><br>
+            <div class="non-sidebar">
+                <br>
+                <h1>ALL CLASSES</h1>
+    
+                <br><br><br>
 
-            <div class ="list">
-              <h3>MY STUDENTS</h3> 
-              <br>
-              <table id="userlisttable">
-                <thead id="userlistheader">
-                  <tr>
-                    <td><h5>Name</h5></td>
-                    <td><h5>NetID</h5></td>
-                    <td><h5>Email</h5></td>
-                  </tr>
-                </thead>
-                <tbody id="userlist">
-
-                {% for tutor in data: %}
-                  <tr>
-                    {% for col in tutor: %}
-                    <td>{{col}}</td>
-                    {% endfor %}
-                  </tr>
-                {% endfor %}
-
-                </tbody>
-              </table>
+                <div class ="list">
+                <table id="classlisttable">
+                    <tbody id="classlist">
+                    </tbody>
+                </table>
+                </div>
             </div>
-            
-              <br>
-  
     
         </div>
 
@@ -54,7 +36,7 @@
               <img src="{{ 'static/p_logo_v1.png' }}" width="210px" style="position:absolute;left:25px;top:40px;">
 
               <div class="sidebar-button" style="position:absolute;top:210px;">
-                <a href="/allclasses"><button type="button" class="btn"><h5>All Classes</h5></button></a>
+                <a href="/tutordashboard"><button type="button" class="btn"><h5>Tutor Dashboard</button></a>
               </div>
 
               <div class="sidebar-button" style="position:absolute;top:285px;">
