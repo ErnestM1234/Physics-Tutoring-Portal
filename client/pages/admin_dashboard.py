@@ -27,9 +27,9 @@ def admin_dashboard():
     # get tutors by coures
     # get tutees by course
     # todo(Ernest): spin up a diff process for these requests?? these two is a bit ~C~ ~H~ ~U~ ~N~ ~K~ ~Y~
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'status': "APPROVED"})
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'status': "ACCEPTED"})
     tutors = res.json()
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'status': "APPROVED"})
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'status': "ACCEPTED"})
     tutorships = res.json()
 
     approved_tutors_count = []
