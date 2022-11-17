@@ -37,7 +37,7 @@
                             <td class="bg-white">{{course.name}}</td>
                             <td class="bg-white"><a href="{{'/admin/tutorships/?course_id=' + course.id | string}}">Tutorships</a></td>
                             <td class="bg-white"><a href="{{'/admin/tutors/?course_id=' + course.id | string}}">Tutors</a></td>
-                            <td class="bg-white"><button>Remove</button></td>
+                            <td class="bg-white"><a href="{{'/admin/courses/remove-course/?course_id=' + course.id | string}}"><button>Remove</button></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

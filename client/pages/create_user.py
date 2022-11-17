@@ -37,9 +37,6 @@ def create_user_confirm():
     
     message = str(res)
 
-    print(res.text)
-
-
     return render_template(
         'confirmation.html',
         message=message
