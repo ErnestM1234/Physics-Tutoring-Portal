@@ -24,7 +24,7 @@ def admin_students():
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'))
     tutorships = res.json()
 
-    if res.status_code != 200:
+    if not tutorships or not isinstance(tutorships, list):
         message = str(res)
         return render_template(
         'confirmation.html',
