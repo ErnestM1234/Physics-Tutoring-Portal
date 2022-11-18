@@ -1,20 +1,31 @@
 <div class="wrapper">
     <!-- Sidebar -->
+    <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
     <nav id="sidebar">
         <div class="sidebar-header">
             <h3>PHYSICS<br>TUTORING<br>PORTAL</h3>
         </div>
 
         <hr>
-
-
         
-        <a href="/admin/dashboard">dashboard</a><br>
-        <a href="/admin/courses">courses</a><br>
-        <a href="/admin/tutors">tutors</a><br>
-        <a href="/admin/tutorships">tutorships</a><br>
-        <a href="/admin/students">students</a><br>
-        <a href="/admin/admins">admins</a><br>
+        <div class="admin-sidebar-button">
+            <a href="/admin/dashboard"><button type="button" class="btn"><h5>DASHBOARD</h5></button></a>
+        </div>
+        <div class="admin-sidebar-button">
+            <a href="/admin/courses"><button type="button" class="btn"><h5>COURSES</h5></button></a>
+        </div>
+        <div class="admin-sidebar-button">
+            <a href="/admin/tutors"><button type="button" class="btn"><h5>TUTORS</h5></button></a>
+        </div>
+        <div class="admin-sidebar-button">
+            <a href="/admin/tutorships"><button type="button" class="btn"><h5>TUTORSHIPS</h5></button></a>
+        </div>
+        <div class="admin-sidebar-button">
+            <a href="/admin/students"><button type="button" class="btn"><h5>STUDENTS</h5></button></a>
+        </div>
+        <div class="admin-sidebar-button">
+            <a href="/admin/admins"><button type="button" class="btn"><h5>ADMINS</h5></button></a>
+        </div>
 
 
         <img src="{{ '/static/PU-standard.png' }}" width="250px">

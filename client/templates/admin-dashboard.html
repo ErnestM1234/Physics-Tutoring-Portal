@@ -19,22 +19,22 @@
             <h3>COURSES</h3>
     
             <div class ="list">
-            <table class="table">
-                <thead>
+            <table class="table admin-table">
+                <thead class="admin-table-header">
                   <tr>
-                    <th class="bg-white" scope="col">Courses</th>
-                    <th class="bg-white" scope="col">Approved Tutors</th>
-                    <th class="bg-white" scope="col">Available Tutors</th>
-                    <th class="bg-white" scope="col">Tutees</th>
+                    <th class="admin-table-data" scope="col">Courses</th>
+                    <th class="admin-table-data" scope="col">Approved Tutors</th>
+                    <th class="admin-table-data" scope="col">Available Tutors</th>
+                    <th class="admin-table-data" scope="col">Tutees</th>
                   </tr>
                 </thead>
                 <tbody>
                     {% for course in courses %}
-                        <tr>
-                            <td class="bg-white" >{{course.name}}</td>
-                            <td class="bg-white">{{approved_tutors_count[loop.index0]}}</td>
-                            <td class="bg-white">{{available_tutors_count[loop.index0]}}</td>
-                            <td class="bg-white">{{tutees_count[loop.index0]}}</td>
+                        <tr class="admin-table-row">
+                            <td class="admin-table-data">{{course.name}}</td>
+                            <td class="admin-table-data">{{approved_tutors_count[loop.index0]}}</td>
+                            <td class="admin-table-data">{{available_tutors_count[loop.index0]}}</td>
+                            <td class="admin-table-data">{{tutees_count[loop.index0]}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
