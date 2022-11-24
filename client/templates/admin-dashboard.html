@@ -32,9 +32,9 @@
                     {% for course in courses %}
                         <tr class="admin-table-row">
                             <td class="admin-table-data">{{course.name}}</td>
-                            <td class="admin-table-data">{{approved_tutors_count[loop.index0]}}</td>
-                            <td class="admin-table-data">{{available_tutors_count[loop.index0]}}</td>
-                            <td class="admin-table-data">{{tutees_count[loop.index0]}}</td>
+                            <td class="admin-table-data">{{course.approved_tutor_count}}</td>
+                            <td class="admin-table-data">NO DATA</td>
+                            <td class="admin-table-data">{{course.tutee_count}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

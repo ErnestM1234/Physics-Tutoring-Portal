@@ -73,6 +73,45 @@ def get_tutor_courses():
         return {"error": str(e)}, 400
 
 
+""" GET /api/tutor_course/tutor_count/
+Parameters:
+    - tutor_id (int)?
+    - course_id (int)?
+    - status (string)?
+"""
+class GetTutorCourseCountInputSchema(Schema):
+    tutor_id = fields.Integer()
+    course_id = fields.Integer()
+    status = fields.String()
+get_tutor_courses_count_input_schema = GetTutorCourseCountInputSchema()
+
+@app.route('/api/tutor_course/count/', methods=['GET']) 
+def get_tutor_course_tutor_count():
+    errors = get_tutor_courses_count_input_schema.validate(request.args)
+    if errors:
+        print(str(errors))
+        return {"message": str(errors) }, 400
+
+    try:
+        tutor_id = request.args.get('tutor_id')
+        course_id = request.args.get('course_id')
+        status = request.args.get('status')
+
+        filters = []
+        if tutor_id:
+            filters.append(TutorCourses.tutor_id == tutor_id)
+        if course_id:
+            filters.append(TutorCourses.course_id == course_id)
+        if status:
+            filters.append(TutorCourses.status == status)
+
+        count = TutorCourses.query.filter(*filters).count()
+        return jsonify(count)
+   
+    except Exception as e:
+        print(str(e))
+        return {"error": str(e)}, 400
+
              
 
 """ POST /api/tutor_course/create/

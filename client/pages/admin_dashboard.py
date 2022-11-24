@@ -26,35 +26,27 @@ def admin_dashboard():
 
     # get tutors by coures
     # get tutees by course
-    # todo(Ernest): spin up a diff process for these requests?? these two is a bit ~C~ ~H~ ~U~ ~N~ ~K~ ~Y~
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'status': "ACCEPTED"})
-    tutor_courses = res.json()
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'status': "ACCEPTED"})
-    tutorships = res.json()
+    for course in courses:
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/count/'), params={'course_id': course['id'],'status': "ACCEPTED"})
+        if res.status_code != 200:
+            message = str(res)
+            return render_template(
+                'confirmation.html',
+                message=message
+            )
+        course['approved_tutor_count'] = res.json()
 
-    approved_tutors_count = []
-    available_tutors_count = []
-    tutees_count = []
-    for course in courses: # todo (Ernest): this runs in like O(N^2) time. It can run in O(N) time. ATM I am too lazy to optimize this
-        filtered_tutors = tutor_courses
-
-        # calculate approved tutors
-        approved_tutors_count.append(len(list(filter(lambda tutor_course: tutor_course['course_id'] == course['id'], tutor_courses))))
-
-        # calculate available tutors
-        available_tutors_count.append(3) # todo (Ernest): requires updates to the schema
-
-        # calculate active tutees
-        tutees_count.append(len(list(filter(lambda tutorship: tutorship['course_id'] == course['id'], tutorships))))
-
-
-
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorship/count/'), params={'course_id': course['id']})
+        if res.status_code != 200:
+            message = str(res)
+            return render_template(
+                'confirmation.html',
+                message=message
+            )
+        course['tutee_count'] = res.json()
 
     return render_template(
         'admin-dashboard.html',
         user=user,
         courses=courses,
-        approved_tutors_count=approved_tutors_count,
-        available_tutors_count=available_tutors_count,
-        tutees_count=tutees_count
     )
