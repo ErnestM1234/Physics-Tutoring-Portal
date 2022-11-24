@@ -1,7 +1,7 @@
 import json
 from app import app, db
 from flask import jsonify, request
-from src.database.models import Tutorships
+from src.database.models import Tutorships, Users, Courses
 from marshmallow import Schema, fields
 
 
@@ -40,7 +40,10 @@ Parameters:
     - status        (str)?
     - student_id    (int)?
     - tutor_id      (int)?
-    - course_id      (int)?
+    - course_id     (int)?
+    - student       (int)?
+    - tutor         (int)?
+    - course        (int)?
 """
 class GetTutorshipsInputSchema(Schema):
     id = fields.Integer()
@@ -48,6 +51,9 @@ class GetTutorshipsInputSchema(Schema):
     student_id = fields.Integer()
     tutor_id = fields.Integer()
     course_id = fields.Integer()
+    student = fields.Boolean()
+    tutor = fields.Boolean()
+    course = fields.Boolean()
 get_tutorships_input_schema = GetTutorshipsInputSchema()
 
 @app.route('/api/tutorships/', methods=['GET'])
@@ -63,6 +69,9 @@ def get_tutorships():
         student_id = request.args.get('student_id')
         tutor_id = request.args.get('tutor_id')
         course_id = request.args.get('course_id')
+        student = request.args.get('student')
+        tutor = request.args.get('tutor')
+        course = request.args.get('course')
 
         filters = []
         if id:
@@ -77,12 +86,19 @@ def get_tutorships():
             filters.append(Tutorships.course_id == course_id)
 
         tutorships = Tutorships.query.filter(*filters).all()
-        return jsonify([tutorship.serialize() for tutorship in tutorships])
+
+        serialized_tutorships = [tutorship.serialize() for tutorship in tutorships]
+        for tutorship in serialized_tutorships:
+            if student:
+                tutorship['student'] = Users.query.filter(Users.id == tutorship['student_id']).first().serialize()
+            if tutor:
+                tutorship['tutor'] = Users.query.filter(Users.id == tutorship['tutor_id']).first().serialize()
+            if course:
+                tutorship['course'] = Courses.query.filter(Courses.id == tutorship['course_id']).first().serialize()
+        return jsonify(serialized_tutorships)
     except Exception as e:
         print(str(e))
         return {"error": str(e)}, 400
-
-
 
 
 
@@ -130,6 +146,8 @@ def get_tutorship_count():
     except Exception as e:
         print(str(e))
         return {"error": str(e)}, 400
+
+
 
 
 

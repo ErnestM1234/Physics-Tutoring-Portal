@@ -12,7 +12,7 @@ load_dotenv()
 def admin_tutorships():
     # param validation
     course_id = request.args.get('course_id')
-    tutorship_params = {"course_id": None}
+    tutorship_params = {"course_id": None, "student": True, "tutor": True, "course": True}
     if course_id is not None:
         if course_id.isnumeric() and int(float(course_id)) >= 0:
             tutorship_params['course_id'] = int(float(course_id))
@@ -40,28 +40,6 @@ def admin_tutorships():
         'confirmation.html',
         message=message
     )
-
-
-    for tutorship in tutorships:
-        # TODO: implement a faster way of doing this (python lists have O(1) look up time)
-        
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('student_id')})
-        student = res.json()
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('tutor_id')})
-        tutor = res.json()
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutorship.get('course_id')})
-        course = res.json()
-
-        if not student or not tutor or not course:
-            return render_template(
-                'confirmation.html',
-                message="There is a missing tutor or course associated with this user!"
-            )
-
-
-        tutorship['student'] = student
-        tutorship['tutor'] = tutor
-        tutorship['course'] = course
 
     return render_template(
         'admin-tutorships.html',
