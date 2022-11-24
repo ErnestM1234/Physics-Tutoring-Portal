@@ -20,31 +20,31 @@
             <a href="/admin/user/create-user">add user</a><br>
     
     
-            <div class ="list">
+            <div class="list">
                 <table class="table">
                     <thead>
-                    <tr>
-                        <th class="bg-white" scope="col">Id</th>
-                        <th class="bg-white" scope="col">Student Id</th>
-                        <th class="bg-white" scope="col">Student Name</th>
-                        <th class="bg-white" scope="col">Tutor Id</th>
-                        <th class="bg-white" scope="col">Tutor Name</th>
-                        <th class="bg-white" scope="col">Course</th>
-                        <th class="bg-white" scope="col">Course Name</th>
-                        <th class="bg-white" scope="col">Status</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Student Id</th>
+                            <th scope="col">Student Name</th>
+                            <th scope="col">Tutor Id</th>
+                            <th scope="col">Tutor Name</th>
+                            <th scope="col">Course</th>
+                            <th scope="col">Course Name</th>
+                            <th scope="col">Status</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {% for tutorship in tutorships %}
                             <tr>
-                                <td class="bg-white">{{tutorship.id}}</td>
-                                <td class="bg-white">{{tutorship.student_id}}</td>
-                                <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">{{tutorship.student.name}}</a></td>
-                                <td class="bg-white">{{tutorship.tutor_id}}</td>
-                                <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutorship.tutor_id | string}}">{{tutorship.tutor.name}}</a></td>
-                                <td class="bg-white">{{tutorship.course_id}}</td>
-                                <td class="bg-white">{{tutorship.course.name}}</td>
-                                <td class="bg-white">{{tutorship.status}}</td>
+                                <td>{{tutorship.id}}</td>
+                                <td>{{tutorship.student_id}}</td>
+                                <td><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">{{tutorship.student.name}}</a></td>
+                                <td>{{tutorship.tutor_id}}</td>
+                                <td><a href="{{'/admin/tutor-profile/?tutor_id=' + tutorship.tutor_id | string}}">{{tutorship.tutor.name}}</a></td>
+                                <td>{{tutorship.course_id}}</td>
+                                <td>{{tutorship.course.name}}</td>
+                                <td>{{tutorship.status}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -59,17 +59,17 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th class="bg-white" scope="col">Student Id</th>
-                        <th class="bg-white" scope="col">Student Name</th>
-                        <th class="bg-white" scope="col">Profile</th>
+                        <th scope="col">Student Id</th>
+                        <th scope="col">Student Name</th>
+                        <th scope="col">Profile</th>
                     </tr>
                     </thead>
                     <tbody>
                         {% for student in students %}
                             <tr>
-                                <td class="bg-white">{{student.id}}</td>
-                                <td class="bg-white">{{student.name}}</td>
-                                <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + student.id | string}}">PROFILE</a></td>
+                                <td>{{student.id}}</td>
+                                <td>{{student.name}}</td>
+                                <td><a href="{{'/admin/student-profile/?student_id=' + student.id | string}}">PROFILE</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

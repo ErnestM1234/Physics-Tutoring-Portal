@@ -4,27 +4,28 @@ body {
   font-family: "Arvo", sans-serif;
   background: black;
 }
-.admin-table {
-  background: white;
+table {
   border-radius: 15px;
-}
-.admin-table-header {
-  border-radius: 50px;
-}
-.admin-table-data {
+  background-color: white;
   width: 100%;
 }
 
-.admin-table-row {
+tr {
   scale: 1;
-  background-color: transparent;
+  border-radius: 50px;
+  background-color: transparent !important;
   transition-duration: 0.4s;
 }
 
-.admin-table-row:hover {
+tr:hover {
   transition-duration: 0.4s;
-  background-color: rgb(251, 228, 195);
-  scale: 1.1 !important;
+  background-color: rgb(251, 228, 195) !important;
+  scale: 1.05 !important;
+}
+
+
+td {
+  /* width: 100%; */
 }
 
 .admin-button {

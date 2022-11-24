@@ -46,25 +46,25 @@
             <table class="table">
                 <thead>
                   <tr>
-                    <th class="bg-white" scope="col">Tutorship Id</th>
-                    <th class="bg-white" scope="col">Tutor Id</th>
-                    <th class="bg-white" scope="col">Tutor Name</th>
-                    <th class="bg-white" scope="col">Course Id</th>
-                    <th class="bg-white" scope="col">Course Name</th>
-                    <th class="bg-white" scope="col">Status</th>
-                    <th class="bg-white" scope="col">Action</th>
+                    <th  scope="col">Tutorship Id</th>
+                    <th  scope="col">Tutor Id</th>
+                    <th  scope="col">Tutor Name</th>
+                    <th  scope="col">Course Id</th>
+                    <th  scope="col">Course Name</th>
+                    <th  scope="col">Status</th>
+                    <th  scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                     {% for tutorship in tutorships %}
                         <tr>
-                            <td class="bg-white">{{tutorship.id}}</td>
-                            <td class="bg-white">{{tutorship.tutor.id}}</td>
-                            <td class="bg-white">{{tutorship.tutor.name}}</td>
-                            <td class="bg-white">{{tutorship.course.id}}</td>
-                            <td class="bg-white">{{tutorship.course.name}}</td>
-                            <td class="bg-white">{{tutorship.status}}</td>
-                            <td class="bg-white"><button>Dissolve</button></td>
+                            <td >{{tutorship.id}}</td>
+                            <td >{{tutorship.tutor.id}}</td>
+                            <td >{{tutorship.tutor.name}}</td>
+                            <td >{{tutorship.course.id}}</td>
+                            <td >{{tutorship.course.name}}</td>
+                            <td >{{tutorship.status}}</td>
+                            <td ><button>Dissolve</button></td>
                         </tr>
                     {% endfor %}
                 </tbody>

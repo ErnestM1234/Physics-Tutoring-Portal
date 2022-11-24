@@ -21,17 +21,17 @@
                 <table class="table admin-table">
                     <thead>
                     <tr>
-                        <th class="bg-white" scope="col">Id</th>
-                        <th class="bg-white" scope="col">Name</th>
-                        <th class="bg-white" scope="col">Action</th>
+                        <th  scope="col">Id</th>
+                        <th  scope="col">Name</th>
+                        <th  scope="col">Action</th>
                     </tr>
                     </thead>
                     <tbody>
                         {% for admin in admins %}
                             <tr>
-                                <td class="bg-white">{{admin.id}}</td>
-                                <td class="bg-white">{{admin.name}}</td>
-                                <td class="bg-white"><button>Remove</button></td>
+                                <td >{{admin.id}}</td>
+                                <td >{{admin.name}}</td>
+                                <td ><button>Remove</button></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -46,17 +46,17 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th class="bg-white" scope="col">Id</th>
-                        <th class="bg-white" scope="col">Name</th>
-                        <th class="bg-white" scope="col">Action</th>
+                        <th  scope="col">Id</th>
+                        <th  scope="col">Name</th>
+                        <th  scope="col">Action</th>
                     </tr>
                     </thead>
                     <tbody>
                         {% for non_admin in non_admins %}
                             <tr>
-                                <td class="bg-white">{{non_admin.id}}</td>
-                                <td class="bg-white">{{non_admin.name}}</td>
-                                <td class="bg-white"><button>Make Admin</button></td>
+                                <td >{{non_admin.id}}</td>
+                                <td >{{non_admin.name}}</td>
+                                <td ><button>Make Admin</button></td>
                             </tr>
                         {% endfor %}
                     </tbody>
