@@ -63,7 +63,7 @@ def admin_tutors():
 
 
     student_count = []
-    # todo: make a specific endpoint for this
+    # TODO: make a specific endpoint for this
     for tutor_course in approved_tutor_courses:
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={"tutor_id": tutor_course['tutor_id']})
         tutorships = res.json()

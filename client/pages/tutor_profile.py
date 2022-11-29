@@ -55,9 +55,9 @@ def tutor_profile():
         tutor_course["student_count"] = student_count
 
 
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutor_course.get('course_id')})
-        course = res.json()
-        tutor_course['course'] = course
+        # res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutor_course.get('course_id')})
+        # course = res.json()
+        # tutor_course['course'] = course
 
 
 

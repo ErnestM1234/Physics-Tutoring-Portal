@@ -2,7 +2,7 @@ import json
 from app import app, db
 from flask import jsonify, request
 from marshmallow import Schema, fields
-from src.database.models import TutorCourses
+from src.database.models import TutorCourses, Courses, Users
 
 
 """ GET /api/tutor_course/
@@ -43,6 +43,8 @@ class GetTutorCoursesInputSchema(Schema):
     tutor_id = fields.Integer()
     course_id = fields.Integer()
     status = fields.String()
+    tutor = fields.Boolean()
+    course = fields.Boolean()
 get_tutor_courses_input_schema = GetTutorCoursesInputSchema()
 
 @app.route('/api/tutor_courses/', methods=['GET']) 
@@ -56,6 +58,8 @@ def get_tutor_courses():
         tutor_id = request.args.get('tutor_id')
         course_id = request.args.get('course_id')
         status = request.args.get('status')
+        tutor = request.args.get('tutor')
+        course = request.args.get('course')
 
         filters = []
         if tutor_id:
@@ -66,7 +70,13 @@ def get_tutor_courses():
             filters.append(TutorCourses.status == status)
 
         tutor_courses = TutorCourses.query.filter(*filters).all()
-        return jsonify([tutor_course.serialize() for tutor_course in tutor_courses ])
+        serialized_tutorships = [tutorship.serialize() for tutor_courses in tutor_courses]
+        for tutorship in serialized_tutorships:
+            if tutor:
+                tutorship['tutor'] = Users.query.filter(Users.id == tutorship['tutor_id']).first().serialize()
+            if course:
+                tutorship['course'] = Courses.query.filter(Courses.id == tutorship['course_id']).first().serialize()
+        return jsonify(serialized_tutorships)
    
     except Exception as e:
         print(str(e))

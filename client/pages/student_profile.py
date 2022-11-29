@@ -42,26 +42,8 @@ def student_profile():
         )
 
     # get tutorships
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': student_id})
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': student_id, "tutor": True, "course": True})
     tutorships = res.json()
-
-    for tutorship in tutorships:
-        # TODO: implement a faster way of doing this (python lists have O(1) look up time)
-        
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('tutor_id')})
-        tutor = res.json()
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutorship.get('course_id')})
-        course = res.json()
-
-        if not tutor or not course:
-            return render_template(
-                'confirmation.html',
-                message="There is a missing tutor or course associated with this user!"
-            )
-
-        tutorship['tutor'] = tutor
-        tutorship['course'] = course
-
 
 
     return render_template(
