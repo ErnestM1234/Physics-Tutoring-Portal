@@ -63,6 +63,7 @@
                     <td><h5>NetID</h5></td>
                     <td><h5>Email</h5></td>
                     <td><h5>Status</h5></td>
+                    <td><h5></h5></td>
                   </tr>
                 </thead>
                 <tbody id="userlist">
@@ -74,6 +75,8 @@
                     <td>{{tutorship.student.netid}}</td>
                     <td>{{tutorship.student.email}}</td>
                     <td>{{tutorship.get('status')}}</td>
+                    <td><a href="/tutor/student/accept?student_id={{tutorship.student.id}}&course_id={{tutorship.course.id}}">Accept tutorship</a></td>
+                    <td><a href="/tutor/student/reject?student_id={{tutorship.student.id}}&course_id={{tutorship.course.id}}">Reject tutorship</a></td>
                   </tr>
                 {% endfor %}
                 </tbody>

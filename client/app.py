@@ -292,6 +292,157 @@ def tutor_student_dissolve_confirm():
     )
 
 
+@app.route('/tutor/student/accept')
+def tutor_student_accept():
+
+    # TO CHANGE
+    course_id = request.args.get('course_id')
+    student_id = request.args.get('student_id')
+
+    # this is temporary, this will be given to us by CAS or smth
+    userId = 1
+    
+    # get student
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": student_id})
+    student = res.json()
+
+    # get course
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={"id": course_id})
+    course = res.json()
+
+    # get tutor
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId})
+    tutor = res.json()
+
+    return render_template(
+        'tutor-student-accept.html',
+        student=student,
+        course=course,
+        tutor=tutor
+    )
+
+@app.route('/tutor/student/accept/confirm')
+def tutor_student_accept_confirm():
+
+     # TO CHANGE
+    course_id = request.args.get('course_id')
+    student_id = request.args.get('student_id')
+
+    # this is temporary, this will be given to us by CAS or smth
+    userId = 1
+    
+    # get student
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": student_id})
+    student = res.json()
+
+
+     # get course
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={"id": course_id})
+    course = res.json()
+
+    # get tutor
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId})
+    tutor = res.json()
+
+    # get tutorship
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': student_id, 'tutor_id': userId, 'course_id': course_id})
+    tutorship = res.json()
+    
+
+    if len(tutorship) == 0:
+        tutorship = None
+    else:
+        tutorship=tutorship[0]
+        requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/update'), data=json.dumps({'id': tutorship['id'], 'status': 'ACCEPTED'}))
+
+    return render_template(
+        'tutor-student-accept-confirm.html',
+        student=student,
+        course=course,
+        tutor=tutor
+    )
+
+
+
+@app.route('/tutor/student/reject')
+def tutor_student_reject():
+
+    # TO CHANGE
+    course_id = request.args.get('course_id')
+    student_id = request.args.get('student_id')
+
+    # this is temporary, this will be given to us by CAS or smth
+    userId = 1
+    
+    # get student
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": student_id})
+    student = res.json()
+
+    # get course
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={"id": course_id})
+    course = res.json()
+
+    # get tutor
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId})
+    tutor = res.json()
+
+    return render_template(
+        'tutor-student-reject.html',
+        student=student,
+        course=course,
+        tutor=tutor
+    )
+
+@app.route('/tutor/student/reject/confirm')
+def tutor_student_reject_confirm():
+
+     # TO CHANGE
+    course_id = request.args.get('course_id')
+    student_id = request.args.get('student_id')
+
+    # this is temporary, this will be given to us by CAS or smth
+    userId = 1
+    
+    # get student
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": student_id})
+    student = res.json()
+
+
+     # get course
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={"id": course_id})
+    course = res.json()
+
+    # get tutor
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId})
+    tutor = res.json()
+
+    # get tutorship
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': student_id, 'tutor_id': userId, 'course_id': course_id})
+    tutorship = res.json()
+    
+
+    if len(tutorship) == 0:
+        tutorship = None
+    else:
+        tutorship=tutorship[0]
+        requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/update'), data=json.dumps({'id': tutorship['id'], 'status': 'REJECTED'}))
+
+    return render_template(
+        'tutor-student-reject-confirm.html',
+        student=student,
+        course=course,
+        tutor=tutor
+    )
+
+
+
+
+
+
+
+
+
+
 
 
 
