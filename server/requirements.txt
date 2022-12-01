@@ -106,3 +106,7 @@ webencodings==0.5.1
 Werkzeug==2.0.3
 widgetsnbextension==3.5.1
 zipp==3.7.0
+pyjwt
+python-jose
+flask-cors
+authlib>=1.0

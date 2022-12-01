@@ -5,6 +5,41 @@ body {
   background: black;
 }
 
+
+.cta-button {
+  margin-left:1vw;
+  margin-top:1vh;
+  border-radius: 25px;
+  width: 90%;
+  left: 5%;
+  padding-top: 10px;
+  text-align: center;
+  background-image: linear-gradient(45deg, rgb(249, 214, 162), rgb(250, 175, 151));
+  transition: 0.3s;
+  scale: 1;
+  filter:opacity(1);
+  text-align: left;
+}
+
+.cta-button:hover {
+  filter:opacity(0.5);
+  scale: 1.1;
+  transition: 0.3s;
+}
+
+.landing-wrapper {
+  margin-left: 21vw;
+  margin-right: 21vw;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+}
+
+.landing-body {
+  width: 100vw;
+  height: 100vh;
+}
+
+
 .non-sidebar {
   position: absolute;
   left: 325px;
