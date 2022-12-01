@@ -1,8 +1,9 @@
-from app import app, db
+from app import app, db, context
 from flask import jsonify, request
 from src.database.models import Users
 from marshmallow import Schema, fields
 import json
+from src.utils.auth import requires_auth
 
 
 
@@ -34,6 +35,35 @@ def get_user():
 
 
 
+""" GET /api/user-auth-id/
+Parameters:
+    - auth_id (string)!
+"""
+class GetUserAuthIdInputSchema(Schema):
+    auth_id = fields.String(required=True)
+get_user_auth_id_input_schema = GetUserAuthIdInputSchema()
+
+@app.route('/api/user-auth-id/', methods=['POST'])
+@requires_auth
+def get_user_auth():
+    data = json.loads(request.data)
+    errors = get_user_auth_id_input_schema.validate(data)
+    if errors:
+        print(str(errors))
+        return {"message": str(errors) }, 400
+    
+    try:
+        auth_id = data.get('auth_id')
+        user = Users.query.filter(Users.auth_id == auth_id).first()
+        if user is None:
+            return {"message": "User could not be found."}, 200
+        return jsonify(user.serialize())
+    except Exception as e:
+        print(str(e))
+        return {"error": str(e)}, 400
+
+
+
 
 """ GET /api/users/
 Parameters:
@@ -54,7 +84,9 @@ class GetUsersInputSchema(Schema):
 get_users_input_schema = GetUsersInputSchema()
 
 @app.route('/api/users/', methods=['GET'])
+@requires_auth
 def get_users():
+    print(str(context['auth_id']))
     errors = get_users_input_schema.validate(request.args)
     if errors:
         print(str(errors))
@@ -115,7 +147,9 @@ class CreateUserInputSchema(Schema):
 create_user_input_schema = CreateUserInputSchema()
 
 @app.route('/api/user/create/', methods=['POST'])
+@requires_auth
 def create_user():
+    auth_id = context['auth_id']
     data = json.loads(request.data)
     errors = create_user_input_schema.validate(data)
     if errors:
@@ -123,7 +157,7 @@ def create_user():
         return {"message": str(errors) }, 400
     
     try:
-        user = Users(data.get('netid'), data.get('name'), data.get('email'), data.get('bio'), data.get('is_student'), data.get('is_tutor'), data.get('is_admin'))
+        user = Users(auth_id, data.get('netid'), data.get('name'), data.get('email'), data.get('bio'), data.get('is_student'), data.get('is_tutor'), data.get('is_admin'))
         db.session.add(user)
         db.session.commit()
         return {"message": "success" }, 200
@@ -157,6 +191,7 @@ class UpdateUserInputSchema(Schema):
 update_user_input_schema = UpdateUserInputSchema()
 
 @app.route('/api/user/update/', methods=['POST'])
+@requires_auth
 def  update_user():
     data = json.loads(request.data)
     errors = update_user_input_schema.validate(data)
@@ -202,6 +237,7 @@ class DeleteUserInputSchema(Schema):
 delete_user_input_schema = DeleteUserInputSchema()
 
 @app.route('/api/user/delete', methods=['POST'])
+@requires_auth
 def delete_user():
     data = json.loads(request.data)
     errors = delete_user_input_schema.validate(data)
