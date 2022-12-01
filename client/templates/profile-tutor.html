@@ -15,7 +15,7 @@
 
             <br><br><br>
             
-            <h3>STUDENT PROFILE</h3>
+            <h3>TUTOR PROFILE</h3>
 
             <ul>
                 <li>
@@ -53,6 +53,8 @@
                     <th class="bg-white" scope="col">Course Id</th>
                     <th class="bg-white" scope="col">Course Name</th>
                     <th class="bg-white" scope="col">Student Count</th>
+                    <th class="bg-white" scope="col">Has Taken Course?</th>
+                    <th class="bg-white" scope="col">Experience</th>
                     <th class="bg-white" scope="col">Status</th>
                     <th class="bg-white" scope="col">Action</th>
                   </tr>
@@ -64,6 +66,8 @@
                             <td class="bg-white">{{tutor_course.course_id}}</td>
                             <td class="bg-white">{{tutor_course.course.name}}</td>
                             <td class="bg-white">{{tutor_course.student_count}}</td>
+                            <td class="bg-white">{{tutor_course.taken_course}}</td>
+                            <td class="bg-white">{{tutor_course.experience}}</td>
                             <td class="bg-white">{{tutor_course.status}}</td>
                             <td class="bg-white"><button>Dissolve</button></td>
                         </tr>

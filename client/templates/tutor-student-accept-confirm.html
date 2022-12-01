@@ -1,41 +1,19 @@
 <!DOCTYPE html>
-<html>
     <head>
-      <title>Edit Bio</title>
-      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
-      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
-
-      <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
     </head>
 
     <body class="princeton-gradient">
-
         <div class="non-sidebar">
-            <br>
-            <h1>Tutor Bio</h1>
+            <h1></b>Success</h1>
 
-            <br>
+            <br><br><br>
 
-
-            <p> {{tutor.bio}}</p>
-
-            
-              <br>
-            
-            <form action = "/editbio/confirm" method = "POST">
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Edit bio</label>
-                    <textarea class="form-control" name="bio" rows="5"></textarea>
-                    <input type = "submit" > 
-                    <input type = "hidden" name = "tutor_id" value = "{{tutor.id}}">
-                </div>
-            </form>
-
-  
-    
+            Accepted tutorship for {{course.get('dept_course')}} student {{student.get('name')}}.
         </div>
 
         &nbsp;
+
         <div class="wrapper">
             <!-- Sidebar -->
             <nav id="sidebar">
@@ -54,7 +32,7 @@
                   <a href="/editbio"><button type="button" class="btn"><h5>Edit Bio</h5></button></a>
               </div>
 
-              <div class="sidebar-button" style="position:absolute;top:435px;">
+              <div class="sidebar-button" style="position:absolute;top:435px">
                 <a href="/tutorapplication"><button type="button" class="btn"><h5>Apply to Tutor</h5></button></a>
               </div>
 
@@ -63,10 +41,6 @@
           </nav>
         
         </div>
-
-
-        
-
 
     </body>
 
