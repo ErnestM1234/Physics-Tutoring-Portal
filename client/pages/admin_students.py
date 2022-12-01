@@ -2,7 +2,8 @@ import os
 from dotenv import load_dotenv
 from app import app
 import requests
-from flask import redirect, render_template
+from flask import render_template
+from pages.shared.get_user import *
 
 load_dotenv()
 
@@ -10,18 +11,18 @@ load_dotenv()
 @app.route('/admin/students/')
 def admin_students():
 
-    # this is temporary, this will be given to us by CAS or smth
-    userId = 1
-    
-    # get admin
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId})
-    user = res.json()
     # verify is admin
-    if "id" not in user.keys() or user['is_admin'] == False:
-        return redirect('/')
+    user = get_user(requests)
+    if user is None or "id" not in user.keys() or user['is_admin'] == False:
+        return render_template(
+            'confirmation.html',
+            message='you do not have permission to access this page'
+        )
+    # get headers
+    headers = get_header()
         
     # get tutorships
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'))
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), headers=headers)
     tutorships = res.json()
 
     if res.status_code != 200:
@@ -34,11 +35,11 @@ def admin_students():
     for tutorship in tutorships:
         # TODO: implement a faster way of doing this (python lists have O(1) look up time)
         
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('student_id')})
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('student_id')}, headers=headers)
         student = res.json()
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('tutor_id')})
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('tutor_id')}, headers=headers)
         tutor = res.json()
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutorship.get('course_id')})
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutorship.get('course_id')}, headers=headers)
         course = res.json()
 
         if not student or 'id' not in student.keys() or not tutor  or 'id' not in tutor.keys() or not course  or 'id' not in course.keys():
@@ -54,7 +55,7 @@ def admin_students():
 
     
     # get tutorships
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'is_student': True})
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'is_student': True}, headers=headers)
     students = res.json()  
 
 
