@@ -3,11 +3,22 @@ from dotenv import load_dotenv
 from app import app
 import requests
 from flask import redirect, render_template, request
+from pages.shared.get_user import *
 
 load_dotenv()
 
 @app.route('/admin/tutor-profile/')
 def tutor_profile():
+    # verify is admin
+    user = get_user(requests)
+    if user is None or "id" not in user.keys() or user['is_admin'] == False:
+        return render_template(
+            'confirmation.html',
+            message='you do not have permission to access this page'
+        )
+    # get headers
+    headers = get_header()
+
     # param validation
     tutor_id = request.args.get('tutor_id')
     tutorship_params = {"id": None}
@@ -24,7 +35,7 @@ def tutor_profile():
     userId = 1
     
     # get admin
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId})
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId}, headers=headers)
     user = res.json()
     # verify is admin
     if "id" not in user.keys() or user['is_admin'] == False:
@@ -32,7 +43,7 @@ def tutor_profile():
 
 
     # get tutor
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": tutor_id})
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": tutor_id}, headers=headers)
     tutor = res.json()
     # check if they are a tutor
     if "id" not in tutor.keys() or not tutor['is_tutor']:
@@ -42,20 +53,20 @@ def tutor_profile():
         )
 
     # get tutor-courses
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'tutor_id': tutor_id})
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'tutor_id': tutor_id}, headers=headers)
     tutor_courses = res.json()
 
     # get tutorships
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'tutor_id': tutor_id})
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'tutor_id': tutor_id}, headers=headers)
     tutorships = res.json()
 
     for tutor_course in tutor_courses:
         # get tutorship count (number of students that the tutor is tutoring) by class
-        student_count = len(list(filter(lambda tutorship: tutorship['status'] == 'ACCEPTED' and tutorship['course_id'] == tutor_course['course_id'] and tutor_course['status'] == "ACCEPTED", tutorships)))
+        student_count = len(list(filter(lambda tutorship: tutorship['status'] == 'ACCEPTED' and tutorship['course_id'] == tutor_course['course_id'] and tutor_course['status'] == "ACCEPTED", tutorships)), headers=headers)
         tutor_course["student_count"] = student_count
 
 
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutor_course.get('course_id')})
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutor_course.get('course_id')}, headers=headers)
         course = res.json()
         tutor_course['course'] = course
 
