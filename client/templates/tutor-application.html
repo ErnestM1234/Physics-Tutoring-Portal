@@ -16,25 +16,26 @@
 
             <br>
 
-            <form>
+            <form action = "/tutorapplication/confirm" method = "POST">
               <div class="form-group">
                 <label for="exampleName">Full Name:</label>
-                <input type="name" class="form-control" id="exampleName" placeholder="Enter Full Name">
+                <input type="name" name="name" class="form-control" id="exampleName" placeholder="Enter Full Name">
+                <input type = "hidden" name = "tutor_id" value = "{{tutor.id}}">
               </div>
               <br>
               <div class="form-group">
                 <label for="exampleInputEmail1">Email address:</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
               </div>
               <br>
               <div class="form-group">
-                <label for="examplePUID">PUID:</label>
-                <input type="email" class="form-control" id="examplePUID" placeholder="Enter PUID">
+                <label for="examplenetid">Net ID:</label>
+                <input type="email" name="netid" class="form-control" id="examplenetid" placeholder="Enter PUID">
               </div>
               <br>
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Choose the class you would like to become a tutor for:</label>
-                <select class="form-control" id="exampleFormControlSelect1">
+                <select class="form-control" name="course_name" id="exampleFormControlSelect1">
                   {% for course in courses: %}
                     <option>{{course.name}}</option>
                   {% endfor %}
@@ -44,15 +45,16 @@
               <br>
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Have you taken the course?</label>
-                <select class="form-control" id="exampleFormControlSelect1">
+                <select class="form-control" name ="taken_course" id="exampleFormControlSelect1">
                   <option>Yes</option>
                   <option>Currently Enrolled</option>
                   <option>No</option>
                 </select>
               </div>
+              <br>
               <div class="form-group">
                 <label for="exampleFormControlTextarea1">Brief description of experience with the subject:</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea name="experience" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
               </div>
               <br>
               <!-- <a href="#" class="stretched-link">Tutoring Policies</a> -->
@@ -63,6 +65,10 @@
               <br>
               <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+
+
+
+
 
 
 

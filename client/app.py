@@ -140,9 +140,16 @@ def tutorApplication():
     
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'))
     courses = res.json()
+
+    tutor_id = 1
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutor_id})
+    tutor = res.json()
+
     return render_template(
-        'tutor-application.html', courses=courses
+        'tutor-application.html', courses=courses, tutor=tutor
     )
+
+
 
 @app.route('/editbio/confirm', methods=['POST'])
 def edit_bio_confirm():
@@ -169,6 +176,39 @@ def edit_bio_confirm():
         message=message
     )
 
+
+
+@app.route('/tutorapplication/confirm', methods=['POST'])
+def tutor_application_confirm():
+
+    tutor_id = request.form.get('tutor_id')
+    name = request.form.get('name')
+    email = request.form.get('email')
+    netid = request.form.get('netid')
+    course_name = request.form.get('course_name')
+    taken_course = request.form.get('taken_course')
+    experience = request.form.get('experience')
+
+   
+    data = {
+        'id': tutor_id,
+        'name': name,
+        'email': email, 
+        'netid': netid, 
+        'course_name': course_name, 
+        'taken_course': taken_course, 
+        'experience': experience
+    }
+
+    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps(data))
+   
+    message = str(res)
+
+
+    return render_template(
+        'confirmationtutor.html',
+        message=message
+    )
 
 # pylint: disable-next=unused-import
 # pylint: disable-next=wrong-import-position
