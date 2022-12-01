@@ -5,11 +5,13 @@
 
     <body class="princeton-gradient">
         <div class="non-sidebar">
-            <h1></b>Success</h1>
+            <h1></b>Request tutors</h1>
 
             <br><br><br>
 
-            Canceled tutoring request for {{course.get('dept_course')}} tutor {{tutor.get('name')}}.
+            Request all available tutors for {{course.get('dept_course')}}?
+            <br>
+            <a href="/student/tutors/request/confirm?course_id={{course.get('id')}}"><button>Confirm</button></a>
         </div>
 
         &nbsp;

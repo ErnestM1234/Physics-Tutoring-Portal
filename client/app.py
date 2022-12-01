@@ -193,6 +193,8 @@ from pages.student_tutor_dissolve import *
 from pages.student_tutor_request_confirm import *
 from pages.student_tutor_cancel_confirm import *
 from pages.student_tutor_dissolve_confirm import *
+from pages.student_tutors_request import *
+from pages.student_tutors_request_confirm import *
 
 if __name__ == '__main__':
     app.run()

@@ -6,54 +6,30 @@
     <body class="princeton-gradient">
         <div class="non-sidebar">
             <h1>Courses</h1>
+            <br>
+
+            <h2>Fall 2022</h2>
 
             <br>
 
-            <table id="userlisttable">
-                <thead id="userlistheader">
-                  <tr>
-                    <td><h5>Department & number</h5></td>
-                    <td><h5>Title</h5></td>
-                  </tr>
-                </thead>
-                <tbody id="userlist">
+              <div class="list-group list-box-frame"">
+                <a class="list-group-item disabled list-box list-box-header">
+                  <div class="two-item">Department & number</div>
+                  <div class="two-item">Title</div>
+                </a>
 
                 {% for course in courses: %}
-                <tr>
-                <td><a href="/student/course?id={{course.get('id')}}">{{course.get('dept_course')}}</a></td>
-                <td>{{course.get('name')}}</td>
-                </tr>
+                <a href="/student/course?id={{course.get('id')}}" class="list-group-item list-group-item-action list-box">
+                  <div class="two-item">{{course.get('dept_course')}}</div>
+                  <div class="two-item">{{course.get('name')}}</div>
+                </a>
                 {% endfor %}
-
-                </tbody>
-              </table>
+              </div>
         </div>
 
         &nbsp;
 
-        <div class="wrapper">
-            <!-- Sidebar -->
-            <nav id="sidebar">
-
-              <img src="{{url_for('static', filename='p_logo_v1.png')}}" width="210px" style="position:absolute;left:25px;top:40px;">
-
-                <div class="sidebar-button" style="position:absolute;top:210px;">
-                  <a href="/student/dashboard"><button type="button" class="btn"><h5>Dashboard</h5></button></a>
-                </div>
-
-                <div class="sidebar-button" style="position:absolute;top:285px;">
-                    <a href="/student/courses"><button type="button" class="btn"><h5>Find a tutor</h5></button></a>
-                </div>
-
-                <div class="sidebar-button" style="position:absolute;top:360px;">
-                  <a href="/tutordashboard"><button type="button" class="btn"><h5>Become a tutor</h5></button></a>
-                </div>
-
-                <img src="{{url_for('static', filename='PU-standard.png')}}" width="180px" style="position:fixed;bottom:10px;left:25px;">
-
-            </nav>
-        
-        </div>
+        {% include "sidebar.html" %}
 
     </body>
 
