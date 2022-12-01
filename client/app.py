@@ -135,6 +135,19 @@ def editBio():
         'editbio.html', tutor=tutor
     )
 
+@app.route('/tutorapplication')
+def tutorApplication():
+    # request list of users
+
+    # res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'))
+    # data = res.json()
+    # print(data)
+
+    # return 'hi'
+
+    return render_template(
+        'tutor-application.html'
+    )
 
 
 @app.route('/editbio/confirm', methods=['POST'])
