@@ -15,7 +15,7 @@ class GetTutorshipInputSchema(Schema):
 get_tutorship_input_schema = GetTutorshipInputSchema()
 
 @app.route('/api/tutorship/', methods=['GET'])
-@requires_auth()
+@requires_auth
 def get_tutorship():
     errors = get_tutorship_input_schema.validate(request.args)
     if errors:
@@ -53,7 +53,7 @@ class GetTutorshipsInputSchema(Schema):
 get_tutorships_input_schema = GetTutorshipsInputSchema()
 
 @app.route('/api/tutorships/', methods=['GET'])
-@requires_auth()
+@requires_auth
 def get_tutorships():
     errors = get_tutorships_input_schema.validate(request.args)
     if errors:
@@ -103,7 +103,7 @@ class CreateTutorshipsInputSchema(Schema):
 create_tutorships_input_schema = CreateTutorshipsInputSchema()
 
 @app.route('/api/tutorship/create/', methods=['POST'])
-@requires_auth()
+@requires_auth
 def create_tutorship():
     data = json.loads(request.data)
     errors = create_tutorships_input_schema.validate(data)
@@ -146,7 +146,7 @@ class UpdateTutorshipsInputSchema(Schema):
 update_tutorships_input_schema = UpdateTutorshipsInputSchema()
 
 @app.route('/api/tutorship/update', methods=['POST'])
-@requires_auth()
+@requires_auth
 def  update_tutorship():
     data = json.loads(request.data)
     errors = update_tutorships_input_schema.validate(data)
@@ -189,7 +189,7 @@ class DeleteTutorshipInputSchema(Schema):
 delete_tutorship_input_schema = DeleteTutorshipInputSchema()
 
 @app.route('/api/tutorship/delete/', methods=['POST'])
-@requires_auth()
+@requires_auth
 def delete_tutorship():
     data = json.loads(request.data)
     errors = delete_tutorship_input_schema.validate(data)

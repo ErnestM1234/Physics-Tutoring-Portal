@@ -1,6 +1,5 @@
 
 import json
-from six.moves.urllib.request import urlopen
 from functools import wraps
 
 from flask import Flask, request, jsonify, _request_ctx_stack

@@ -15,7 +15,7 @@ class GetCourseInputSchema(Schema):
 get_course_input_schema = GetCourseInputSchema()
 
 @app.route('/api/course/', methods=['GET'])
-@requires_auth()
+@requires_auth
 def read_course():
     errors = get_course_input_schema.validate(request.args)
     if errors:
@@ -50,7 +50,7 @@ class GetCoursesInputSchema(Schema):
 get_courses_input_schema = GetCoursesInputSchema()
 
 @app.route('/api/courses/', methods=['GET'])
-@requires_auth()
+@requires_auth
 def get_courses():
     errors = get_courses_input_schema.validate(request.args)
     if errors:
@@ -90,7 +90,7 @@ class CreateCourseInputSchema(Schema):
 create_course_input_schema = CreateCourseInputSchema()
 
 @app.route('/api/course/create/', methods=['POST'])
-@requires_auth()
+@requires_auth
 def create_course():
     data = json.loads(request.data)
     errors = create_course_input_schema.validate(data)
@@ -123,7 +123,7 @@ class UpdateCourseInputSchema(Schema):
 update_course_input_schema = UpdateCourseInputSchema()
 
 @app.route('/api/course/update', methods=['POST'])
-@requires_auth()
+@requires_auth
 def  update_course():
     data = json.loads(request.data)
     errors = update_course_input_schema.validate(data)
@@ -161,7 +161,7 @@ class DeleteCourseInputSchema(Schema):
 delete_course_input_schema = DeleteCourseInputSchema()
 
 @app.route('/api/course/delete/', methods=['POST'])
-@requires_auth()
+@requires_auth
 def delete_course():
     data = json.loads(request.data)
     errors = delete_course_input_schema.validate(data)
