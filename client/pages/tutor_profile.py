@@ -46,10 +46,10 @@ def tutor_profile():
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": tutor_id}, headers=headers)
     tutor = res.json()
     # check if they are a tutor
-    if "id" not in tutor.keys() or not tutor['is_tutor']:
+    if res.status_code != 200:
         return render_template(
             'confirmation.html',
-            message="This ID does not belong to a 'Tutor'"
+            message="User not found"
         )
 
     # get tutor-courses
@@ -62,7 +62,7 @@ def tutor_profile():
 
     for tutor_course in tutor_courses:
         # get tutorship count (number of students that the tutor is tutoring) by class
-        student_count = len(list(filter(lambda tutorship: tutorship['status'] == 'ACCEPTED' and tutorship['course_id'] == tutor_course['course_id'] and tutor_course['status'] == "ACCEPTED", tutorships)), headers=headers)
+        student_count = len(list(filter(lambda tutorship: tutorship['status'] == 'ACCEPTED' and tutorship['course_id'] == tutor_course['course_id'] and tutor_course['status'] == "ACCEPTED", tutorships)))
         tutor_course["student_count"] = student_count
 
 

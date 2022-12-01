@@ -18,8 +18,10 @@
             {% else %}
                 {% if tutorship.get('status')=='REQUESTED' %}
                 <button><a href="/student/tutor/cancel?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Cancel tutorship request</a></button>
-                {% else %}
+                {% elif tutorship.get('status')=='ACCEPTED' %}
                 <button><a href="/student/tutor/dissolve?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Dissolve tutorship</a></button>
+                {% else %}
+                <button><a href="/student/tutor/request?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Request tutor</a></button>
                 {% endif %}
             {% endif %}
 

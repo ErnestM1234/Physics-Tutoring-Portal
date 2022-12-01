@@ -81,14 +81,18 @@ def get_tutor_courses():
 
 """ POST /api/tutor_course/create/
 Parameters:
-    - tutor_id  (int)!
-    - course_id  (int)!
-    - status    (string)!
+    - tutor_id      (int)!
+    - course_id     (int)!
+    - status        (string)!
+    - taken_course  (string)?
+    - experience    (string)?
 """
 class CreateTutorCourseInputSchema(Schema):
     tutor_id = fields.Integer(required=True)
     course_id = fields.Integer(required=True)
     status = fields.String(required=True)
+    taken_course = fields.String()
+    experience = fields.String()
 create_tutor_course_input_schema = CreateTutorCourseInputSchema()
 
 @app.route('/api/tutor_course/create/', methods=['POST'])
@@ -101,7 +105,22 @@ def create_tutor_course():
         return {"message": str(errors) }, 400
     
     try:
-        tutor_course = TutorCourses(data.get('tutor_id'), data.get('course_id'), data.get('status'))
+        if data.get('taken_course') is not None and data.get('experience'):
+            tutor_course = TutorCourses(
+                data.get('tutor_id'),
+                data.get('course_id'),
+                data.get('status'),
+                data.get('taken_course'),
+                data.get('experience'),
+            )
+        else:
+            tutor_course = TutorCourses(
+                data.get('tutor_id'),
+                data.get('course_id'),
+                data.get('status'),
+                '',
+                ''
+            )
         db.session.add(tutor_course)
         db.session.commit()
         return {"message": "success" }, 200
@@ -118,6 +137,8 @@ Parameters:
     - tutor_id  (int)?
     - course_id (int)?
     - status    (string)?
+    - taken_course  (string)?
+    - experience    (string)?
 """
 class UpdateTutorCourseInputSchema(Schema):
     id = fields.Integer(required=True)
@@ -147,6 +168,10 @@ def  update_tutor_course():
             tutor_course.course_id = data.get('course_id')
         if data.get('status') not in [None, '']:
             tutor_course.status = data.get('status')
+        if data.get('taken_course') not in [None, '']:
+            tutor_course.taken_course = data.get('taken_course')
+        if data.get('experience') not in [None, '']:
+            tutor_course.experience = data.get('experience')
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:

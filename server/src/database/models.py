@@ -130,14 +130,18 @@ class TutorCourses(db.Model):
     tutor_id = db.Column('tutor_id', db.Integer, db.ForeignKey('users.id'), nullable=False)
     course_id = db.Column('course_id', db.Integer, db.ForeignKey('courses.id'), nullable=False)
     status = db.Column('status',db.String(100),nullable=False)
+    taken_course = db.Column('taken_course',db.String(100),nullable=True)
+    experience = db.Column('experience',db.String(),nullable=True)
 
     # todo (Ernest or Elise): add statuses and validation
     VALID_STATUS = ['REQUESTED', 'ACCEPTED', 'DENIED', 'NONE']
 
-    def __init__(self, tutor_id, course_id, status):
+    def __init__(self, tutor_id, course_id, status, taken_course, experience):
         self.tutor_id = tutor_id
         self.course_id = course_id
         self.status = status
+        self.taken_course = taken_course
+        self.experience = experience
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
@@ -149,5 +153,7 @@ class TutorCourses(db.Model):
             'id': self.id,
             'tutor_id': self.tutor_id,
             'course_id': self.course_id,
-            'status': self.status
+            'status': self.status,
+            'taken_course': self.taken_course,
+            'experience': self.experience
         }
