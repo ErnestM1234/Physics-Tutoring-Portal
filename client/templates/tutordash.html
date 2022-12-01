@@ -27,6 +27,7 @@
                     <td><h5>NetID</h5></td>
                     <td><h5>Email</h5></td>
                     <td><h5>Status</h5></td>
+                    <td><h5></h5></td>
                   </tr>
                 </thead>
                 <tbody id="userlist">
@@ -38,6 +39,7 @@
                     <td>{{tutorship.student.netid}}</td>
                     <td>{{tutorship.student.email}}</td>
                     <td>{{tutorship.status}}</td>
+                    <td><a href="/tutor/student/dissolve?student_id={{tutorship.student.id}}&course_id={{tutorship.course.id}}">Dissolve tutorship</a></td>
                   </tr>
                 {% endfor %}
                 </tbody>

@@ -216,6 +216,90 @@ def tutor_application_confirm():
         message=message
     )
 
+
+@app.route('/tutor/student/dissolve')
+def tutor_student_dissolve():
+
+    # TO CHANGE
+    course_id = request.args.get('course_id')
+    student_id = request.args.get('student_id')
+
+    # this is temporary, this will be given to us by CAS or smth
+    userId = 1
+    
+    # get student
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": student_id})
+    student = res.json()
+
+    # get course
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={"id": course_id})
+    course = res.json()
+
+    # get tutor
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId})
+    tutor = res.json()
+
+    return render_template(
+        'tutor-student-dissolve.html',
+        student=student,
+        course=course,
+        tutor=tutor
+    )
+
+@app.route('/tutor/student/dissolve/confirm')
+def tutor_student_dissolve_confirm():
+
+     # TO CHANGE
+    course_id = request.args.get('course_id')
+    student_id = request.args.get('student_id')
+
+    # this is temporary, this will be given to us by CAS or smth
+    userId = 1
+    
+    # get student
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": student_id})
+    student = res.json()
+
+
+     # get course
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={"id": course_id})
+    course = res.json()
+
+    # get tutor
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId})
+    tutor = res.json()
+
+    # get tutorship
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': student_id, 'tutor_id': userId, 'course_id': course_id})
+    tutorship = res.json()
+    
+    print("len")
+    print(len(tutorship))
+    print("tutorship")
+    print(tutorship)
+
+    if len(tutorship) == 0:
+        tutorship = None
+    else:
+        tutorship=tutorship[0]
+        requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/delete/'), data=json.dumps({'id': tutorship['id']}))
+
+    return render_template(
+        'tutor-student-dissolve-confirm.html',
+        student=student,
+        course=course,
+        tutor=tutor
+    )
+
+
+
+
+
+
+
+
+
+
 # pylint: disable-next=unused-import
 # pylint: disable-next=wrong-import-position
 # pylint: disable-next=unused-wildcard-import
