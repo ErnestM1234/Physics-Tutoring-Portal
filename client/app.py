@@ -425,7 +425,7 @@ def tutor_student_reject_confirm():
         tutorship = None
     else:
         tutorship=tutorship[0]
-        requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/update'), data=json.dumps({'id': tutorship['id'], 'status': 'BLOCKED'}))
+        requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/update'), data=json.dumps({'id': tutorship['id'], 'status': 'REJECTED'}))
 
     return render_template(
         'tutor-student-reject-confirm.html',
