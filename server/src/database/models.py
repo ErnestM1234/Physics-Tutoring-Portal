@@ -93,7 +93,7 @@ class Tutorships(db.Model):
     course_id = db.Column('course_id', db.Integer, db.ForeignKey('courses.id'))
 
 
-    VALID_STATUS = ['REQUESTED', 'ACCEPTED', 'BLOCKED', 'NONE']
+    VALID_STATUS = ['REQUESTED', 'ACCEPTED', 'REJECTED', 'NONE']
 
 
     def __repr__(self):

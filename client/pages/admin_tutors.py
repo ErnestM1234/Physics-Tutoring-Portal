@@ -3,13 +3,24 @@ import os
 from dotenv import load_dotenv
 from app import app
 import requests
-from flask import redirect, render_template, request
+from flask import render_template, request, redirect
+from pages.shared.get_user import *
 
 load_dotenv()
 
 @app.route('/admin/tutors/update_status', methods=['POST'])
 def set_tutor_course_status():
-    # TODO: this is not secure at all! anyone can invoke this method!
+    # verify is admin
+    user = get_user(requests)
+    if "id" not in user.keys() or user['is_admin'] == False:
+        return render_template(
+            'confirmation.html',
+            message='you do not have permission to access this page'
+        )
+    # get headers
+    headers = get_header()
+
+
     tutor_course_id = request.form.get('tutor_course_id')
     status = request.form.get('status')
     # param validation
@@ -18,7 +29,7 @@ def set_tutor_course_status():
     else:
         return redirect('/')
 
-    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/update'), data=json.dumps({"id": str(validated_tutor_course_id), "status": status}))
+    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/update'), data=json.dumps({"id": str(validated_tutor_course_id), "status": status}), headers=headers)
 
     return str(res)
 
@@ -26,7 +37,8 @@ def set_tutor_course_status():
 
 def get_name(id):
     # this is very slow!! replace this!!
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": id})
+    headers = get_header()
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": id}, headers=headers)
     user = res.json()
     # verify is admin
     if 'id' not in user.keys():
@@ -35,6 +47,16 @@ def get_name(id):
 
 @app.route('/admin/tutors/')
 def admin_tutors():
+    # verify is admin
+    user = get_user(requests)
+    if "id" not in user.keys() or user['is_admin'] == False:
+        return render_template(
+            'confirmation.html',
+            message='you do not have permission to access this page'
+        )
+    # get headers
+    headers = get_header()
+
     # param validation
     course_id = request.args.get('course_id')
     tutor_course_params = {"course_id": None}
@@ -43,20 +65,10 @@ def admin_tutors():
             tutor_course_params['course_id'] = int(float(course_id))
             course_id = int(float(course_id))
         else:
-            return redirect('/')
-
-    # this is temporary, this will be given to us by CAS or smth
-    userId = 1
-    
-    # get admin
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId})
-    user = res.json()
-    # verify is admin
-    if 'id' not in user.keys() or user['is_admin'] == False:
-        return redirect('/')
+            return redirect('/') # TODO: change this to an error message
 
     # get tutorships
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params=tutor_course_params)
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params=tutor_course_params, headers=headers)
     tutor_courses = res.json()
 
     approved_tutor_courses = list(filter(lambda tutor_course: tutor_course['status'] == 'ACCEPTED', tutor_courses))
@@ -65,7 +77,7 @@ def admin_tutors():
     student_count = []
     # todo: make a specific endpoint for this
     for tutor_course in approved_tutor_courses:
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={"tutor_id": tutor_course['tutor_id']})
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={"tutor_id": tutor_course['tutor_id']}, headers=headers)
         tutorships = res.json()
         student_count.append(len(tutorships))
 
