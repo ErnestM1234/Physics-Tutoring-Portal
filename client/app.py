@@ -78,6 +78,7 @@ def tutor_dashboard():
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'tutor_id': tutor_id})
     tutorships = res.json()
 
+
     for tutorship in tutorships:
         student_id = tutorship['student_id']
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': student_id})
@@ -95,9 +96,14 @@ def tutor_dashboard():
         course = res.json()
         tutor_course['course'] = course
 
+    
+    accepted_tutorships = list(filter(lambda tutorship: tutorship['status'] == 'ACCEPTED', tutorships))
+    requested_tutorships = list(filter(lambda tutorship: tutorship['status'] == 'REQUESTED', tutorships))
+
+
 
     return render_template(
-        'tutordash.html', tutor=tutor, tutorships=tutorships, tutor_courses=tutor_courses
+        'tutordash.html', tutor=tutor, accepted_tutorships=accepted_tutorships, requested_tutorships=requested_tutorships, tutor_courses = tutor_courses
     )
 
 @app.route('/allclasses')

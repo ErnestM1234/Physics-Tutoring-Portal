@@ -22,24 +22,62 @@
               <table id="userlisttable">
                 <thead id="userlistheader">
                   <tr>
+                    <td><h5>Course</h5></td>
                     <td><h5>Name</h5></td>
                     <td><h5>NetID</h5></td>
                     <td><h5>Email</h5></td>
+                    <td><h5>Status</h5></td>
                   </tr>
                 </thead>
                 <tbody id="userlist">
 
-                {% for tutorship in tutorships: %}
+                {% for tutorship in accepted_tutorships: %}
                   <tr>
+                    <td>{{tutorship.course.name}}</td>
                     <td>{{tutorship.student.name}}</td>
                     <td>{{tutorship.student.netid}}</td>
                     <td>{{tutorship.student.email}}</td>
+                    <td>{{tutorship.status}}</td>
                   </tr>
                 {% endfor %}
-
                 </tbody>
               </table>
             </div>
+
+            <br>
+            <br>
+            <br>
+
+
+
+            <div class ="list">
+              <h3>STUDENT REQUESTS</h3> 
+              <br>
+              <table id="userlisttable">
+                <thead id="userlistheader">
+                  <tr>
+                    <td><h5>Course</h5></td>
+                    <td><h5>Name</h5></td>
+                    <td><h5>NetID</h5></td>
+                    <td><h5>Email</h5></td>
+                    <td><h5>Status</h5></td>
+                  </tr>
+                </thead>
+                <tbody id="userlist">
+
+                {% for tutorship in requested_tutorships: %}
+                  <tr>
+                    <td>{{tutorship.get('course').get('dept_course')}}</td>
+                    <td>{{tutorship.student.name}}</td>
+                    <td>{{tutorship.student.netid}}</td>
+                    <td>{{tutorship.student.email}}</td>
+                    <td>{{tutorship.get('status')}}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
 
             <br>
             <br>
