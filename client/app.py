@@ -92,7 +92,9 @@ def logout():
 
 @app.route("/")
 def home():
-    return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    if session is None or session.get('user') is None:
+        return render_template("landing.html")
+    return redirect("/student/dashboard")
 
 @app.route('/dashboard')
 def dashboard():
