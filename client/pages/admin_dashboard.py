@@ -14,7 +14,7 @@ def admin_dashboard():
 
     # verify is admin
     user = get_user(requests)
-    if "id" not in user.keys() or user['is_admin'] == False:
+    if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
             'confirmation.html',
             message='you do not have permission to access this page'
@@ -23,7 +23,7 @@ def admin_dashboard():
     headers = get_header()
 
     # get courses
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/', headers=headers))
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'), headers=headers)
     courses = res.json()
 
     # get tutors by coures

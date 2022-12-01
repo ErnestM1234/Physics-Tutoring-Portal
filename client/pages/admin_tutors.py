@@ -12,7 +12,7 @@ load_dotenv()
 def set_tutor_course_status():
     # verify is admin
     user = get_user(requests)
-    if "id" not in user.keys() or user['is_admin'] == False:
+    if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
             'confirmation.html',
             message='you do not have permission to access this page'
@@ -49,7 +49,7 @@ def get_name(id):
 def admin_tutors():
     # verify is admin
     user = get_user(requests)
-    if "id" not in user.keys() or user['is_admin'] == False:
+    if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
             'confirmation.html',
             message='you do not have permission to access this page'

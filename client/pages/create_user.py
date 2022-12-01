@@ -15,7 +15,7 @@ def create_user_confirm():
 
     # verify is admin
     user = get_user(requests)
-    if "id" not in user.keys() or user['is_admin'] == False:
+    if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
             'confirmation.html',
             message='you do not have permission to access this page'
@@ -57,9 +57,9 @@ def create_user_confirm():
 @app.route('/admin/user/create-user/')
 def create_user():
 
-   # verify is admin
+    # verify is admin
     user = get_user(requests)
-    if "id" not in user.keys() or user['is_admin'] == False:
+    if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
             'confirmation.html',
             message='you do not have permission to access this page'

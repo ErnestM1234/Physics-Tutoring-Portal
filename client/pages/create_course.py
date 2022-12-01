@@ -14,7 +14,7 @@ def create_course_confirm():
 
     # verify is admin
     user = get_user(requests)
-    if "id" not in user.keys() or user['is_admin'] == False:
+    if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
             'confirmation.html',
             message='you do not have permission to access this page'
