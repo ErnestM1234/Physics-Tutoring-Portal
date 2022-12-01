@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Tutor Application</title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+            <br>
+            <h1>Tutoring Application</h1>
+
+            <br>
+
+            <form>
+              <div class="form-group">
+                <label for="exampleName">Full Name:</label>
+                <input type="name" class="form-control" id="exampleName" placeholder="Enter Full Name">
+              </div>
+              <br>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address:</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+              </div>
+              <br>
+              <div class="form-group">
+                <label for="examplePUID">PUID:</label>
+                <input type="email" class="form-control" id="examplePUID" placeholder="Enter PUID">
+              </div>
+              <br>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Choose the class you would like to become a tutor for:</label>
+                <select class="form-control" id="exampleFormControlSelect1">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+              <br>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Have you taken the course?</label>
+                <select class="form-control" id="exampleFormControlSelect1">
+                  <option>Yes</option>
+                  <option>Currently Enrolled</option>
+                  <option>No</option>
+                </select>
+              </div>
+              <br>
+              <div class="form-group">
+                <label for="exampleFormControlTextarea1">Brief description of experience with the subject:</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              </div>
+              <br>
+              <a href="#" class="stretched-link">Tutoring Policies</a>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">I agree to the tutoring policies</label>
+              </div>
+              <br>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+
+
+  
+    
+        </div>
+
+        &nbsp;
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <nav id="sidebar">
+
+              <img src="{{ 'static/p_logo_v1.png' }}" width="210px" style="position:absolute;left:25px;top:40px;">
+
+              <div class="sidebar-button" style="position:absolute;top:210px;">
+                <a href="/tutordashboard"><button type="button" class="btn"><h5>Tutor Dashboard</h5></button></a>
+              </div>
+              
+              <div class="sidebar-button" style="position:absolute;top:285px;">
+                <a href="/allclasses"><button type="button" class="btn"><h5>All Classes</h5></button></a>
+              </div>
+
+              <div class="sidebar-button" style="position:absolute;top:360px;">
+                  <a href="/editbio"><button type="button" class="btn"><h5>Edit Bio</h5></button></a>
+              </div>
+
+              <div class="sidebar-button" style="position:absolute;top:435px;">
+                <a href="/tutorapplication"><button type="button" class="btn"><h5>Apply to Tutor</h5></button></a>
+              </div>
+
+              <img src="{{ 'static/PU-standard.png' }}" width="180px" style="position:fixed;bottom:10px;left:25px;">
+      
+          </nav>
+        
+        </div>
+
+
+        
+
+
+    </body>
+
+</html>
