@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Edit Bio</title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+            <br>
+            <h1>Tutor Bio</h1>
+
+            <br>
+
+
+            <p> {{tutor.bio}}</p>
+
+            
+              <br>
+            
+            <form action = "tutor/editbio/confirm" method = "POST">
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Edit bio</label>
+                    <textarea class="form-control" name="bio" rows="5"></textarea>
+                    <input type = "submit" > 
+                    <input type = "hidden" name = "tutor_id" value = "{{tutor.id}}">
+                </div>
+            </form>
+
+  
+    
+        </div>
+
+        &nbsp;
+        {% include '/components/tutor-navbar.html' %}
+
+
+        
+
+
+    </body>
+
+</html>

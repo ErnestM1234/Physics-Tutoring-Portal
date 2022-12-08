@@ -126,7 +126,7 @@ def dashboard():
 
 
 
-@app.route('/tutordashboard')
+@app.route('/tutor/dashboard')
 def tutor_dashboard():
     # verify is tutor
     user = get_user(requests)
@@ -173,10 +173,10 @@ def tutor_dashboard():
 
 
     return render_template(
-        'tutordash.html', tutor=tutor, accepted_tutorships=accepted_tutorships, requested_tutorships=requested_tutorships, tutor_courses = tutor_courses
+        'tutor-dashboard.html', tutor=tutor, accepted_tutorships=accepted_tutorships, requested_tutorships=requested_tutorships, tutor_courses = tutor_courses
     )
 
-@app.route('/allclasses')
+@app.route('/tutor/courses')
 def allClasses():
     # verify is student
     user = get_user(requests)
@@ -193,10 +193,10 @@ def allClasses():
     courses = res.json()
    
     return render_template(
-        'allclasses.html', courses=courses
+        'tutor-courses.html', courses=courses
     )
 
-@app.route('/editbio')
+@app.route('/tutor/editbio')
 def editBio():
     # verify is tutor
     user = get_user(requests)
@@ -212,10 +212,10 @@ def editBio():
     tutor = res.json()
 
     return render_template(
-        'editbio.html', tutor=tutor
+        'tutor-editbio.html', tutor=tutor
     )
 
-@app.route('/tutorapplication')
+@app.route('/tutor/application')
 def tutorApplication():
     # verify is student
     user = get_user(requests)
@@ -240,7 +240,7 @@ def tutorApplication():
 
 
 
-@app.route('/editbio/confirm', methods=['POST'])
+@app.route('/tutor/editbio/confirm', methods=['POST'])
 def edit_bio_confirm():
     # verify is tutor
     user = get_user(requests)
@@ -276,7 +276,7 @@ def edit_bio_confirm():
 
 
 
-@app.route('/tutorapplication/confirm', methods=['POST'])
+@app.route('/tutor/application/confirm', methods=['POST'])
 def tutor_application_confirm():
     # verify is student
     user = get_user(requests)
