@@ -13,30 +13,7 @@
         </div>
 
         &nbsp;
-
-        <div class="wrapper">
-            <!-- Sidebar -->
-            <nav id="sidebar">
-
-              <img src="{{url_for('static', filename='p_logo_v1.png')}}" width="210px" style="position:absolute;left:25px;top:40px;">
-
-                <div class="sidebar-button" style="position:absolute;top:210px;">
-                  <a href="/student/dashboard"><button type="button" class="btn"><h5>Dashboard</h5></button></a>
-                </div>
-
-                <div class="sidebar-button" style="position:absolute;top:285px;">
-                    <a href="/student/courses"><button type="button" class="btn"><h5>Find a tutor</h5></button></a>
-                </div>
-
-                <div class="sidebar-button" style="position:absolute;top:360px;">
-                    <a href="/tutor/dashboard"><button type="button" class="btn"><h5>Become a tutor</h5></button></a>
-                </div>
-
-                <img src="{{url_for('static', filename='PU-standard.png')}}" width="180px" style="position:fixed;bottom:10px;left:25px;">
-
-            </nav>
-        
-        </div>
+        {% include '/components/student-navbar.html' %}
 
     </body>
 
