@@ -41,9 +41,8 @@ body {
 
 
 .non-sidebar {
-  position: absolute;
-  left: 325px;
-  top: 50px;
+  margin-left: 325px;
+  margin-top: 50px;
 }
 
 .princeton-gradient {
