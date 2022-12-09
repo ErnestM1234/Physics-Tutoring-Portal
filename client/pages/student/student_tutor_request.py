@@ -14,7 +14,7 @@ def student_tutor_request():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_student'] == False:
         return render_template(
-            'confirmation.html',
+            'student-no-access.html',
             message='you do not have permission to access this page'
         )
     # get headers
