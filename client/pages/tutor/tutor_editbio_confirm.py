@@ -23,7 +23,7 @@ def edit_bio_confirm():
     bio = request.form.get('bio')
 
     if bio is None:
-        return redirect('/editbio')
+        return redirect('/tutor/editbio.html')
 
    
     data = {
@@ -37,6 +37,6 @@ def edit_bio_confirm():
 
 
     return render_template(
-        'confirmationtutor.html',
+        'tutor-confirmation.html',
         message=message
     )
