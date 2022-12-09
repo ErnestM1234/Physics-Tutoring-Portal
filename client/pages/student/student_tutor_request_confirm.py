@@ -14,7 +14,7 @@ def student_tutor_request_confirm():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_student'] == False:
         return render_template(
-            'student-no-access.html',
+            '/student/student-no-access.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -36,7 +36,7 @@ def student_tutor_request_confirm():
     requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/create/'), data=json.dumps({'tutor_id': tutor_id, 'course_id': course_id, 'student_id': user['id'], 'status': 'REQUESTED'}), headers=headers)
 
     return render_template(
-        'student-tutor-request-confirm.html',
+        '/student/student-tutor-request-confirm.html',
         user=user,
         course=course,
         tutor=tutor

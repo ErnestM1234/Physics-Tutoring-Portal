@@ -13,7 +13,7 @@ def tutor_student_dissolve():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_tutor'] == False:
         return render_template(
-            'tutor-no-access.html',
+            '/tutor/tutor-no-access.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -39,7 +39,7 @@ def tutor_student_dissolve():
     tutor = res.json()
 
     return render_template(
-        'tutor-student-dissolve.html',
+        '/tutor/tutor-student-dissolve.html',
         student=student,
         course=course,
         tutor=tutor

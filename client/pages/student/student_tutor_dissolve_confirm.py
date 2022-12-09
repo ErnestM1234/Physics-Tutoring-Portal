@@ -14,7 +14,7 @@ def student_tutor_dissolve_confirm():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_student'] == False:
         return render_template(
-            'student-no-access.html',
+            '/student/student-no-access.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -43,7 +43,7 @@ def student_tutor_dissolve_confirm():
         requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/delete/'), data=json.dumps({'id': tutorship['id']}))
 
     return render_template(
-        'student-tutor-dissolve-confirm.html',
+        '/student/student-tutor-dissolve-confirm.html',
         user=user,
         course=course,
         tutor=tutor

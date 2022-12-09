@@ -14,7 +14,7 @@ def set_tutor_course_status():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -51,7 +51,7 @@ def admin_tutors():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -86,7 +86,7 @@ def admin_tutors():
 
 
     return render_template(
-        'admin-tutors.html',
+        '/admin/admin-tutors.html',
         tutor_courses=approved_tutor_courses,
         student_count=student_count,
         tutor_requests=tutor_requests,

@@ -16,7 +16,7 @@ def remove_tutorship_confirm():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -27,7 +27,7 @@ def remove_tutorship_confirm():
         tutorship_id = int(float(tutorship_id))
     else:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message="There is no provided tutorship_id, or the tutorship_id is invalid"
         )
 
@@ -36,7 +36,7 @@ def remove_tutorship_confirm():
     message = str(res)
 
     return render_template(
-        'confirmation.html',
+        '/admin/confirmation.html',
         message=message
     )
 
@@ -46,7 +46,7 @@ def remove_tutorship():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -57,7 +57,7 @@ def remove_tutorship():
         tutorship_id = int(float(tutorship_id))
     else:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message="There is no provided tutorship_id, or the tutorship_id is invalid"
         )
     
@@ -67,7 +67,7 @@ def remove_tutorship():
     tutorship = res.json()
     if tutorship and 'id' not in tutorship.keys():
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message=str(tutorship)
         )
 
@@ -88,13 +88,13 @@ def remove_tutorship():
 
     if not student or 'id' not in student.keys() or not tutor or 'id' not in tutor.keys() or not course or 'id' not in course.keys():
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message="There is a missing student or course associated with this tutorship!"
         )
 
 
     return render_template(
-        'remove-tutorship.html',
+        '/admin/remove-tutorship.html',
         tutorship=tutorship
     )
 

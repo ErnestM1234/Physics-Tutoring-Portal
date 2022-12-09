@@ -14,7 +14,7 @@ def student_courses():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_student'] == False:
         return render_template(
-            'student-no-access.html',
+            '/student/student-no-access.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -25,7 +25,7 @@ def student_courses():
     courses = res.json()
 
     return render_template(
-        'student-courses.html',
+        '/student/student-courses.html',
         user=user,
         courses=courses
     )

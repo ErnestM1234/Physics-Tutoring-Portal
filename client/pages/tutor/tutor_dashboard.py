@@ -14,14 +14,14 @@ def tutor_dashboard():
     user = get_user(requests)
     if user is None or "id" not in user.keys():
         return render_template(
-            'tutor-no-access.html',
+            '/tutor/tutor-no-access.html',
             message='you do not have permission to access this page'
         )
     # get headers
     headers = get_header()
     # redirect to application
     if user['is_tutor'] == False:
-        return redirect('/tutorapplication')
+        return redirect('/tutor/tutorapplication')
 
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user['id']}, headers=headers)
     tutor = res.json()
@@ -55,5 +55,5 @@ def tutor_dashboard():
 
 
     return render_template(
-        'tutor-dashboard.html', tutor=tutor, accepted_tutorships=accepted_tutorships, requested_tutorships=requested_tutorships, tutor_courses = tutor_courses
+        '/tutor/tutor-dashboard.html', tutor=tutor, accepted_tutorships=accepted_tutorships, requested_tutorships=requested_tutorships, tutor_courses = tutor_courses
     )

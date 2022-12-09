@@ -17,7 +17,7 @@ def remove_user_confirm():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -28,7 +28,7 @@ def remove_user_confirm():
         course_id = int(float(course_id))
     else:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message="There is no provided course_id, or the course_id is invalid"
         )
 
@@ -39,7 +39,7 @@ def remove_user_confirm():
     if not isinstance(tutorships, list):
         print(str(res.content))
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message=str(tutorships)
         )
     # remove tutorships
@@ -48,7 +48,7 @@ def remove_user_confirm():
         if res.status_code != 200:
             print(str(res.content))
             return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message=str(res)
         )
 
@@ -59,7 +59,7 @@ def remove_user_confirm():
     if not isinstance(tutorships, list):
         print(str(res.content))
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message=str(tutor_courses)
         )
     # remove tutor_courses
@@ -69,7 +69,7 @@ def remove_user_confirm():
         if res.status_code != 200:
             print(str(res.content))
             return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message=str(res)
         )
 
@@ -79,7 +79,7 @@ def remove_user_confirm():
     message = str(res)
 
     return render_template(
-        'confirmation.html',
+        '/admin/confirmation.html',
         message=message
     )
 
@@ -89,7 +89,7 @@ def remove_course():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -101,7 +101,7 @@ def remove_course():
         course_id = int(float(course_id))
     else:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message="There is no provided course_id, or the course_id is invalid"
         )
     
@@ -111,7 +111,7 @@ def remove_course():
     tutorships = res.json()
     if not isinstance(tutorships, list):
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message=str(tutorships)
         )
 
@@ -120,13 +120,13 @@ def remove_course():
     course_tutors = res.json()
     if not isinstance(tutorships, list):
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message=str(course_tutors)
         )
 
 
     return render_template(
-        'remove-course.html',
+        '/admin/remove-course.html',
         course_id=course_id,
         tutorship_count=len(tutorships),
         tutor_course_count=len(course_tutors)

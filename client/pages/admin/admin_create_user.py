@@ -17,7 +17,7 @@ def create_user_confirm():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -50,7 +50,7 @@ def create_user_confirm():
     message = str(res)
 
     return render_template(
-        'confirmation.html',
+        '/admin/confirmation.html',
         message=message
     )
 
@@ -61,12 +61,12 @@ def create_user():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
 
 
     return render_template(
-        'create-user.html',
+        '/admin/create-user.html',
     )
 

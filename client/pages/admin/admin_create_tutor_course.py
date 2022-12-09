@@ -17,7 +17,7 @@ def create_tutor_course_confirm():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -53,7 +53,7 @@ def create_tutor_course_confirm():
 
 
     return render_template(
-        'confirmation.html',
+        '/admin/confirmation.html',
         message=message
     )
 
@@ -64,12 +64,12 @@ def create_tutor_course():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
 
 
     return render_template(
-        'create-tutor-course.html',
+        '/admin/create-tutor-course.html',
     )
 

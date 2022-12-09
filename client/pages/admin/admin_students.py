@@ -15,7 +15,7 @@ def admin_students():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -28,7 +28,7 @@ def admin_students():
     if res.status_code != 200:
         message = str(res)
         return render_template(
-        'confirmation.html',
+        '/admin/confirmation.html',
         message=message
     )
 
@@ -44,7 +44,7 @@ def admin_students():
 
         if not student or 'id' not in student.keys() or not tutor  or 'id' not in tutor.keys() or not course  or 'id' not in course.keys():
             return render_template(
-                'confirmation.html',
+                '/admin/confirmation.html',
                 message="There is a missing tutor or course associated with this user!"
             )
 
@@ -60,7 +60,7 @@ def admin_students():
 
 
     return render_template(
-        'admin-students.html',
+        '/admin/admin-students.html',
         tutorships=tutorships,
         students=students
     )

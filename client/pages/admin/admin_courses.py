@@ -15,7 +15,7 @@ def admin_courses():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -27,7 +27,7 @@ def admin_courses():
 
 
     return render_template(
-        'admin-courses.html',
+        '/admin/admin-courses.html',
         courses=courses
     )
 

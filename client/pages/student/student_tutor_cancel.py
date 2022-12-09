@@ -15,7 +15,7 @@ def student_tutor_cancel():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_student'] == False:
         return render_template(
-            'student-no-access.html',
+            '/student/student-no-access.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -34,7 +34,7 @@ def student_tutor_cancel():
     tutor = res.json()
 
     return render_template(
-        'student-tutor-cancel.html',
+        '/student/student-tutor-cancel.html',
         user=user,
         course=course,
         tutor=tutor

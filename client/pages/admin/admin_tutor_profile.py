@@ -13,7 +13,7 @@ def tutor_profile():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -27,7 +27,7 @@ def tutor_profile():
             tutorship_params['id'] = int(float(tutor_id))
         else:
             return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message="You have supplied an invalid user id"
         )
 
@@ -48,7 +48,7 @@ def tutor_profile():
     # check if they are a tutor
     if res.status_code != 200:
         return render_template(
-            'confirmation.html',
+            '/admin/confirmation.html',
             message="User not found"
         )
 
@@ -74,7 +74,7 @@ def tutor_profile():
 
 
     return render_template(
-        'profile-tutor.html',
+        '/admin/profile-tutor.html',
         tutor=tutor,
         tutor_courses=tutor_courses
     )
