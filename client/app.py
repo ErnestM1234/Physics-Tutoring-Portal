@@ -174,45 +174,45 @@ def dashboard():
 # pylint: disable-next=wrong-import-position
 # pylint: disable-next=unused-wildcard-import
 # pylint: disable-next=wildcard-import
-from pages.admin_dashboard import *
-from pages.admin_courses import *
-from pages.admin_tutorships import *
-from pages.admin_tutors import *
-from pages.admin_students import *
-from pages.admin_admins import *
-from pages.create_course import *
-from pages.create_tutor_course import *
-from pages.create_tutorship import *
-from pages.create_user import *
-from pages.remove_course import *
-from pages.remove_tutorship import *
-from pages.student_profile import *
-from pages.tutor_profile import *
+from pages.admin.admin_dashboard import *
+from pages.admin.admin_courses import *
+from pages.admin.admin_tutorships import *
+from pages.admin.admin_tutors import *
+from pages.admin.admin_students import *
+from pages.admin.admin_admins import *
+from pages.admin.admin_create_course import *
+from pages.admin.admin_create_tutor_course import *
+from pages.admin.admin_create_tutorship import *
+from pages.admin.admin_create_user import *
+from pages.admin.admin_remove_course import *
+from pages.admin.admin_remove_tutorship import *
+from pages.admin.admin_student_profile import *
+from pages.admin.admin_tutor_profile import *
 
 
-from pages.student_dashboard import *
-from pages.student_courses import *
-from pages.student_course import *
-from pages.student_tutor import *
-from pages.student_tutor_request import *
-from pages.student_tutor_cancel import *
-from pages.student_tutor_dissolve import *
-from pages.student_tutor_request_confirm import *
-from pages.student_tutor_cancel_confirm import *
-from pages.student_tutor_dissolve_confirm import *
+from pages.student.student_dashboard import *
+from pages.student.student_courses import *
+from pages.student.student_course import *
+from pages.student.student_tutor import *
+from pages.student.student_tutor_request import *
+from pages.student.student_tutor_cancel import *
+from pages.student.student_tutor_dissolve import *
+from pages.student.student_tutor_request_confirm import *
+from pages.student.student_tutor_cancel_confirm import *
+from pages.student.student_tutor_dissolve_confirm import *
 
-from pages.tutor_dashboard import*
-from pages.tutor_courses import*
-from pages.tutor_application import*
-from pages.tutor_application_confirm import*
-from pages.tutor_editbio import*
-from pages.tutor_editbio_confirm import*
-from pages.tutor_student_accept_confirm import*
-from pages.tutor_student_accept import*
-from pages.tutor_student_dissolve_confirm import*
-from pages.tutor_student_dissolve import*
-from pages.tutor_student_reject_confirm import *
-from pages.tutor_student_reject import *
+from pages.tutor.tutor_dashboard import*
+from pages.tutor.tutor_courses import*
+from pages.tutor.tutor_application import*
+from pages.tutor.tutor_application_confirm import*
+from pages.tutor.tutor_editbio import*
+from pages.tutor.tutor_editbio_confirm import*
+from pages.tutor.tutor_student_accept_confirm import*
+from pages.tutor.tutor_student_accept import*
+from pages.tutor.tutor_student_dissolve_confirm import*
+from pages.tutor.tutor_student_dissolve import*
+from pages.tutor.tutor_student_reject_confirm import *
+from pages.tutor.tutor_student_reject import *
 
 
 
