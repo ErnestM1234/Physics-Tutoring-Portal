@@ -97,27 +97,6 @@ def home():
         return render_template("landing.html")
     return redirect("/student/dashboard")
 
-@app.route('/dashboard')
-def dashboard():
-
-    student_tutorships = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={"id": 1})
-    student_tutorships = student_tutorships.json()
-
-    tutors = []
-
-    for tutorship in student_tutorships:
-        tutor_id = tutorship["tutor_id"]
-        student_tutors = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={"id": tutor_id})
-        student_tutors = student_tutors.json()
-        tutors.append(student_tutors)
-
-    print("-------------------")
-    print(tutors)
-
-    return render_template(
-        'dashboard.html',
-        tutors = tutors
-    )
 
 
 
