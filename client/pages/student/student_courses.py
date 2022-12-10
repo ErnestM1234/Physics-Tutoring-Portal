@@ -4,28 +4,42 @@ from dotenv import load_dotenv
 from app import app
 import requests
 from flask import redirect, render_template
-from pages.shared.get_user import *
+import time
 
 load_dotenv()
 
 @app.route('/student/courses')
 def student_courses():
+
+    # this is temporary, this will be given to us by CAS or smth
+    userId = 1
+    
+    # get student
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId})
+    user = res.json()
     # verify is student
-    user = get_user(requests)
-    if user is None or "id" not in user.keys() or user['is_student'] == False:
-        return render_template(
-            '/student/student-no-access.html',
-            message='you do not have permission to access this page'
-        )
-    # get headers
-    headers = get_header()
+    if "id" not in user.keys() or user['is_student'] == False:
+        return redirect('/')
 
     # get courses
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'), headers=headers)
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'))
     courses = res.json()
 
+    # Get current time in GMT
+    now = time.struct_time(time.gmtime())
+
+    # Get year
+    semester = str(now[0])
+
+    # Divide into spring/fall semester
+    if now[1] < 7:
+        semester = "Spring " + semester
+    else:
+        semester = "Fall " + semester
+
     return render_template(
-        '/student/student-courses.html',
+        'student-courses.html',
         user=user,
-        courses=courses
+        courses=courses,
+        semester=semester
     )
