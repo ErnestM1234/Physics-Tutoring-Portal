@@ -74,7 +74,7 @@ def tutor_profile():
 
 
     return render_template(
-        '/admin/profile-tutor.html',
+        '/admin/admin-profile-tutor.html',
         tutor=tutor,
         tutor_courses=tutor_courses
     )

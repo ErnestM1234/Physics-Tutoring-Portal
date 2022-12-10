@@ -10,9 +10,9 @@ load_dotenv()
 
 @app.route('/tutor/courses')
 def allClasses():
-    # verify is student
+    # verify is tutor
     user = get_user(requests)
-    if user is None or "id" not in user.keys() or user['is_student'] == False:
+    if user is None or "id" not in user.keys() or user['is_tutor'] == False:
         return render_template(
             '/tutor/tutor-no-access.html',
             message='you do not have permission to access this page'

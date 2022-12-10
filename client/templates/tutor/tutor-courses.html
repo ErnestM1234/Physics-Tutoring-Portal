@@ -13,7 +13,7 @@
         <div class="non-sidebar">
           {% include '/components/tutor-dashboard-title.html' %}
                 <br>
-                <h1>ALL CLASSES</h1>
+                <h1>ALL COURSES</h1>
     
 
                 <div class ="list">
@@ -21,15 +21,16 @@
                   <table id="userlisttable">
                     <thead id="userlistheader">
                       <tr>
-                        <td><h5>Course ID</h5></td>
                         <td><h5>Course Name</h5></td>
+                          <td><h5>Department and Number</h5></td>
                       </tr>
                     </thead>
                     <tbody id="userlist">
                         {% for course in courses: %}
                         <tr>
-                          <td>{{course.id}}</td>
                           <td>{{course.name}}</td>
+                          <td>{{course.dept_course}}</td>
+                          <td><a href="/tutor/application"><h5>Apply to Tutor</h5></a></td>
                         </tr>
                         {% endfor %}
     

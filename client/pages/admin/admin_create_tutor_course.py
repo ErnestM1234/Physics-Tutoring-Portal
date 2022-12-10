@@ -70,6 +70,6 @@ def create_tutor_course():
 
 
     return render_template(
-        '/admin/create-tutor-course.html',
+        '/admin/admin-create-tutor-course.html',
     )
 

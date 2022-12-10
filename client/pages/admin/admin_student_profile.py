@@ -68,7 +68,7 @@ def student_profile():
 
 
     return render_template(
-        '/admin/profile-student.html',
+        '/admin/admin-profile-student.html',
         student=student,
         tutorships=tutorships
     )

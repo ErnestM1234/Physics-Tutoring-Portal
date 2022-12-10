@@ -61,6 +61,6 @@ def create_tutorship():
         )
 
     return render_template(
-        '/admin/create-tutorship.html',
+        '/admin/admin-create-tutorship.html',
     )
 

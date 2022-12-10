@@ -57,6 +57,6 @@ def create_course():
 
 
     return render_template(
-        '/admin/create-course.html',
+        '/admin/admin-create-course.html',
     )
 

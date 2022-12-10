@@ -67,6 +67,6 @@ def create_user():
 
 
     return render_template(
-        '/admin/create-user.html',
+        '/admin/admin-create-user.html',
     )
 

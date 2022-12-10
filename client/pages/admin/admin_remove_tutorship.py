@@ -94,7 +94,7 @@ def remove_tutorship():
 
 
     return render_template(
-        '/admin/remove-tutorship.html',
+        '/admin/admin-remove-tutorship.html',
         tutorship=tutorship
     )
 

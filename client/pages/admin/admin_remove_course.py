@@ -126,7 +126,7 @@ def remove_course():
 
 
     return render_template(
-        '/admin/remove-course.html',
+        '/admin/admin-remove-course.html',
         course_id=course_id,
         tutorship_count=len(tutorships),
         tutor_course_count=len(course_tutors)
