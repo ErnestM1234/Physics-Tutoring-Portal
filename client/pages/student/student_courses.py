@@ -38,7 +38,7 @@ def student_courses():
         semester = "Fall " + semester
 
     return render_template(
-        'student-courses.html',
+        '/student/student-courses.html',
         user=user,
         courses=courses,
         semester=semester
