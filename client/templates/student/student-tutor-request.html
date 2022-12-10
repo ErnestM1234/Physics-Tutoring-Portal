@@ -5,18 +5,18 @@
 
     <body class="princeton-gradient">
         <div class="non-sidebar">
-            {% include '/components/student-dashboard-title.html' %}
-            <h1></b>Request tutor</h1>
+            <h1></b>Request tutors</h1>
 
             <br><br><br>
 
-            Request {{course.get('dept_course')}} tutor {{tutor.get('name')}}?
+            Request all available tutors for {{course.get('dept_course')}}?
             <br>
-            <a href="/student/tutor/request/confirm?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}"><button>Confirm</button></a>
+            <a href="/student/tutors/request/confirm?course_id={{course.get('id')}}"><button>Confirm</button></a>
         </div>
 
         &nbsp;
-        {% include '/components/student-navbar.html' %}
+
+        {% include "student-sidebar.html" %}
 
     </body>
 

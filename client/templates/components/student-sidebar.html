@@ -10,10 +10,6 @@
       <button type="submit" class="sidebar-button" style="position:absolute;top:250px;">Courses</button>
     </form>
 
-    <form action="/tutordashboard" method="get">
-      <button type="submit" class="sidebar-button" style="position:absolute;top:300px;">Tutor view</button>
-    </form>
-
     {% if user.get('is_tutor') and user.get('is_admin') %}
 
     <form action="/tutordashboard" method="get">
