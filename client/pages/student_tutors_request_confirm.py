@@ -45,7 +45,9 @@ def student_tutors_request_confirm():
         
         requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/create/'), data=json.dumps({'tutor_id': tutor_course['tutor_id'], 'course_id': course_id, 'student_id': userId, 'status': 'REQUESTED'}))
 
-    return render_template(
-        'student-tutors-request-confirm.html',
-        course=course
-    )
+    return redirect('/student/dashboard')
+    #return render_template(
+    #    'student-tutors-request-confirm.html',
+    #    user=user,
+    #    course=course
+    #)

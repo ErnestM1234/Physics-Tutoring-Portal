@@ -22,6 +22,7 @@ h1 {
   justify-content: space-between;
   overflow-wrap: break-word;
   border-width: 2px;
+  border-color: rgb(232,119,34);
 }
 
 .list-box-header{
@@ -31,54 +32,81 @@ h1 {
   font-weight: bold;
 }
 
-.five-item{
-  min-width: 80px;
-  width: calc(20vw - 90px);
+.one-item{
+  min-width: 390px;
+  width: calc(100vw - 400px);
   padding-right: 10px;
-  text-align:left;
+  text-align:center;
+  color: black !important;
 }
 
-.six-item{
-  min-width: 80px;
-  width: calc(16.7vw - 90px);
-  padding-right: 10px;
-  text-align:left;
-}
-
-.four-item{
-  min-width: 67px;
-  width: calc(25vw - 90px);
-  padding-right: 10px;
-  text-align:left;
-}
-
-.eight-item{
-  min-width: 50px;
-  width: calc(12.5vw - 90px);
+.two-item{
+  min-width: 190px;
+  width: calc(50vw - 200px);
   padding-right: 10px;
   text-align:left;
 }
 
 .three-item{
-  min-width: 133px;
-  width: calc(33.3vw - 90px);
+  min-width: 123px;
+  width: calc(33.3vw - 133px);
   padding-right: 10px;
   text-align:left;
 }
 
-.two-item{
-  min-width: 200px;
-  width: calc(50vw - 90px);
+.five-item{
+  min-width: 70px;
+  width: calc(20vw - 80px);
   padding-right: 10px;
   text-align:left;
+}
+
+.six-item{
+  min-width: 57px;
+  width: calc(16.7vw - 67px);
+  padding-right: 10px;
+  text-align:left;
+}
+
+.four-item{
+  min-width: 90px;
+  width: calc(25vw - 100px);
+  padding-right: 10px;
+  text-align:left;
+}
+
+.eight-item{
+  min-width: 40px;
+  width: calc(12.5vw - 50px);
+  padding-right: 10px;
+  text-align:left;
+}
+
+.no-gradient{
+  background-color: white;
+}
+
+.no-gradient:hover{
+  background-color: rgb(255, 242, 224);
+  color: black;
 }
 
 .accepted-gradient{
-  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 70%, rgb(236, 254, 218) 80%, rgb(236, 254, 218) 100%)
+  background-image: linear-gradient(90deg, rgb(255, 255, 255) 70%, rgb(236, 254, 218) 80%, rgb(236, 254, 218) 100%);
+}
+
+.accepted-gradient:hover{
+  background-image: linear-gradient(90deg, rgb(200, 200, 200) 70%, rgb(222, 255, 188) 80%, rgb(222, 255, 188) 100%);
+  color: black;
 }
 
 .requested-gradient{
-  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 70%, rgb(218, 228, 254) 80%, rgb(218, 228, 254) 100%)
+  background-image: linear-gradient(90deg, rgb(255, 255, 255) 75%, rgb(218, 228, 254) 85%, rgb(218, 228, 254) 100%);
+}
+
+.requested-gradient:hover{
+  background-image: linear-gradient(90deg, rgb(255, 242, 224) 75%, rgb(194, 211, 255) 85%, rgb(194, 211, 255) 100%);
+  color: black;
 }
 
 .non-sidebar{
@@ -106,18 +134,24 @@ h1 {
   background-image: url(uni.jpg);
   background-size: 600%;
   color: black;
-  border-right: solid rgb(180, 180, 180) 2px;
+  border-right: solid rgb(232,119,34) 2px;
 }
 
 .sidebar-button {
   border-radius: 25px;
   left: 5%;
   width: 90%;
+  height: 40px;
   background-image: linear-gradient(45deg, rgb(249, 214, 162), rgb(250, 175, 151));
+  border-width: 0px;
 }
 
 .sidebar-button:hover {
   background-image: linear-gradient(45deg,rgb(199, 170, 128), rgb(185, 128, 109));
+}
+
+.sidebar-button:active {
+  color: black;
 }
 
 #userlisttable {

@@ -16,9 +16,16 @@
                   <div class="six-item">Course</div>
                   <div class="six-item">Tutor name</div>
                   <div class="six-item">Tutor netID</div>
-                  <div class="four-item">Tutor email</div>
+                  <div class="three-item">Tutor email</div>
                   <div class="six-item">Status</div>
                 </a>
+
+                {% if tutorships|length==0: %}
+                <a class="list-group-item disabled list-box">
+                <div class="one-item">No tutors to show.</div>
+                </a>
+                {% endif %}
+
                 {% for tutorship in tutorships: %}
                 {% if tutorship.get('status') == 'ACCEPTED' %}
                 <a href="/student/tutor?tutor_id={{tutorship.get('tutor').get('id')}}&course_id={{tutorship.get('course').get('id')}}" class="list-group-item list-group-item-action accepted-gradient list-box">
@@ -30,7 +37,7 @@
                   <div class="six-item">{{tutorship.get('course').get('dept_course')}}</div>
                   <div class="six-item">{{tutorship.get('tutor').get('name')}}</div>
                   <div class="six-item">{{tutorship.get('tutor').get('netid')}}</div>
-                  <div class="four-item">{{tutorship.get('tutor').get('email')}}</div>
+                  <div class="three-item">{{tutorship.get('tutor').get('email')}}</div>
                   {% if tutorship.get('status') == 'ACCEPTED' %}
                   <div class="six-item" style="color: green;">{{tutorship.get('status')}}</div>
                   {% elif tutorship.get('status') == 'REQUESTED' %}
@@ -50,7 +57,7 @@
 
         &nbsp;
 
-        {% include "sidebar.html" %}
+        {% include "student-sidebar.html" %}
 
     </body>
 

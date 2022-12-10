@@ -66,6 +66,7 @@ def student_profile():
 
     return render_template(
         'profile-student.html',
+        user=user,
         student=student,
         tutorships=tutorships
     )

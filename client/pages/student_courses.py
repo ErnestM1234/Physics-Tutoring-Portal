@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from app import app
 import requests
 from flask import redirect, render_template
+import time
 
 load_dotenv()
 
@@ -24,8 +25,21 @@ def student_courses():
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'))
     courses = res.json()
 
+    # Get current time in GMT
+    now = time.struct_time(time.gmtime())
+
+    # Get year
+    semester = str(now[0])
+
+    # Divide into spring/fall semester
+    if now[1] < 7:
+        semester = "Spring " + semester
+    else:
+        semester = "Fall " + semester
+
     return render_template(
         'student-courses.html',
         user=user,
-        courses=courses
+        courses=courses,
+        semester=semester
     )

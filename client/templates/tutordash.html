@@ -73,33 +73,8 @@
         </div>
 
         &nbsp;
-        <div class="wrapper">
-            <!-- Sidebar -->
-            <nav id="sidebar">
 
-              <img src="{{ 'static/p_logo_v1.png' }}" width="210px" style="position:absolute;left:25px;top:40px;">
-
-              <div class="sidebar-button" style="position:absolute;top:210px;">
-                <a href="/tutordashboard"><button type="button" class="btn"><h5>Tutor Dashboard</h5></button></a>
-              </div>
-              
-              <div class="sidebar-button" style="position:absolute;top:285px;">
-                <a href="/allclasses"><button type="button" class="btn"><h5>All Classes</h5></button></a>
-              </div>
-
-              <div class="sidebar-button" style="position:absolute;top:360px;">
-                  <a href="/editbio"><button type="button" class="btn"><h5>Edit Bio</h5></button></a>
-              </div>
-
-              <img src="{{ 'static/PU-standard.png' }}" width="180px" style="position:fixed;bottom:10px;left:25px;">
-      
-          </nav>
-        
-        </div>
-
-
-        
-
+        {% include "tutor-sidebar.html" %}
 
     </body>
 

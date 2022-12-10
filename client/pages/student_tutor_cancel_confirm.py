@@ -44,9 +44,11 @@ def student_tutor_cancel_confirm():
         tutorship=tutorship[0]
         requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/delete/'), data=json.dumps({'id': tutorship['id']}))
 
-    return render_template(
-        'student-tutor-cancel-confirm.html',
-        user=user,
-        course=course,
-        tutor=tutor
-    )
+    return redirect('/student/dashboard')
+    
+    #return render_template(
+    #    'student-tutor-cancel-confirm.html',
+    #    user=user,
+    #    course=course,
+    #    tutor=tutor
+    #)
