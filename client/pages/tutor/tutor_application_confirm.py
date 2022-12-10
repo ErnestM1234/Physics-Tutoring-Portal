@@ -20,14 +20,14 @@ def tutor_application_confirm():
     headers = get_header()
 
 
-    course_id = request.form.get('course_id')
+    #course_id = request.form.get('course_id')
     taken_course = request.form.get('taken_course')
     experience = request.form.get('experience')
 
    
     data = {
         'tutor_id': user['id'],
-        'course_id': course_id,
+        #'course_id': course_id,
         'taken_course': taken_course,
         'experience': experience,
         'status': 'REQUESTED'
