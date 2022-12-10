@@ -124,6 +124,7 @@ class TutorCourses(db.Model):
     tutor_id = db.Column('tutor_id', db.Integer, db.ForeignKey('users.id'), nullable=False)
     course_id = db.Column('course_id', db.Integer, db.ForeignKey('courses.id'), nullable=False)
     status = db.Column('status',db.String(100),nullable=False)
+    is_tutor_available = db.Column('is_tutor_available',db.Boolean,default=True)
 
     # todo (Ernest or Elise): add statuses and validation
     VALID_STATUS = ['REQUESTED', 'ACCEPTED', 'DENIED', 'NONE']

@@ -96,10 +96,24 @@ def create_tutor_course():
         return {"message": str(errors) }, 400
     
     try:
-        tutor_course = TutorCourses(data.get('tutor_id'), data.get('course_id'), data.get('status'))
-        db.session.add(tutor_course)
-        db.session.commit()
-        return {"message": "success" }, 200
+        tutor_id = data.get('tutor_id')
+        course_id = data.get('course_id')
+        status = data.get('status')
+
+        # Prevent duplicate tutor_courses (where tutor and course repeat)
+        filters = []
+        filters.append(TutorCourses.tutor_id == tutor_id)
+        filters.append(TutorCourses.course_id == course_id)
+
+        duplicate_tutor_course = TutorCourses.query.filter(*filters).first()
+
+        if duplicate_tutor_course is None:
+            tutor_course = TutorCourses(tutor_id, course_id, status)
+            db.session.add(tutor_course)
+            db.session.commit()
+            return {"message": "success" }, 200
+        else:
+            return {"message": "Cannot create duplicate tutor_courses."}, 400
     except Exception as e:
         print(str(e))
         return {"error": str(e)}, 400
