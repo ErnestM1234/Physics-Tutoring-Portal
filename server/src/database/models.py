@@ -1,16 +1,11 @@
 # this is a file containing our datamodels
-import os
 from app import db
-import jwt
-from authlib.jose import jwt
 
 class Users(db.Model):
     __tablename__ = 'users'
 
     id = db.Column('id',db.Integer,primary_key=True)
-    auth_id = db.Column('auth_id',db.String())
-    
-    netid = db.Column('netid',db.String(50),unique=True,nullable=False)
+
     netid = db.Column('netid',db.String(50),unique=True,nullable=False)
     name = db.Column('name',db.String(100),nullable=False)
     email = db.Column('email',db.String(50),unique=True,nullable=False)
@@ -23,8 +18,7 @@ class Users(db.Model):
 
     tutor_courses = db.relationship('TutorCourses', backref='tutor', lazy=True)
 
-    def __init__(self, auth_id, netid, name, email, bio, is_student, is_tutor, is_admin):
-        self.auth_id = auth_id
+    def __init__(self, netid, name, email, bio, is_student, is_tutor, is_admin):
         self.netid = netid
         self.name = name
         self.email = email
@@ -93,7 +87,7 @@ class Tutorships(db.Model):
     course_id = db.Column('course_id', db.Integer, db.ForeignKey('courses.id'))
 
 
-    VALID_STATUS = ['REQUESTED', 'ACCEPTED', 'REJECTED', 'NONE']
+    VALID_STATUS = ['REQUESTED', 'ACCEPTED', 'BLOCKED', 'NONE']
 
 
     def __repr__(self):
@@ -130,18 +124,15 @@ class TutorCourses(db.Model):
     tutor_id = db.Column('tutor_id', db.Integer, db.ForeignKey('users.id'), nullable=False)
     course_id = db.Column('course_id', db.Integer, db.ForeignKey('courses.id'), nullable=False)
     status = db.Column('status',db.String(100),nullable=False)
-    taken_course = db.Column('taken_course',db.String(100),nullable=True)
-    experience = db.Column('experience',db.String(),nullable=True)
+    is_tutor_available = db.Column('is_tutor_available',db.Boolean,default=True)
 
     # todo (Ernest or Elise): add statuses and validation
     VALID_STATUS = ['REQUESTED', 'ACCEPTED', 'DENIED', 'NONE']
 
-    def __init__(self, tutor_id, course_id, status, taken_course, experience):
+    def __init__(self, tutor_id, course_id, status):
         self.tutor_id = tutor_id
         self.course_id = course_id
         self.status = status
-        self.taken_course = taken_course
-        self.experience = experience
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
@@ -153,7 +144,5 @@ class TutorCourses(db.Model):
             'id': self.id,
             'tutor_id': self.tutor_id,
             'course_id': self.course_id,
-            'status': self.status,
-            'taken_course': self.taken_course,
-            'experience': self.experience
+            'status': self.status
         }

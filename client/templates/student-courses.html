@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+    <head>
+    <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+    </head>
+
+    <body class="princeton-gradient">
+        <div class="non-sidebar">
+            <h1>Courses</h1>
+            <br>
+
+            <h2>Fall 2022</h2>
+
+            <br>
+
+              <div class="list-group list-box-frame"">
+                <a class="list-group-item disabled list-box list-box-header">
+                  <div class="two-item">Department & number</div>
+                  <div class="two-item">Title</div>
+                </a>
+
+                {% for course in courses: %}
+                <a href="/student/course?id={{course.get('id')}}" class="list-group-item list-group-item-action list-box">
+                  <div class="two-item">{{course.get('dept_course')}}</div>
+                  <div class="two-item">{{course.get('name')}}</div>
+                </a>
+                {% endfor %}
+              </div>
+        </div>
+
+        &nbsp;
+
+        {% include "sidebar.html" %}
+
+    </body>
+
+</html>

@@ -5,7 +5,6 @@
 
     <body class="princeton-gradient">
         <div class="non-sidebar">
-            {% include '/components/student-dashboard-title.html' %}
             <h1>{{tutor.get('name')}}, {{course.get('dept_course')}} tutor</h1>
             <br><br><br>
 
@@ -19,17 +18,16 @@
             {% else %}
                 {% if tutorship.get('status')=='REQUESTED' %}
                 <button><a href="/student/tutor/cancel?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Cancel tutorship request</a></button>
-                {% elif tutorship.get('status')=='ACCEPTED' %}
-                <button><a href="/student/tutor/dissolve?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Dissolve tutorship</a></button>
                 {% else %}
-                <button><a href="/student/tutor/request?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Request tutor</a></button>
+                <button><a href="/student/tutor/dissolve?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Dissolve tutorship</a></button>
                 {% endif %}
             {% endif %}
 
         </div>
 
         &nbsp;
-        {% include '/components/student-navbar.html' %}
+
+        {% include "sidebar.html" %}
 
     </body>
 

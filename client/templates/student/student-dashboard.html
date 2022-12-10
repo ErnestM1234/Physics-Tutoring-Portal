@@ -5,41 +5,52 @@
 
     <body class="princeton-gradient">
         <div class="non-sidebar">
-          {% include '/components/student-dashboard-title.html' %}
             <h1>Welcome,&nbsp;<b>{{user.name}}</b>.</h1>
 
-            <br><br><br>
-
-            <h2>My tutorships</h2>
             <br>
-            <table id="userlisttable">
-                <thead id="userlistheader">
-                  <tr>
-                    <td><h5>Course</h5></td>
-                    <td><h5>Tutor name</h5></td>
-                    <td><h5>Tutor netID</h5></td>
-                    <td><h5>Tutor email</h5></td>
-                    <td><h5>Status</h5></td>
-                  </tr>
-                </thead>
-                <tbody id="userlist">
 
+            <h2>My tutors</h2>
+            <br>
+              <div class="list-group list-box-frame">
+                <a class="list-group-item disabled list-box list-box-header">
+                  <div class="six-item">Course</div>
+                  <div class="six-item">Tutor name</div>
+                  <div class="six-item">Tutor netID</div>
+                  <div class="four-item">Tutor email</div>
+                  <div class="six-item">Status</div>
+                </a>
                 {% for tutorship in tutorships: %}
-                <tr>
-                <td>{{tutorship.get('course').get('dept_course')}}</td>
-                <td><a href="/student/tutor?tutor_id={{tutorship.get('tutor').get('id')}}&course_id={{tutorship.get('course').get('id')}}">{{tutorship.get('tutor').get('name')}}</a></td>
-                <td>{{tutorship.get('tutor').get('netid')}}</td>
-                <td>{{tutorship.get('tutor').get('email')}}</td>
-                <td>{{tutorship.get('status')}}</td>
-                </tr>
+                {% if tutorship.get('status') == 'ACCEPTED' %}
+                <a href="/student/tutor?tutor_id={{tutorship.get('tutor').get('id')}}&course_id={{tutorship.get('course').get('id')}}" class="list-group-item list-group-item-action accepted-gradient list-box">
+                {% elif tutorship.get('status') == 'REQUESTED' %}
+                <a href="/student/tutor?tutor_id={{tutorship.get('tutor').get('id')}}&course_id={{tutorship.get('course').get('id')}}" class="list-group-item list-group-item-action requested-gradient list-box">
+                {% else %}
+                <a href="/student/tutor?tutor_id={{tutorship.get('tutor').get('id')}}&course_id={{tutorship.get('course').get('id')}}" class="list-group-item list-group-item-action list-box">
+                {% endif %}
+                  <div class="six-item">{{tutorship.get('course').get('dept_course')}}</div>
+                  <div class="six-item">{{tutorship.get('tutor').get('name')}}</div>
+                  <div class="six-item">{{tutorship.get('tutor').get('netid')}}</div>
+                  <div class="four-item">{{tutorship.get('tutor').get('email')}}</div>
+                  {% if tutorship.get('status') == 'ACCEPTED' %}
+                  <div class="six-item" style="color: green;">{{tutorship.get('status')}}</div>
+                  {% elif tutorship.get('status') == 'REQUESTED' %}
+                  <div class="six-item" style="color: blue;">{{tutorship.get('status')}}</div>
+                  {% else %}
+                  <div class="six-item">{{tutorship.get('status')}}</div>
+                  {% endif %}
+                </a>
                 {% endfor %}
+              </div>
 
-                </tbody>
-              </table>
+              <br>
+              <br>
+              <br>
+
         </div>
 
         &nbsp;
-        {% include '/components/student-navbar.html' %}
+
+        {% include "sidebar.html" %}
 
     </body>
 

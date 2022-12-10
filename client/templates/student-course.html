@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+    <head>
+    <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+    </head>
+
+    <body class="princeton-gradient">
+        
+        <div class="non-sidebar">
+            <h1>{{course.get('dept_course')}}</h1>
+
+            <br>
+
+            <h2>Available tutors</h2>
+
+            <a href="/student/tutors/request?course_id={{course.get('id')}}"><button>Request all</button></a>
+
+            <br>
+            <br>
+            <br>
+
+            <table id="userlisttable">
+                <thead id="userlistheader">
+                  <tr>
+                    <td><h5>Tutor name</h5></td>
+                  </tr>
+                </thead>
+                <tbody id="userlist">
+
+                {% for tutor_course in tutor_courses: %}
+                <tr>
+                <td><a href="/student/tutor?tutor_id={{tutor_course.get('tutor').get('id')}}&course_id={{course.get('id')}}">{{tutor_course.get('tutor').get('name')}}</a></td>
+                </tr>
+                {% endfor %}
+
+                </tbody>
+              </table>
+        </div>
+
+        &nbsp;
+
+        {% include "sidebar.html" %}
+
+    </body>
+
+</html>

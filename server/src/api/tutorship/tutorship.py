@@ -116,11 +116,22 @@ def create_tutorship():
         student_id = data.get('student_id')
         tutor_id = data.get('tutor_id')
         course_id = data.get('course_id')
-        tutorship = Tutorships(status, student_id, tutor_id, course_id)
-        db.session.add(tutorship)
-        db.session.commit()
 
-        return {"message": "success" }, 200
+        # Prevent duplicate tutorships (where student, tutor, and course repeat)
+        filters = []
+        filters.append(Tutorships.student_id == student_id)
+        filters.append(Tutorships.tutor_id == tutor_id)
+        filters.append(Tutorships.course_id == course_id)
+
+        duplicate_tutorship = Tutorships.query.filter(*filters).first()
+
+        if duplicate_tutorship is None:
+            tutorship = Tutorships(status, student_id, tutor_id, course_id)
+            db.session.add(tutorship)
+            db.session.commit()
+            return {"message": "success" }, 200
+        else:
+            return {"message": "Cannot create duplicate tutorships."}, 400
     except Exception as e:
         print(str(e))
         return {"error": str(e)}, 400
@@ -169,6 +180,17 @@ def  update_tutorship():
             tutorship.tutor_id = data.get('tutor_id')
         if data.get('course_id') not in [None, '']:
             tutorship.course_id = data.get('course_id')
+
+        # If tutorship is ACCEPTED, delete all other REQUESTED tutorships with that student and course
+        if tutorship.status is 'ACCEPTED':
+            filters = []
+            filters.append(Tutorships.student_id == tutorship.student_id)
+            filters.append(Tutorships.course_id == tutorship.course_id)
+            requested_tutorships = Tutorships.query.filter(*filters).all()
+
+            for requested_tutorship in requested_tutorships:
+                if (requested_tutorship.id is not tutorship.id):
+                    db.session.delete(requested_tutorship)
 
         db.session.commit()
         return {"message": "success" }, 200

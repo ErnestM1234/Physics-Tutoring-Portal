@@ -3,8 +3,6 @@ from app import app, db
 from flask import jsonify, request
 from marshmallow import Schema, fields
 from src.database.models import TutorCourses
-from src.utils.auth import requires_auth
-
 
 
 """ GET /api/tutor_course/
@@ -16,7 +14,6 @@ class GetTutorCourseInputSchema(Schema):
 get_tutor_course_input_schema = GetTutorCourseInputSchema()
 
 @app.route('/api/tutor_course/', methods=['GET'])
-@requires_auth
 def get_tutor_course():
     errors = get_tutor_course_input_schema.validate(request.args)
     if errors:
@@ -48,8 +45,7 @@ class GetTutorCoursesInputSchema(Schema):
     status = fields.String()
 get_tutor_courses_input_schema = GetTutorCoursesInputSchema()
 
-@app.route('/api/tutor_courses/', methods=['GET'])
-@requires_auth
+@app.route('/api/tutor_courses/', methods=['GET']) 
 def get_tutor_courses():
     errors = get_tutor_courses_input_schema.validate(request.args)
     if errors:
@@ -81,22 +77,17 @@ def get_tutor_courses():
 
 """ POST /api/tutor_course/create/
 Parameters:
-    - tutor_id      (int)!
-    - course_id     (int)!
-    - status        (string)!
-    - taken_course  (string)?
-    - experience    (string)?
+    - tutor_id  (int)!
+    - course_id  (int)!
+    - status    (string)!
 """
 class CreateTutorCourseInputSchema(Schema):
     tutor_id = fields.Integer(required=True)
     course_id = fields.Integer(required=True)
     status = fields.String(required=True)
-    taken_course = fields.String()
-    experience = fields.String()
 create_tutor_course_input_schema = CreateTutorCourseInputSchema()
 
 @app.route('/api/tutor_course/create/', methods=['POST'])
-@requires_auth
 def create_tutor_course():
     data = json.loads(request.data)
     errors = create_tutor_course_input_schema.validate(data)
@@ -105,25 +96,24 @@ def create_tutor_course():
         return {"message": str(errors) }, 400
     
     try:
-        if data.get('taken_course') is not None and data.get('experience'):
-            tutor_course = TutorCourses(
-                data.get('tutor_id'),
-                data.get('course_id'),
-                data.get('status'),
-                data.get('taken_course'),
-                data.get('experience'),
-            )
+        tutor_id = data.get('tutor_id')
+        course_id = data.get('course_id')
+        status = data.get('status')
+
+        # Prevent duplicate tutor_courses (where tutor and course repeat)
+        filters = []
+        filters.append(TutorCourses.tutor_id == tutor_id)
+        filters.append(TutorCourses.course_id == course_id)
+
+        duplicate_tutor_course = TutorCourses.query.filter(*filters).first()
+
+        if duplicate_tutor_course is None:
+            tutor_course = TutorCourses(tutor_id, course_id, status)
+            db.session.add(tutor_course)
+            db.session.commit()
+            return {"message": "success" }, 200
         else:
-            tutor_course = TutorCourses(
-                data.get('tutor_id'),
-                data.get('course_id'),
-                data.get('status'),
-                '',
-                ''
-            )
-        db.session.add(tutor_course)
-        db.session.commit()
-        return {"message": "success" }, 200
+            return {"message": "Cannot create duplicate tutor_courses."}, 400
     except Exception as e:
         print(str(e))
         return {"error": str(e)}, 400
@@ -137,8 +127,6 @@ Parameters:
     - tutor_id  (int)?
     - course_id (int)?
     - status    (string)?
-    - taken_course  (string)?
-    - experience    (string)?
 """
 class UpdateTutorCourseInputSchema(Schema):
     id = fields.Integer(required=True)
@@ -148,7 +136,6 @@ class UpdateTutorCourseInputSchema(Schema):
 update_tutor_course_input_schema = UpdateTutorCourseInputSchema()
 
 @app.route('/api/tutor_course/update/', methods=['POST'])
-@requires_auth
 def  update_tutor_course():
     data = json.loads(request.data)
     errors = update_tutor_course_input_schema.validate(data)
@@ -168,10 +155,6 @@ def  update_tutor_course():
             tutor_course.course_id = data.get('course_id')
         if data.get('status') not in [None, '']:
             tutor_course.status = data.get('status')
-        if data.get('taken_course') not in [None, '']:
-            tutor_course.taken_course = data.get('taken_course')
-        if data.get('experience') not in [None, '']:
-            tutor_course.experience = data.get('experience')
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
@@ -188,7 +171,6 @@ class DeleteTutorCourseInputSchema(Schema):
 delete_tutor_course_input_schema = DeleteTutorCourseInputSchema()
 
 @app.route('/api/tutor_course/delete/', methods=['POST'])
-@requires_auth
 def delete_tutor_course():
     data = json.loads(request.data)
     errors = delete_tutor_course_input_schema.validate(data)

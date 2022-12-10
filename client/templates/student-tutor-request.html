@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+    <head>
+    <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+    </head>
+
+    <body class="princeton-gradient">
+        <div class="non-sidebar">
+            <h1></b>Request tutor</h1>
+
+            <br><br><br>
+
+            Request {{course.get('dept_course')}} tutor {{tutor.get('name')}}?
+            <br>
+            <a href="/student/tutor/request/confirm?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}"><button>Confirm</button></a>
+        </div>
+
+        &nbsp;
+
+        {% include "sidebar.html" %}
+
+    </body>
+
+</html>
