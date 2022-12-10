@@ -1,0 +1,56 @@
+<div class="sidebar">
+
+    <img src="{{url_for('static', filename='p_logo_v1.png')}}" width="210px" style="position:absolute;left:25px;top:40px;">
+
+    <form action="/admin/dashboard" method="get">
+      <button type="submit" class="sidebar-button" style="position:absolute;top:200px;">Admin dashboard</button>
+    </form>
+
+    <form action="/admin/courses" method="get">
+      <button type="submit" class="sidebar-button" style="position:absolute;top:250px;">Courses</button>
+    </form>
+
+    <form action="/admin/tutors" method="get">
+      <button type="submit" class="sidebar-button" style="position:absolute;top:300px;">Tutors</button>
+    </form>
+
+    <form action="/admin/tutorships" method="get">
+        <button type="submit" class="sidebar-button" style="position:absolute;top:350px;">Tutorships</button>
+    </form>
+
+    <form action="/admin/students" method="get">
+        <button type="submit" class="sidebar-button" style="position:absolute;top:400px;">Students</button>
+    </form>
+
+    <form action="/admin/admins" method="get">
+        <button type="submit" class="sidebar-button" style="position:absolute;top:450px;">Admins</button>
+    </form>
+
+    {% if user.get('is_student') and user.get('is_tutor') %}
+
+    <form action="/student/dashboard" method="get">
+      <button type="submit" class="sidebar-button" style="position:absolute;top:500px;">Student dashboard</button>
+    </form>
+
+    <form action="/admin/dashboard" method="get">
+      <button type="submit" class="sidebar-button" style="position:absolute;top:550px;">Tutor dashboard</button>
+    </form>
+
+    {% elif user.get('is_student') %}
+
+    <form action="/student/dashboard" method="get">
+      <button type="submit" class="sidebar-button" style="position:absolute;top:500px;">Student dashboard</button>
+    </form>
+
+    {% elif user.get('is_tutor') %}
+
+    <form action="/tutordashboard" method="get">
+      <button type="submit" class="sidebar-button" style="position:absolute;top:500px;">Tutor dashboard</button>
+    </form>
+
+    {% endif %}
+
+    <img src="{{url_for('static', filename='PU-white.png')}}" width="180px" style="position:fixed;bottom:10px;left:25px;">
+
+
+</div>

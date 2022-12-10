@@ -28,5 +28,6 @@ def student_tutors_request():
 
     return render_template(
         'student-tutors-request.html',
+        user=user,
         course=course
     )
