@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+    <head>
+    <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+    </head>
+
+    <body class="princeton-gradient">
+        <div class="non-sidebar">
+            {% include '/components/student-dashboard-title.html' %}
+            <h1>{{tutor.get('name')}}, {{course.get('dept_course')}} tutor</h1>
+            <br><br><br>
+
+            <h2>Bio</h2>
+            <br>
+            {{tutor.get('bio')}}
+
+            <br><br><br>
+            {% if tutorship==None %}
+            <button><a href="/student/tutor/request?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Request tutor</a></button>
+            {% else %}
+                {% if tutorship.get('status')=='REQUESTED' %}
+                <button><a href="/student/tutor/cancel?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Cancel tutorship request</a></button>
+                {% elif tutorship.get('status')=='ACCEPTED' %}
+                <button><a href="/student/tutor/dissolve?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Dissolve tutorship</a></button>
+                {% else %}
+                <button><a href="/student/tutor/request?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Request tutor</a></button>
+                {% endif %}
+            {% endif %}
+
+        </div>
+
+        &nbsp;
+        {% include '/components/student-navbar.html' %}
+
+    </body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Remove Course</title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+            {% include '/components/admin-dashboard-title.html' %}
+            <br>
+
+            <br><br><br>
+
+            <h3>REMOVE A COURSE</h3>
+            <p>Are you sure you want to remove this course?</p>
+            <form action="/admin/courses/remove-course/confirm/" method="GET">
+                <input type="hidden" name="course_id" value="{{course_id}}" readonly><br>
+                <input type="submit" value="REMOVE">
+            </form>
+            <br>
+            <p>Removing this course will delete {{ tutorship_count }} tutorships! </p>
+
+
+            <p>Removing this course will delete {{ tutor_course_count }} tutor-courses! </p>
+        </div>
+
+        &nbsp;
+        
+        {% include '/components/admin-navbar.html' %}
+
+        
+
+
+    </body>
+
+</html>

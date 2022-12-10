@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+    <head>
+    <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+    </head>
+
+    <body class="princeton-gradient">
+        <div class="non-sidebar">
+          {% include '/components/student-dashboard-title.html' %}
+            <h1>Courses</h1>
+
+            <br>
+
+            <table id="userlisttable">
+                <thead id="userlistheader">
+                  <tr>
+                    <td><h5>Department & number</h5></td>
+                    <td><h5>Title</h5></td>
+                  </tr>
+                </thead>
+                <tbody id="userlist">
+
+                {% for course in courses: %}
+                <tr>
+                <td><a href="/student/course?id={{course.get('id')}}">{{course.get('dept_course')}}</a></td>
+                <td>{{course.get('name')}}</td>
+                </tr>
+                {% endfor %}
+
+                </tbody>
+              </table>
+        </div>
+
+        &nbsp;
+        {% include '/components/student-navbar.html' %}
+
+
+    </body>
+
+</html>

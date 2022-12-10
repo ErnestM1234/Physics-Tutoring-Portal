@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Dissolve Tutorship</title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+          {% include '/components/admin-dashboard-title.html' %}
+            <br>
+
+            <br><br><br>
+
+            <h3>DISSOLVE A TUTORSHIP</h3>
+            <p>Are you sure you want to dissolve this tutorship?</p>
+            <form action="/admin/tutorships/remove-tutorship/confirm/" method="GET">
+                <input type="hidden" name="tutorship_id" value="{{tutorship.id}}" readonly><br>
+                <input type="submit" value="DISSOLVE">
+            </form>
+
+            <br><br><br>
+            
+            <h3>TUTORSHIP</h3>
+    
+            <div class ="list">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th class="bg-white" scope="col">Courses</th>
+                    <th class="bg-white" scope="col">Student Id</th>
+                    <th class="bg-white" scope="col">Student Name</th>
+                    <th class="bg-white" scope="col">Tutor Id</th>
+                    <th class="bg-white" scope="col">Tutor Name</th>
+                    <th class="bg-white" scope="col">Course Id</th>
+                    <th class="bg-white" scope="col">Course Name</th>
+                    <th class="bg-white" scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="bg-white">{{tutorship.id}}</td>
+                        <td class="bg-white">{{tutorship.student_id}}</td>
+                        <td class="bg-white">{{tutorship.student.name}}</td>
+                        <td class="bg-white">{{tutorship.tutor.id}}</td>
+                        <td class="bg-white">{{tutorship.tutor.name}}</td>
+                        <td class="bg-white">{{tutorship.course_id}}</td>
+                        <td class="bg-white">{{tutorship.course.name}}</td>
+                        <td class="bg-white">{{tutorship.status}}</td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+
+        &nbsp;
+        
+        {% include '/components/admin-navbar.html' %}
+
+        
+
+
+    </body>
+
+</html>

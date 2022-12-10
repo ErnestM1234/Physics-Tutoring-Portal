@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+    <head>
+    <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+    </head>
+
+    <body class="princeton-gradient">
+        <div class="non-sidebar">
+            {% include '/components/tutor-dashboard-title.html' %}
+            <h1></b>Accept tutorship</h1>
+
+            <br><br><br>
+
+            Accept tutorship with {{course.get('dept_course')}} student {{student.get('name')}}?
+            <br>
+            <a href="/tutor/student/accept/confirm?student_id={{student.id}}&course_id={{course.id}}"><button>Confirm</button></a>
+        </div>
+
+        &nbsp;
+
+        {% include '/components/tutor-navbar.html' %}
+
+    </body>
+
+</html>

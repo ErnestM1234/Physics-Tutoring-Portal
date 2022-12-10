@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>All Physics Classes</title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+          {% include '/components/tutor-dashboard-title.html' %}
+                <br>
+                <h1>APPLY TO TUTOR</h1>
+    
+
+                <div class ="list">
+                  <br>
+                  <table id="userlisttable">
+                    <thead id="userlistheader">
+                      <tr>
+                        <td><h5>Course Name</h5></td>
+                          <td><h5>Department and Number</h5></td>
+                      </tr>
+                    </thead>
+                    <tbody id="userlist">
+                        {% for course in courses: %}
+                        <tr>
+                          <td>{{course.name}}</td>
+                          <td>{{course.dept_course}}</td>
+                          <td><a href="/tutor/application?course_id={{course.get('id')}}"><h5>Apply to Tutor {{course.name}}</h5></a></td>
+
+                        </tr>
+                        {% endfor %}
+    
+                    </tbody>
+                  </table>
+                </div>
+        </div>
+
+        &nbsp;
+        {% include '/components/student-navbar.html' %}
+        
+
+
+    </body>
+
+</html>

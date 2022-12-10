@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Result</title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+
+        <div class="non-sidebar">
+          {% include '/components/tutor-dashboard-title.html' %}
+            <br>
+
+            <br><br><br>
+
+            <h3>RESPONSE</h3>
+            {{message}}
+        </div>
+
+        &nbsp;
+        {% include '/components/tutor-navbar.html' %}
+        
+
+
+    </body>
+
+</html>
