@@ -13,10 +13,11 @@
         <div class="non-sidebar">
             {% include '/components/tutor-dashboard-title.html' %}
             <br>
-            <h1>Tutoring Application</h1>
+            <h1>Tutoring Application for {{course.name}}</h1>
 
             <br>
 
+            <!--
             <form action = "/tutor/application/confirm" method = "POST">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Choose the class you would like to become a tutor for:</label>
@@ -26,10 +27,11 @@
                   {% endfor %}
                 </select>
               </div>
+            -->
 
               <br>
               <div class="form-group">
-                <label for="exampleFormControlSelect1">Have you taken the course?</label>
+                <label for="exampleFormControlSelect1">Have you taken {{course.name}}?</label>
                 <select class="form-control" name ="taken_course" id="exampleFormControlSelect1">
                   <option>Yes</option>
                   <option>Currently Enrolled</option>

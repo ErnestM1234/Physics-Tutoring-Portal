@@ -13,7 +13,7 @@
         <div class="non-sidebar">
           {% include '/components/tutor-dashboard-title.html' %}
                 <br>
-                <h1>ALL COURSES</h1>
+                <h1>APPLY TO TUTOR</h1>
     
 
                 <div class ="list">
@@ -30,7 +30,8 @@
                         <tr>
                           <td>{{course.name}}</td>
                           <td>{{course.dept_course}}</td>
-                          <td><a href="/tutor/application"><h5>Apply to Tutor</h5></a></td>
+                          <td><a href="/tutor/application?course_id={{course.get('id')}}"><h5>Apply to Tutor</h5></a></td>
+
                         </tr>
                         {% endfor %}
     
