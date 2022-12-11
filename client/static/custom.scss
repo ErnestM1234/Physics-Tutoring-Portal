@@ -16,6 +16,7 @@ h1 {
 }
 
 .list-box{
+  font-size: 15px;
   min-width: 400px;
   width: calc(100vw - 350px);
   display: flex;
@@ -28,8 +29,14 @@ h1 {
 .list-box-header{
   background-color:rgb(192, 111, 49);
   color:black !important;
-  font-size: 20px;
   font-weight: bold;
+}
+
+@media only screen and (max-width: 800px) {
+  /* For mobile phones: */
+  [class*="list-box"] {
+    font-size: 12px;
+  }
 }
 
 .one-item{
