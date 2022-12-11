@@ -11,14 +11,14 @@
     <body class="princeton-gradient">
 
         <div class="non-sidebar">
-            {% include '/components/tutor-dashboard-title.html' %}
+            {% include '/components/student-dashboard-title.html' %}
             <br>
             <h1>Tutoring Application for {{course.name}}</h1>
 
             <br>
 
+            <form action = "/student/tutor/application/confirm" method = "POST"></form>
             <!--
-            <form action = "/tutor/application/confirm" method = "POST">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Choose the class you would like to become a tutor for:</label>
                 <select class="form-control" name="course_id" id="exampleFormControlSelect1">

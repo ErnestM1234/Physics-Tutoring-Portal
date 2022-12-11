@@ -9,7 +9,7 @@ from pages.shared.get_user import *
 load_dotenv()
 
 @app.route('/student/tutor/courses')
-def allClasses():
+def studentTutorCourses():
     # verify is user
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_student'] == False:
@@ -25,5 +25,5 @@ def allClasses():
     courses = res.json()
    
     return render_template(
-        '/student/tutor-courses.html', courses=courses
+        '/student/student-tutor-courses.html', courses=courses
     )

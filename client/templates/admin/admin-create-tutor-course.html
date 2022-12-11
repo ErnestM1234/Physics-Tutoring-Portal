@@ -16,15 +16,35 @@
 
             <br><br><br>
 
-            <h3>CREATE A TUTOR-COURSE</h3>
-            <form action="/admin/create-tutor-course/confirm" method="POST">
-                tutor id
-                <input type="text" name="tutor_id"><br>
-                course id
-                <input type="text" name="course_id"><br>
-                status
-                <input type="text" name="status"><br>
-                <input type="submit">
+            <h3>Assign an existing tutor a new course</h3>
+
+            <form action = "/admin/create-tutor-course/confirm" method = "POST"></form>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Select a tutor</label>
+                <select class="form-control" name="tutor_name" id="exampleFormControlSelect1">
+                  {% for tutor in tutors: %}
+                    <option value="{{tutor.id}}">{{tutor.name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Select a course</label>
+                <select class="form-control" name="course_name" id="exampleFormControlSelect1">
+                  {% for course in courses: %}
+                    <option value="{{course.id}}">{{course.name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Select a status</label>
+                <select class="form-control" name="status" id="exampleFormControlSelect1">
+                    <option value="ACCEPTED">Accepted</option>
+                    <option value="REQUESTED">Requested</option>
+                    <option value="REJECTED">Rejected</option>
+                    <option value="BLOCKED">Blocked</option>
+                </select>
+              </div>
             </form>
         </div>
 

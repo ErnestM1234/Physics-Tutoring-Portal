@@ -31,6 +31,9 @@ def admin_tutorships():
             course_id = int(float(course_id))
         else:
             return redirect('/')
+    
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
+    course = res.json()
 
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params=tutorship_params, headers=headers)
@@ -68,6 +71,7 @@ def admin_tutorships():
     return render_template(
         '/admin/admin-tutorships.html',
         tutorships=tutorships,
+        course = course,
         course_id=course_id
     )
 

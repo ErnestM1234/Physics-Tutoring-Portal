@@ -67,6 +67,11 @@ def admin_tutors():
         else:
             return redirect('/') # TODO: change this to an error message
 
+
+    #added this: 
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
+    course = res.json()
+
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params=tutor_course_params, headers=headers)
     tutor_courses = res.json()
@@ -92,6 +97,7 @@ def admin_tutors():
         tutor_requests=tutor_requests,
         denied_tutors=denied_tutors,
         get_name=get_name,
-        course_id=course_id
+        course_id=course_id, 
+        course = course
     )
 

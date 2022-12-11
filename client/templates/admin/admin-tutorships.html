@@ -16,13 +16,13 @@
 
             <br><br><br>
 
-            {% if course_id  %}
-                <h3>COURSE ID: {{course_id}}</h3>
+            {% if course  %}
+                <h3>COURSE NAME: {{course.name}}</h3>
             {% endif %}
 
             <h3>TUTORSHIPS</h3>
 
-            <a href="/admin/tutorships/create-tutorship">create tutorship</a><br>
+            <a href="/admin/tutorships/create-tutorship">Add a new tutorship</a><br>
     
             <div class ="list">
             <table class="table">

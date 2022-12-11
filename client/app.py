@@ -167,6 +167,7 @@ from pages.admin.admin_remove_course import *
 from pages.admin.admin_remove_tutorship import *
 from pages.admin.admin_student_profile import *
 from pages.admin.admin_tutor_profile import *
+from pages.admin.admin_add_admin import *
 
 
 from pages.student.student_dashboard import *
@@ -179,6 +180,9 @@ from pages.student.student_tutor_dissolve import *
 from pages.student.student_tutor_request_confirm import *
 from pages.student.student_tutor_cancel_confirm import *
 from pages.student.student_tutor_dissolve_confirm import *
+from pages.student.student_tutor_application import *
+from pages.student.student_tutor_courses import *
+from pages.student.student_application_confirm import *
 
 from pages.tutor.tutor_dashboard import*
 from pages.tutor.tutor_courses import*

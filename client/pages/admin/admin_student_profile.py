@@ -64,10 +64,27 @@ def student_profile():
 
 
 
+    isAStudent = 'Is a Student'
+    isATutor = 'Not a Tutor'
+    isAnAdmin = 'Not an Admin'
+        
+    print(student['is_tutor'])
+    if(student['is_tutor']):
+        isATutor = 'Is a Tutor'
+    if(student['is_admin']):
+        isAnAdmin = 'Is an Admin'
+        
+
+
+
+
     return render_template(
         'profile-student.html',
         user=user,
         student=student,
-        tutorships=tutorships
+        tutorships=tutorships, 
+        isATutor = isATutor, 
+        isAnAdmin = isAnAdmin, 
+        isAStudent = isAStudent
     )
 

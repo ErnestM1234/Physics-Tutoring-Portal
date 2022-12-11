@@ -29,12 +29,12 @@
 
             <br><br><br>
 
-            {% if course_id  %}
-                <h3>COURSE ID: {{course_id}}</h3>
+            {% if course  %}
+                <h3>COURSE NAME: {{course.name}}</h3>
             {% endif %}
 
             <h3>TUTORS</h3>
-            <a href="/admin/create-tutor-course">add tutor-course</a><br>
+            <a href="/admin/create-tutor-course">Assign an existing tutor a new course</a><br>
     
             <div class ="list">
             <table class="table">
