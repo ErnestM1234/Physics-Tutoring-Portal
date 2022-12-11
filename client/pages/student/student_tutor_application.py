@@ -34,6 +34,6 @@ def studentTutorApplication():
     #tutor = res.json()
 
     return render_template(
-        '/student/student-tutor-application.html', course = course
+        '/student/student-tutor-application.html', course = course, user=user
 
     )

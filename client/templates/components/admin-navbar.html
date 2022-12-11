@@ -1,48 +1,45 @@
-<div class="wrapper">
-    <!-- Sidebar -->
-    <nav id="sidebar">
+<div class="sidebar">
 
-        <img src="{{url_for('static', filename='p_logo_v1.png')}}" width="210px" style="position:absolute;left:25px;top:40px;">
+  <img src="{{url_for('static', filename='p_logo_v1.png')}}" width="210px" style="position:absolute;left:25px;top:40px;">
 
-        <div class="sidebar-button" style="position:absolute;top:210px;">
-          <a href="/admin/dashboard"><button type="button" class="btn"><h5>Dashboard</h5></button></a>
-        </div>
-        
-        <div class="sidebar-button" style="position:absolute;top:285px;">
-          <a href="/admin/courses"><button type="button" class="btn"><h5>All Courses</h5></button></a>
-        </div>
+  <form action="/admin/dashboard" method="get">
+    <button type="submit" class="sidebar-button" style="position:absolute;top:200px;">Admin Dashboard</button>
+  </form>
 
-        <div class="sidebar-button" style="position:absolute;top:360px;">
-            <a href="/admin/tutors"><button type="button" class="btn"><h5>All Tutors</h5></button></a>
-        </div>
+  <form action="/admin/courses" method="get">
+    <button type="submit" class="sidebar-button" style="position:absolute;top:250px;">All Courses</button>
+  </form>
 
-        <div class="sidebar-button" style="position:absolute;top:435px">
-          <a href="/admin/tutorships"><button type="button" class="btn"><h5>All Tutorships</h5></button></a>
-        </div>
+  <form action="/admin/tutors" method="get">
+    <button type="submit" class="sidebar-button" style="position:absolute;top:300px;">All Tutors</button>
+  </form>
 
-        <div class="sidebar-button" style="position:absolute;top:510px">
-          <a href="/admin/students"><button type="button" class="btn"><h5>All Students</h5></button></a>
-        </div>
-        
-        <div class="sidebar-button" style="position:absolute;top:585px">
-          <a href="/admin/admins"><button type="button" class="btn"><h5>All Admin</h5></button></a>
-        </div>
+  <form action="/admin/tutorships" method="get">
+    <button type="submit" class="sidebar-button" style="position:absolute;top:350px;">All Tutorships</button>
+  </form>
 
-        <div class="sidebar-button" style="position:absolute;top:660px">
-            <a href="/student/dashboard"><button type="button" class="btn"><h5>Student Dashboard</h5></button></a>
-        </div>
-  
-        <div class="sidebar-button" style="position:absolute;top:735px;">
-            <a href="/tutor/dashboard"><button type="button" class="btn"><h5>Tutor Dashboard</h5></button></a>
-        </div>
+  <form action="/admin/students" method="get">
+    <button type="submit" class="sidebar-button" style="position:absolute;top:400px;">All Students</button>
+  </form>
 
-        <div class="sidebar-button" style="position:absolute;top:810px">
-            <a href="/logout"><button type="button" class="btn"><h5>Logout</h5></button></a>
-        </div>
+  <form action="/admin/admins" method="get">
+    <button type="submit" class="sidebar-button" style="position:absolute;top:450px;">All Admin</button>
+  </form>
 
-        <img src="{{url_for('static', filename='PU-standard.png')}}" width="180px" style="position:absolute;top:885px">
+  <form action="/admin/tutors" method="get">
+    <button type="submit" class="sidebar-button" style="position:absolute;top:500px;">All Tutors</button>
+  </form>
 
-    </nav>
-    
+  <form action="/student/dashboard" method="get">
+    <button type="submit" class="sidebar-button" style="position:absolute;top:550px;">Student Dashboard</button>
+  </form>
+
+  <form action="/tutor/dashboard" method="get">
+    <button type="submit" class="sidebar-button" style="position:absolute;top:600px;">Tutor Dashboard</button>
+  </form>
+
+
+  <img src="{{url_for('static', filename='PU-white.png')}}" width="180px" style="position:fixed;bottom:10px;left:25px;">
+
 
 </div>
