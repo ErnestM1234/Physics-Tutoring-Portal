@@ -11,12 +11,15 @@ load_dotenv()
 @app.route('/student/dashboard')
 def student_dashboard():
     # verify is student
+    user = get_user(requests)
+    if user is None or "id" not in user.keys() or user['is_student'] == False:
+        return render_template(
+            '/student/student-no-access.html',
+            message='you do not have permission to access this page'
+        )
     
     # get headers
     headers = get_header()
-
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'id': 1}, headers=headers)
-    user = res.json()
 
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': user['id']}, headers=headers)
