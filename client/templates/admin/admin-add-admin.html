@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Create Course</title>
+      <title>Physics Tutoring Portal Remove Course</title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -16,14 +16,13 @@
 
             <br><br><br>
 
-            <h3>Create a new course</h3>
-            <form action="/admin/courses/create-course/confirm" method="POST">
-                name
-                <input type="text" name="name"><br>
-                dept & num
-                <input type="text" name="dept_course"><br>
-                <input type="submit">
+            <h3>ADD AN ADMIN</h3>
+            <p>Are you sure you want to make {{user.name}} an admin?</p>
+            <form action="/admin/courses/add-admin/confirm/" method="GET">
+                <input type="hidden" name="user_id" value="{{user_id}}" readonly><br>
+                <input type="submit" value="ADD">
             </form>
+            <br>
         </div>
 
         &nbsp;

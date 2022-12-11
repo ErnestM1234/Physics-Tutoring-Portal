@@ -13,7 +13,7 @@ def admin_admins():
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         return render_template(
-            '/admin/confirmation.html',
+            'confirmation.html',
             message='you do not have permission to access this page'
         )
     # get headers
