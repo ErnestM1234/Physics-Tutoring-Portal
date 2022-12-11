@@ -52,5 +52,6 @@ def tutor_student_reject_confirm():
         '/tutor/tutor-student-reject-confirm.html',
         student=student,
         course=course,
-        tutor=tutor
+        tutor=tutor, 
+        user=user
     )

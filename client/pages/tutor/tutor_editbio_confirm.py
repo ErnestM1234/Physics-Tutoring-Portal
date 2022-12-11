@@ -38,5 +38,6 @@ def edit_bio_confirm():
 
     return render_template(
         '/tutor/tutor-confirmation.html',
-        message=message
+        message=message, 
+        user=user
     )
