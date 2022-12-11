@@ -7,13 +7,13 @@ from pages.shared.get_user import *
 
 load_dotenv()
 
-@app.route('/tutor/application/confirm', methods=['POST'])
-def tutor_application_confirm():
+@app.route('/student/tutor/application/confirm', methods=['POST'])
+def student_tutor_application_confirm():
     # verify is student
     user = get_user(requests)
-    if user is None or "id" not in user.keys() or user['is_tutor'] == False:
+    if user is None or "id" not in user.keys() or user['is_student'] == False:
         return render_template(
-            '/tutor/tutor-no-access.html',
+            '/student/student-no-access.html',
             message='you do not have permission to access this page'
         )
     # get headers
@@ -37,7 +37,7 @@ def tutor_application_confirm():
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps({'id': str(user['id']), 'is_tutor': True}), headers=headers)
     if res.status_code != 200:
         return render_template(
-            '/tutor/tutor-confirmation.html',
+            '/student/student-confirmation.html',
             message='Error: '  + str(res.content)
         )
 
@@ -46,12 +46,12 @@ def tutor_application_confirm():
     message = str(res)
     if res.status_code != 200:
         return render_template(
-            '/tutor/tutor-confirmation.html',
+            '/student/student-confirmation.html',
             message='Error: ' + str(res.content)
         )
 
 
     return render_template(
-        '/tutor/tutor-confirmation.html',
+        '/student/student-confirmation.html',
         message=message
     )

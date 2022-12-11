@@ -179,6 +179,9 @@ from pages.student.student_tutor_dissolve import *
 from pages.student.student_tutor_request_confirm import *
 from pages.student.student_tutor_cancel_confirm import *
 from pages.student.student_tutor_dissolve_confirm import *
+from pages.student.student_tutor_application import *
+from pages.student.student_tutor_courses import *
+from pages.student.student_application_confirm import *
 
 from pages.tutor.tutor_dashboard import*
 from pages.tutor.tutor_courses import*
