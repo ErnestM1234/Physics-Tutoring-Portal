@@ -18,10 +18,10 @@
 
             <h3>Assign an existing tutor a new course</h3>
 
-            <form action = "/admin/create-tutor-course/confirm" method = "POST"></form>
+            <form action = "/admin/create-tutor-course/confirm" method = "POST">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Select a tutor</label>
-                <select class="form-control" name="tutor_name" id="exampleFormControlSelect1">
+                <select class="form-control" name="tutor" id="exampleFormControlSelect1">
                   {% for tutor in tutors: %}
                     <option value="{{tutor.id}}">{{tutor.name}}</option>
                   {% endfor %}
@@ -30,7 +30,7 @@
 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Select a course</label>
-                <select class="form-control" name="course_name" id="exampleFormControlSelect1">
+                <select class="form-control" name="course" id="exampleFormControlSelect1">
                   {% for course in courses: %}
                     <option value="{{course.id}}">{{course.name}}</option>
                   {% endfor %}
@@ -45,6 +45,11 @@
                     <option value="BLOCKED">Blocked</option>
                 </select>
               </div>
+
+
+
+              <br>
+              <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
 
