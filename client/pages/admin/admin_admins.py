@@ -30,7 +30,7 @@ def admin_admins():
             message=str(res.content)
         )
 
-    admins = list(filter(lambda _user: _user['is_admin'] == True and _user['id'] != user['id'], users))
+    admins = list(filter(lambda _user: _user['is_admin'] == True , users))
     non_admins = list(filter(lambda _user: _user['is_admin'] == False, users))
 
 

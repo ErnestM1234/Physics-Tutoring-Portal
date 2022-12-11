@@ -67,9 +67,21 @@ def create_tutor_course():
             '/admin/confirmation.html',
             message='you do not have permission to access this page'
         )
+    
+    # get headers
+    headers = get_header()
+
+
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'is_tutor': True}, headers=headers)
+    tutors = res.json()
+
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'), headers=headers)
+    courses = res.json()
 
 
     return render_template(
-        '/admin/admin-create-tutor-course.html',
+        '/admin/admin-create-tutor-course.html', 
+        tutors = tutors, 
+        courses=courses
     )
 
