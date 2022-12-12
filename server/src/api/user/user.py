@@ -37,10 +37,10 @@ def get_user():
 
 """ GET /api/user-auth-id/
 Parameters:
-    - auth_id (string)!
+    - netid (string)!
 """
 class GetUserAuthIdInputSchema(Schema):
-    auth_id = fields.String(required=True)
+    netid = fields.String(required=True)
 get_user_auth_id_input_schema = GetUserAuthIdInputSchema()
 
 @app.route('/api/user-auth-id/', methods=['POST'])
@@ -53,8 +53,8 @@ def get_user_auth():
         return {"message": str(errors) }, 400
     
     try:
-        auth_id = data.get('auth_id')
-        user = Users.query.filter(Users.auth_id == auth_id).first()
+        netid = data.get('netid')
+        user = Users.query.filter(Users.netid == netid).first()
         if user is None:
             return {"message": "User could not be found."}, 200
         return jsonify(user.serialize())
@@ -86,7 +86,6 @@ get_users_input_schema = GetUsersInputSchema()
 @app.route('/api/users/', methods=['GET'])
 @requires_auth
 def get_users():
-    print(str(context['auth_id']))
     errors = get_users_input_schema.validate(request.args)
     if errors:
         print(str(errors))
@@ -149,7 +148,6 @@ create_user_input_schema = CreateUserInputSchema()
 @app.route('/api/user/create/', methods=['POST'])
 @requires_auth
 def create_user():
-    auth_id = context['auth_id']
     data = json.loads(request.data)
     errors = create_user_input_schema.validate(data)
     if errors:
@@ -157,7 +155,7 @@ def create_user():
         return {"message": str(errors) }, 400
     
     try:
-        user = Users(auth_id, data.get('netid'), data.get('name'), data.get('email'), data.get('bio'), data.get('is_student'), data.get('is_tutor'), data.get('is_admin'))
+        user = Users(data.get('netid'), data.get('name'), data.get('email'), data.get('bio'), data.get('is_student'), data.get('is_tutor'), data.get('is_admin'))
         db.session.add(user)
         db.session.commit()
         return {"message": "success" }, 200

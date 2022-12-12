@@ -57,5 +57,6 @@ def tutor_student_dissolve_confirm():
         '/tutor/tutor-student-dissolve-confirm.html',
         student=student,
         course=course,
-        tutor=tutor
+        tutor=tutor, 
+        user=user
     )

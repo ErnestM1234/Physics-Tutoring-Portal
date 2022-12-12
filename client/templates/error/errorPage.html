@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Result</title>
+      <title>Error</title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -9,11 +9,8 @@
     </head>
 
     <body class="princeton-gradient">
-        &nbsp;
-        {% include "/components/student-sidebar-header.html" %}
 
-        <div>
-            {% include '/components/student-dashboard-title.html' %}
+        <div class="non-sidebar">
             <br>
 
             <br><br><br>
@@ -22,7 +19,9 @@
             {{message}}
         </div>
 
-        {% include "/components/sidebar-footer.html" %}
+        &nbsp;
+
+
 
     </body>
 

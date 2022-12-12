@@ -30,7 +30,7 @@ h1 {
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
-  border-right: 2px rgb(232, 119, 34) solid;
+  border-right: none;
 }
 
 /* The sidebar links */
@@ -95,7 +95,6 @@ h1 {
 /* LISTS */
 .list-box-frame {
   border-radius: 20px;
-  transition: 2s;
 }
 
 .list-box {
@@ -106,14 +105,12 @@ h1 {
   overflow-wrap: break-word;
   border-width: 2px;
   border-color: rgb(232, 119, 34);
-  transition: width 2s;
 }
 
 .list-box-header {
   background-color: rgb(192, 111, 49);
   color: black !important;
   font-weight: bold;
-  transition: 2s;
 }
 
 @media only screen and (max-width: 800px) {
@@ -124,7 +121,7 @@ h1 {
 }
 .one-item {
   min-width: 390px;
-  width: calc(100vw - 400px);
+  width: 100%;
   padding-right: 10px;
   text-align: center;
   color: black !important;
@@ -132,42 +129,42 @@ h1 {
 
 .two-item {
   min-width: 190px;
-  width: calc(50vw - 200px);
+  width: 50%;
   padding-right: 10px;
   text-align: left;
 }
 
 .three-item {
   min-width: 123px;
-  width: calc(33.3vw - 133px);
+  width: 33.3%;
   padding-right: 10px;
   text-align: left;
 }
 
 .five-item {
   min-width: 70px;
-  width: calc(20vw - 80px);
+  width: 20%;
   padding-right: 10px;
   text-align: left;
 }
 
 .six-item {
   min-width: 57px;
-  width: calc(16.7vw - 67px);
+  width: 16.7%;
   padding-right: 10px;
   text-align: left;
 }
 
 .four-item {
   min-width: 90px;
-  width: calc(25vw - 100px);
+  width: 25%;
   padding-right: 10px;
   text-align: left;
 }
 
 .eight-item {
   min-width: 40px;
-  width: calc(12.5vw - 50px);
+  width: 12.5%;
   padding-right: 10px;
   text-align: left;
 }

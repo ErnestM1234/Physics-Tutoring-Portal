@@ -41,5 +41,6 @@ def tutor_student_reject():
         '/tutor/tutor-student-reject.html',
         student=student,
         course=course,
-        tutor=tutor
+        tutor=tutor, 
+        user=user
     )

@@ -57,7 +57,7 @@
                             <tr>
                                 <td class="bg-white">{{non_admin.id}}</td>
                                 <td class="bg-white">{{non_admin.name}}</td>
-                                <td class="bg-white"><button>Make Admin</button></td>
+                                <td class="bg-white"><a href="{{'/admin/courses/add-admin/?user_id=' + non_admin.id | string}}"><button>Make Admin</button></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
