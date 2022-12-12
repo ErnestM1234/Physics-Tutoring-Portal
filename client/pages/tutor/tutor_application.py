@@ -20,7 +20,6 @@ def tutorApplication():
     headers = get_header()
 
     course_id = request.args.get('course_id')
-    print(course_id)
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
     course = res.json()
 
