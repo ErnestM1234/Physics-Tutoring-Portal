@@ -21,11 +21,14 @@ def tutor_application_confirm():
     headers = get_header()
 
 
+
     course_id = request.form.get('course_id')
     print("hi")
     print(course_id)
     taken_course = request.form.get('taken_course')
+    print(taken_course)
     experience = request.form.get('experience')
+    print(experience)
 
    
     data = {

@@ -36,6 +36,7 @@
 
             {% if course  %}
                 <h2 class="text-center"><strong>COURSE NAME: {{course.name}}</strong></h2>
+                <h2 class="text-center"><a href="{{'/admin/courses/remove-course/?course_id=' + course.id | string}}">Delete Course</a></h2>
             {% endif %}
             <br>
 
