@@ -2,8 +2,7 @@ import json
 from app import app, db
 from flask import jsonify, request
 from marshmallow import Schema, fields
-from models import Users
-from src.database.models import TutorCourses
+from src.database.models import TutorCourses, Users
 
 
 """ GET /api/tutor_course/

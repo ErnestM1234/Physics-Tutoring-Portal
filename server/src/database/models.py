@@ -10,7 +10,6 @@ class Users(db.Model):
     id = db.Column('id',db.Integer,primary_key=True)
     
     netid = db.Column('netid',db.String(50),unique=True,nullable=False)
-    netid = db.Column('netid',db.String(50),unique=True,nullable=False)
     name = db.Column('name',db.String(100),nullable=False)
     email = db.Column('email',db.String(50),unique=True,nullable=False)
     bio = db.Column('bio',db.String(500),nullable=True)
