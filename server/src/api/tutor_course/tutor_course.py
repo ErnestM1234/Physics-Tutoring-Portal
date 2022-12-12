@@ -2,6 +2,7 @@ import json
 from app import app, db
 from flask import jsonify, request
 from marshmallow import Schema, fields
+from models import Users
 from src.database.models import TutorCourses
 
 
@@ -99,6 +100,15 @@ def create_tutor_course():
         tutor_id = data.get('tutor_id')
         course_id = data.get('course_id')
         status = data.get('status')
+
+        # check that tutor_id is a tutor
+        filters = []
+        filters.append(Users.id == tutor_id)
+        filters.append(Users.is_tutor == True)
+        tutor = Users.query.filter(*filters).first()
+        if tutor is None:
+            return {"message": "Given user must be a tutor to tutor a course."}, 400
+
 
         # Prevent duplicate tutor_courses (where tutor and course repeat)
         filters = []
