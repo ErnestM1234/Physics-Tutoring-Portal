@@ -9,8 +9,10 @@
     </head>
 
     <body class="princeton-gradient">
+        &nbsp;
+        {% include "/components/tutor-sidebar-header.html" %}
 
-        <div class="non-sidebar">
+        <div>
             {% include '/components/tutor-dashboard-title.html' %}
             <br>
 
@@ -20,13 +22,7 @@
             {{message}}
         </div>
 
-        &nbsp;
-        
-        {% include '/components/tutor-navbar.html' %}
-
-
-        
-
+        {% include "/components/sidebar-footer.html" %}
 
     </body>
 
