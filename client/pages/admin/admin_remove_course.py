@@ -27,10 +27,8 @@ def remove_user_confirm():
     if course_id and course_id.isnumeric() and int(float(course_id)) >= 0:
         course_id = int(float(course_id))
     else:
-        return render_template(
-            '/admin/confirmation.html',
-            message="There is no provided course_id, or the course_id is invalid"
-        )
+        session['error_message'] = str("There is no provided course_id, or the course_id is invalid")
+        return redirect('/error/')
 
     # TODO: set up an endpoint
     # get tutorships
@@ -46,36 +44,30 @@ def remove_user_confirm():
     for tutorship in tutorships:
         res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/delete/'), data=json.dumps({'id': tutorship['id']}), headers=headers)
         if res.status_code != 200:
-            print(str(res.content))
-            return render_template(
-            '/admin/confirmation.html',
-            message=str(res)
-        )
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
 
     # TODO: set up an endpoint
     # get tutor_courses
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'course_id': course_id}, headers=headers)
+    if res.status_code != 200 or not isinstance(tutorships, list):
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutor_courses = res.json()
-    if not isinstance(tutorships, list):
-        print(str(res.content))
-        return render_template(
-            '/admin/confirmation.html',
-            message=str(tutor_courses)
-        )
+
     # remove tutor_courses
     for tutor_course in tutor_courses:
         res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/delete/'), data=json.dumps({'id': tutor_course['id']}), headers=headers)
-        tutorships = res.json()
         if res.status_code != 200:
-            print(str(res.content))
-            return render_template(
-            '/admin/confirmation.html',
-            message=str(res)
-        )
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
+        tutorships = res.json()
 
 
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/course/delete/'), data=json.dumps({'id': course_id }), headers=headers)
-    
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     message = str(res)
 
     return render_template(
@@ -100,29 +92,29 @@ def remove_course():
     if course_id and course_id.isnumeric() and int(float(course_id)) >= 0:
         course_id = int(float(course_id))
     else:
-        return render_template(
-            '/admin/confirmation.html',
-            message="There is no provided course_id, or the course_id is invalid"
-        )
+        session['error_message'] = "There is no provided course_id, or the course_id is invalid"
+        return redirect('/error/')
     
 
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'course_id': course_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutorships = res.json()
     if not isinstance(tutorships, list):
-        return render_template(
-            '/admin/confirmation.html',
-            message=str(tutorships)
-        )
+        session['error_message'] = str(tutorships)
+        return redirect('/error/')
 
     # get course_tutors
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'course_id': course_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     course_tutors = res.json()
-    if not isinstance(tutorships, list):
-        return render_template(
-            '/admin/confirmation.html',
-            message=str(course_tutors)
-        )
+    if not isinstance(course_tutors, list):
+        session['error_message'] = str(course_tutors)
+        return redirect('/error/')
 
 
     return render_template(

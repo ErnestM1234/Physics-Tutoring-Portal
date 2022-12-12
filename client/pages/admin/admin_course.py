@@ -35,7 +35,6 @@ def admin_course():
     # param validation
     course_id = request.args.get('course_id')
     tutorship_params = {"course_id": None}
-    print(course_id)
     if course_id is not None:
         if course_id.isnumeric() and int(float(course_id)) >= 0:
             tutorship_params['course_id'] = int(float(course_id))
@@ -44,25 +43,26 @@ def admin_course():
             return redirect('/')
     
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     course = res.json()
 
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params=tutorship_params, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutorships = res.json()
 
-    print(tutorships)
-
-    if res.status_code != 200:
-        message = str(res)
-        return render_template(
-        '/admin/confirmation.html',
-        message=message
-    )
 
 
 
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params=tutorship_params, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutor_courses = res.json()
 
     approved_tutor_courses = list(filter(lambda tutor_course: tutor_course['status'] == 'ACCEPTED', tutor_courses))
@@ -72,6 +72,9 @@ def admin_course():
     # todo: make a specific endpoint for this
     for tutor_course in approved_tutor_courses:
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={"tutor_id": tutor_course['tutor_id']}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         tutorships2 = res.json()
         student_count.append(len(tutorships2))
 
@@ -91,18 +94,22 @@ def admin_course():
         # TODO: implement a faster way of doing this (python lists have O(1) look up time)
         
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('student_id')}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         student = res.json()
+
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('tutor_id')}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         tutor = res.json()
+        
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutorship.get('course_id')}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         course = res.json()
-
-        if not student or not tutor or not course:
-            return render_template(
-                '/admin/confirmation.html',
-                message="There is a missing tutor or course associated with this user!"
-            )
-
 
         tutorship['student'] = student
         tutorship['tutor'] = tutor

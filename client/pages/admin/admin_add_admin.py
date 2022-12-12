@@ -27,10 +27,8 @@ def add_admin_confirm():
     if user_id and user_id.isnumeric() and int(float(user_id)) >= 0:
         user_id = int(float(user_id))
     else:
-        return render_template(
-            '/admin/confirmation.html',
-            message="There is no provided user_id, or the user_id is invalid"
-        )
+        session['error_message'] = 'There is no provided user_id, or the user_id is invalid'
+        return redirect('/error/')
 
 
     # make admin
@@ -60,10 +58,8 @@ def add_admin():
     if user_id and user_id.isnumeric() and int(float(user_id)) >= 0:
         user_id = int(float(user_id))
     else:
-        return render_template(
-            '/admin/confirmation.html',
-            message="There is no provided user_id, or the user_id is invalid"
-        )
+        session['error_message'] = 'There is no provided user_id, or the user_id is invalid'
+        return redirect('/error/')
     
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user_id}, headers=headers)
     user = res.json()

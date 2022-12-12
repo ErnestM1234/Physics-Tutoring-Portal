@@ -31,33 +31,25 @@ def tutor_profile():
             message="You have supplied an invalid user id"
         )
 
-    # this is temporary, this will be given to us by CAS or smth
-    userId = 1
-    
-    # get admin
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId}, headers=headers)
-    user = res.json()
-    # verify is admin
-    if "id" not in user.keys() or user['is_admin'] == False:
-        return redirect('/')
-
-
     # get tutor
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": tutor_id}, headers=headers)
-    tutor = res.json()
-    # check if they are a tutor
     if res.status_code != 200:
-        return render_template(
-            '/admin/confirmation.html',
-            message="User not found"
-        )
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+    tutor = res.json()
 
     # get tutor-courses
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'tutor_id': tutor_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutor_courses = res.json()
 
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'tutor_id': tutor_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutorships = res.json()
 
     for tutor_course in tutor_courses:
@@ -65,11 +57,12 @@ def tutor_profile():
         student_count = len(list(filter(lambda tutorship: tutorship['status'] == 'ACCEPTED' and tutorship['course_id'] == tutor_course['course_id'] and tutor_course['status'] == "ACCEPTED", tutorships)))
         tutor_course["student_count"] = student_count
 
-
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutor_course.get('course_id')}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         course = res.json()
         tutor_course['course'] = course
-
 
 
 

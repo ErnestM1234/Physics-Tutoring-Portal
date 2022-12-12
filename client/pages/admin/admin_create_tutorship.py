@@ -40,7 +40,9 @@ def create_tutorship_confirm():
     }
 
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/create/'), data=json.dumps(data), headers=headers)
-    
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     message = str(res)
 
 

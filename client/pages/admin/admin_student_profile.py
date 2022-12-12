@@ -56,6 +56,9 @@ def student_profile():
 
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': student_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutorships = res.json()
 
     print(tutorships)
@@ -64,8 +67,15 @@ def student_profile():
         # TODO: implement a faster way of doing this (python lists have O(1) look up time)
         
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('tutor_id')}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         tutor = res.json()
+
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutorship.get('course_id')}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         course = res.json()
 
         if not tutor or not course:

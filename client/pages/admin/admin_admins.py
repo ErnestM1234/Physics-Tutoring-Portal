@@ -22,13 +22,10 @@ def admin_admins():
 
     # get users
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), headers=headers)
-    users = res.json()
     if res.status_code != 200:
-        print(str(res.content))
-        return render_template(
-            '/admin/confirmation.html',
-            message=str(res.content)
-        )
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+    users = res.json()
 
     admins = list(filter(lambda _user: _user['is_admin'] == True , users))
     non_admins = list(filter(lambda _user: _user['is_admin'] == False, users))
@@ -36,6 +33,7 @@ def admin_admins():
 
     return render_template(
         '/admin/admin-admins.html',
+        user=user,
         admins=admins,
         non_admins=non_admins
     )

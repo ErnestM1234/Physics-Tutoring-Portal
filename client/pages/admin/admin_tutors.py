@@ -30,6 +30,9 @@ def set_tutor_course_status():
         return redirect('/')
 
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/update'), data=json.dumps({"id": str(validated_tutor_course_id), "status": status}), headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
 
     return str(res)
 
@@ -39,8 +42,11 @@ def get_name(id):
     # this is very slow!! replace this!!
     headers = get_header()
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     user = res.json()
-    # verify is admin
+
     if 'id' not in user.keys():
         return redirect('/')
     return user['name']
@@ -60,6 +66,7 @@ def admin_tutors():
     # param validation
     course_id = request.args.get('course_id')
     tutor_course_params = {"course_id": None}
+    course = None
     if course_id is not None:
         if course_id.isnumeric() and int(float(course_id)) >= 0:
             tutor_course_params['course_id'] = int(float(course_id))
@@ -67,13 +74,18 @@ def admin_tutors():
         else:
             return redirect('/') # TODO: change this to an error message
 
-
-    #added this: 
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
-    course = res.json()
+        #added this: 
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
+        course = res.json()
 
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params=tutor_course_params, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutor_courses = res.json()
 
     approved_tutor_courses = list(filter(lambda tutor_course: tutor_course['status'] == 'ACCEPTED', tutor_courses))
@@ -83,6 +95,9 @@ def admin_tutors():
     # todo: make a specific endpoint for this
     for tutor_course in approved_tutor_courses:
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={"tutor_id": tutor_course['tutor_id']}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         tutorships = res.json()
         student_count.append(len(tutorships))
 
@@ -98,6 +113,6 @@ def admin_tutors():
         denied_tutors=denied_tutors,
         get_name=get_name,
         course_id=course_id, 
-        course = course
+        course=course
     )
 

@@ -23,23 +23,30 @@ def admin_students():
         
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), headers=headers)
-    tutorships = res.json()
-
     if res.status_code != 200:
-        message = str(res)
-        return render_template(
-        '/admin/confirmation.html',
-        message=message
-    )
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+    tutorships = res.json()
 
     for tutorship in tutorships:
         # TODO: implement a faster way of doing this (python lists have O(1) look up time)
         
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('student_id')}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         student = res.json()
+
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('tutor_id')}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         tutor = res.json()
+
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutorship.get('course_id')}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         course = res.json()
 
         if not student or 'id' not in student.keys() or not tutor  or 'id' not in tutor.keys() or not course  or 'id' not in course.keys():
@@ -56,6 +63,9 @@ def admin_students():
     
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'is_student': True}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     students = res.json()  
 
 

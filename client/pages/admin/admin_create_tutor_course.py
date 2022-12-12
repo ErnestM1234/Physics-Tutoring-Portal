@@ -27,12 +27,9 @@ def create_tutor_course_confirm():
     course_id = request.form.get('course')
     status = request.form.get('status')
 
-    print(tutor_id)
-    print(course_id)
-    print(status)
-
     if tutor_id is None or course_id is None or status is None:
-        return redirect('/admin/create-tutor-course')
+        session['error_message'] = 'id field is missing'
+        return redirect('/error/')
 
 
     # param validation
@@ -48,9 +45,10 @@ def create_tutor_course_confirm():
         'status': status,
     }
 
-
-
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/create'), data=json.dumps(data), headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     
     message = str(res)
     print(res.content)
@@ -77,9 +75,15 @@ def create_tutor_course():
 
 
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'is_tutor': True}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutors = res.json()
 
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'), headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     courses = res.json()
 
 
