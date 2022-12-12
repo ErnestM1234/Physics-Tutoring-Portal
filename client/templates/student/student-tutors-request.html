@@ -8,16 +8,17 @@
         {% include "/components/student-sidebar-header.html" %}
 
         <div>
-            <h1></b>Request tutor</h1>
+            <h1></b>Request tutors</h1>
 
             <br><br><br>
 
-            Request {{course.get('dept_course')}} tutor {{tutor.get('name')}}?
+            Request all available tutors for {{course.get('dept_course')}}?
             <br>
-            <a href="/student/tutor/request/confirm?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}"><button>Confirm</button></a>
+            <a href="/student/tutors/request/confirm?course_id={{course.get('id')}}"><button>Confirm</button></a>
         </div>
 
         {% include "/components/sidebar-footer.html" %}
+
     </body>
 
 </html>

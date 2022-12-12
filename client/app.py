@@ -171,6 +171,8 @@ from pages.student.student_tutor_dissolve_confirm import *
 from pages.student.student_tutor_application import *
 from pages.student.student_tutor_courses import *
 from pages.student.student_application_confirm import *
+from pages.student.student_tutors_request import *
+from pages.student.student_tutors_request_confirm import *
 
 from pages.tutor.tutor_dashboard import*
 from pages.tutor.tutor_courses import*
