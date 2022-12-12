@@ -1,5 +1,6 @@
 # run the following command to start the server: $ gunicorn app:app
 
+import datetime
 from os import environ as env
 from flask import Flask, render_template, redirect, session
 import requests
@@ -30,12 +31,16 @@ def home():
 @app.route('/login', methods=['GET'])
 def login():
     netid = auth.authenticate()
+    encoded_jwt = jwt.encode({
+            "netid": netid,
+            "exp": datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(minutes=30)
+        }, os.environ['APP_SECRET_KEY'], algorithm="HS256")
 
     # get credential level
     user = get_user(requests)
     res = requests.post(
         url = str(os.environ['API_ADDRESS']+'/api/user-auth-id/'),
-        headers={"authorization": netid},
+        headers={"authorization": encoded_jwt},
         data=json.dumps({"netid": netid})
     )
     user = res.json()
@@ -55,7 +60,7 @@ def login():
         }
         res = requests.post(
             url = str(os.environ['API_ADDRESS']+'/api/user/create/'),
-            headers={"authorization": netid},
+            headers={"authorization": encoded_jwt},
             data=json.dumps(data)
         )
         # log out when failure creating new user
@@ -184,6 +189,8 @@ from pages.tutor.tutor_student_dissolve_confirm import*
 from pages.tutor.tutor_student_dissolve import*
 from pages.tutor.tutor_student_reject_confirm import *
 from pages.tutor.tutor_student_reject import *
+
+from pages.error.error_page import *
 
 
 
