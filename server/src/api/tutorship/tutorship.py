@@ -2,7 +2,7 @@ import json
 from app import app, db
 from flask import jsonify, request
 from src.utils.auth import requires_auth
-from src.database.models import Tutorships
+from src.database.models import Tutorships, TutorCourses, Users
 from marshmallow import Schema, fields
 
 
@@ -117,6 +117,30 @@ def create_tutorship():
         tutor_id = data.get('tutor_id')
         course_id = data.get('course_id')
 
+        # check that student_id is a student
+        filters = []
+        filters.append(Users.id == student_id)
+        filters.append(Users.is_student == True)
+        student = Users.query.filter(*filters).first()
+        if student is None:
+            return {"message": "Given student id must be a student."}, 400
+
+        filters = []
+        filters.append(Users.id == tutor_id)
+        filters.append(Users.is_tutor == True)
+        tutor = Users.query.filter(*filters).first()
+        if tutor is None:
+            return {"message": "Given tutor id must be a tutor."}, 400
+
+        # check that tutor_course has been approved
+        filters = []
+        filters.append(TutorCourses.tutor_id == tutor_id)
+        filters.append(TutorCourses.course_id == course_id)
+        filters.append(TutorCourses.status == 'ACCEPTED')
+        tutor_course = TutorCourses.query.filter(*filters).first()
+        if tutor_course is None:
+            return {"message": "Given tutor must have an accepted status with the given course."}, 400
+
         # Prevent duplicate tutorships (where student, tutor, and course repeat)
         filters = []
         filters.append(Tutorships.student_id == student_id)
@@ -174,23 +198,23 @@ def  update_tutorship():
         
         if data.get('status') not in [None, '']:
             tutorship.status = data.get('status')
+
+            # check that tutor_course has been approved
+            filters = []
+            filters.append(TutorCourses.tutor_id == tutorship.tutor_id)
+            filters.append(TutorCourses.course_id == tutorship.course_id)
+            filters.append(TutorCourses.status == 'ACCEPTED')
+            tutor_course = TutorCourses.query.filter(*filters).first()
+            if tutor_course is None:
+                return {"message": "Given tutor must have an accepted status with the given course."}, 400
+
+
         if data.get('student_id') not in [None, '']:
             tutorship.student_id = data.get('student_id')
         if data.get('tutor_id') not in [None, '']:
             tutorship.tutor_id = data.get('tutor_id')
         if data.get('course_id') not in [None, '']:
             tutorship.course_id = data.get('course_id')
-
-        # If tutorship is ACCEPTED, delete all other REQUESTED tutorships with that student and course
-        if tutorship.status is 'ACCEPTED':
-            filters = []
-            filters.append(Tutorships.student_id == tutorship.student_id)
-            filters.append(Tutorships.course_id == tutorship.course_id)
-            requested_tutorships = Tutorships.query.filter(*filters).all()
-
-            for requested_tutorship in requested_tutorships:
-                if (requested_tutorship.id is not tutorship.id):
-                    db.session.delete(requested_tutorship)
 
         db.session.commit()
         return {"message": "success" }, 200
