@@ -1,15 +1,13 @@
 # run the following command to start the server: $ gunicorn app:app
 
 from os import environ as env
-from flask import Flask, render_template, redirect, session, url_for
+from flask import Flask, render_template, redirect, session
 import requests
 from dotenv import find_dotenv, load_dotenv
 import auth.auth as auth
 import json
-from urllib.parse import quote_plus, urlencode
-from authlib.integrations.flask_client import OAuth
-import http.client
 from pages.shared.get_user import *
+
 
 # env
 ENV_FILE = find_dotenv()
@@ -20,86 +18,76 @@ if ENV_FILE:
 app = Flask(__name__)
 app.secret_key = env.get("APP_SECRET_KEY")
 
-# setup OAuth
-oauth = OAuth(app)
-oauth.register(
-    "auth0",
-    client_id=env.get("AUTH0_CLIENT_ID"),
-    client_secret=env.get("AUTH0_CLIENT_SECRET"),
-    client_kwargs={
-        "scope": "openid profile email",
-    },
-    server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration'
-)
 
-# OAuth Routes
-@app.route("/login")
+
+@app.route("/")
+def home():
+    return render_template('landing.html')
+
+
+# Routes for authentication.
+
+@app.route('/login', methods=['GET'])
 def login():
-    return oauth.auth0.authorize_redirect(
-        redirect_uri=url_for("callback", _external=True)
-    )
+    netid = auth.authenticate()
 
-@app.route("/callback", methods=["GET", "POST"])
-def callback():
-    token = oauth.auth0.authorize_access_token()
-    session["user"] = token
-    user_info = token["userinfo"]
-
-    # check if this user already exists
+    # get credential level
+    user = get_user(requests)
     res = requests.post(
         url = str(os.environ['API_ADDRESS']+'/api/user-auth-id/'),
-        headers={"authorization": "Bearer " + token["id_token"]},
-        data=json.dumps({"auth_id": user_info["sub"]})
+        headers={"authorization": netid},
+        data=json.dumps({"netid": netid})
     )
     user = res.json()
     # log out when failure connecting to backend 
     if res.status_code != 200:
+        print('failed to get user')
         session.clear()
+        return 'failed login'
 
     # check if user exists
     if 'id' not in user.keys():
         # create new user when user not found
         data = {
-            "netid": user_info["nickname"],
-            "name" : user_info["name"],
-            "email": user_info["email"],
+            "netid": netid, # TODO: Find their name and email
+            "name" : netid,
+            "email": netid,
         }
         res = requests.post(
             url = str(os.environ['API_ADDRESS']+'/api/user/create/'),
-            headers={"authorization": "Bearer " + token["id_token"]},
+            headers={"authorization": netid},
             data=json.dumps(data)
         )
         # log out when failure creating new user
         if res.status_code != 200:
             print('failed to create new user')
             session.clear()
+        
+            return 'failed login'
+        print('created new user, directing to student dashboard')
+        return redirect('/student/dashboard')
+    else:
+        # route them to correct page
+        if user['is_admin'] == True:
+            return redirect('/admin/dashboard')
+        if user['is_tutor'] == True:
+            return redirect('/tutor/dashboard')
+        if user['is_student'] == True:
+            return redirect('/student/dashboard')
     
-    return redirect("/")
+        return 'Something went wrong! You are not a student!'
 
-@app.route("/logout")
+@app.route('/logout', methods=['GET'])
 def logout():
-    session.clear()
-    return redirect(
-        "https://" + env.get("AUTH0_DOMAIN")
-        + "/v2/logout?"
-        + urlencode(
-            {
-                "returnTo": url_for("home", _external=True),
-                "client_id": env.get("AUTH0_CLIENT_ID"),
-            },
-            quote_via=quote_plus,
-        )
-    )
+    return redirect('/logoutcas')
 
-@app.route("/")
-def home():
-    if session is None or session.get('user') is None:
-        return render_template("landing.html")
-    return redirect("/student/dashboard")
+@app.route('/logoutapp', methods=['GET'])
+def logoutapp():
+    return auth.logoutapp()
 
-
-
-
+@app.route('/logoutcas', methods=['GET'])
+def logoutcas():
+    return auth.logoutcas()
 
 
 
