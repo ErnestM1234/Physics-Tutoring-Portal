@@ -1,5 +1,6 @@
 # run the following command to start the server: $ gunicorn app:app
 
+import datetime
 from os import environ as env
 from flask import Flask, render_template, redirect, session
 import requests
@@ -7,6 +8,7 @@ from dotenv import find_dotenv, load_dotenv
 import auth.auth as auth
 import json
 from pages.shared.get_user import *
+from services.oit import *
 
 
 # env
@@ -30,12 +32,16 @@ def home():
 @app.route('/login', methods=['GET'])
 def login():
     netid = auth.authenticate()
+    encoded_jwt = jwt.encode({
+            "netid": netid,
+            "exp": datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(minutes=30)
+        }, os.environ['APP_SECRET_KEY'], algorithm="HS256")
 
     # get credential level
     user = get_user(requests)
     res = requests.post(
         url = str(os.environ['API_ADDRESS']+'/api/user-auth-id/'),
-        headers={"authorization": netid},
+        headers={"authorization": encoded_jwt},
         data=json.dumps({"netid": netid})
     )
     user = res.json()
@@ -45,17 +51,23 @@ def login():
         session.clear()
         return 'failed login'
 
+
+
     # check if user exists
     if 'id' not in user.keys():
+        # get user info
+        user_info = get_basic_student(netid)
+
+
         # create new user when user not found
         data = {
-            "netid": netid, # TODO: Find their name and email
-            "name" : netid,
-            "email": netid,
+            "netid": netid,
+            "name" : user_info["name"],
+            "email": user_info["mail"],
         }
         res = requests.post(
             url = str(os.environ['API_ADDRESS']+'/api/user/create/'),
-            headers={"authorization": netid},
+            headers={"authorization": encoded_jwt},
             data=json.dumps(data)
         )
         # log out when failure creating new user
@@ -186,6 +198,8 @@ from pages.tutor.tutor_student_dissolve_confirm import*
 from pages.tutor.tutor_student_dissolve import*
 from pages.tutor.tutor_student_reject_confirm import *
 from pages.tutor.tutor_student_reject import *
+
+from pages.error.error_page import *
 
 
 
