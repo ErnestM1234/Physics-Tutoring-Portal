@@ -9,6 +9,9 @@
     </head>
 
     <body class="princeton-gradient">
+        &nbsp;
+        {% include "/components/admin-sidebar-header.html" %}
+  
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script>
             function set_tutor_course_status(tutor_course_id, status) {
@@ -23,7 +26,7 @@
             }
         </script>
 
-        <div class="non-sidebar">
+        <div>
             {% include '/components/admin-dashboard-title.html' %}
             <br>
 
@@ -134,11 +137,8 @@
     
         </div>
 
-        &nbsp;
         
-        {% include '/components/admin-navbar.html' %}
-
-        
+        {% include "/components/sidebar-footer.html" %}
 
 
     </body>

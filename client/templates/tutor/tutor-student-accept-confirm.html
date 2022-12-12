@@ -4,7 +4,10 @@
     </head>
 
     <body class="princeton-gradient">
-        <div class="non-sidebar">
+        &nbsp;
+        {% include "/components/tutor-sidebar-header.html" %}
+
+        <div>
             {% include '/components/tutor-dashboard-title.html' %}
             <h1></b>Success</h1>
 
@@ -13,9 +16,7 @@
             Accepted tutorship for {{course.get('dept_course')}} student {{student.get('name')}}.
         </div>
 
-        &nbsp;
-
-        {% include '/components/tutor-navbar.html' %}
+        {% include "/components/sidebar-footer.html" %}
 
     </body>
 

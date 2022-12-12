@@ -9,8 +9,10 @@
     </head>
 
     <body class="princeton-gradient">
-
-        <div class="non-sidebar">
+        &nbsp;
+        {% include "/components/admin-sidebar-header.html" %}
+  
+          <div>
             {% include '/components/admin-dashboard-title.html' %}
             <br>
 
@@ -29,11 +31,8 @@
             <p>Removing this course will delete {{ tutor_course_count }} tutor-courses! </p>
         </div>
 
-        &nbsp;
         
-        {% include '/components/admin-navbar.html' %}
-
-        
+        {% include "/components/sidebar-footer.html" %}
 
 
     </body>
