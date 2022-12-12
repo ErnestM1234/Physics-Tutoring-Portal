@@ -15,10 +15,9 @@ def create_course_confirm():
     # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
+        
     # get headers
     headers = get_header()
 
@@ -53,10 +52,9 @@ def create_course():
     # verify is admin
     user = get_user(requests)
     if "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
+        
 
 
     return render_template(
