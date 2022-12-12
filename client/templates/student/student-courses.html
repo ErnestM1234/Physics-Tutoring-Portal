@@ -4,7 +4,10 @@
     </head>
 
     <body class="princeton-gradient">
-        <div class="non-sidebar">
+      &nbsp;
+      {% include "/components/student-sidebar-header.html" %}
+
+        <div>
           {% include '/components/student-dashboard-title.html' %}
             <h1>Courses</h1>
             <br>
@@ -33,10 +36,8 @@
                 {% endfor %}
               </div>
         </div>
-
-        &nbsp;
-
-        {% include "/components/student-sidebar.html" %}
+        
+        {% include "/components/sidebar-footer.html" %}
 
     </body>
 

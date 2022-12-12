@@ -4,7 +4,10 @@
     </head>
 
     <body class="princeton-gradient">
-        <div class="non-sidebar">
+        &nbsp;
+        {% include "/components/student-sidebar-header.html" %}
+
+        <div>
             {% include '/components/student-dashboard-title.html' %}
             <h1></b>Dissolve tutorship</h1>
 
@@ -15,9 +18,7 @@
             <a href="/student/tutor/dissolve/confirm?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}"><button>Confirm</button></a>
         </div>
 
-        &nbsp;
-
-        {% include "/components/student-sidebar.html" %}
+        {% include "/components/sidebar-footer.html" %}
 
     </body>
 

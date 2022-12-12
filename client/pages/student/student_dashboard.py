@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from app import app
 import requests
-from flask import redirect, render_template
+from flask import redirect, render_template, request
 from pages.shared.get_user import *
 
 load_dotenv()

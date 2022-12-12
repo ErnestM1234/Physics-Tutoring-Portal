@@ -1,21 +1,9 @@
-
-import json
 from functools import wraps
-
-from flask import Flask, request, jsonify, _request_ctx_stack
-# from jose import jwt
-# from authlib.jose import jwt
-from app import app, context, db
-
+import os
 import jwt
-
+from flask import request, jsonify
+from app import app, context
 from src.database.models import Users
-
-
-
-AUTH0_DOMAIN = 'dev-3xyz18qptfqomymq.us.auth0.com'
-API_AUDIENCE = 'http://localhost:3000' # identifier
-ALGORITHMS = ["RS256"]
 
 # Error handler
 class AuthError(Exception):
@@ -33,12 +21,29 @@ def handle_auth_error(ex):
 def get_auth_netid():
     """Obtains the netid from the Authorization Header
     """
-    auth = request.headers.get("Authorization", None)
-    if not auth or auth == "":
-        raise AuthError({"code": "authorization_header_missing",
+    encoded_jwt = request.headers.get("authorization", None)
+    try:
+        auth = jwt.decode(encoded_jwt, os.environ['APP_SECRET_KEY'], algorithms=["HS256"])
+    except jwt.ExpiredSignatureError as e:
+        print(str(e))
+        raise AuthError({"code": "cannot_parse_authorization_header",
+                        "description":
+                            "Authorization header expired"}, 401)
+
+    except Exception as e:
+        print(str(e))
+        raise AuthError({"code": "cannot_parse_authorization_header",
+                        "description":
+                            "Authorization header could not be parsed"}, 401)
+
+    if not auth \
+        or "netid" not in auth.keys() \
+        or not auth['netid'] \
+        or auth['netid'] == '':
+        raise AuthError({"code": "authorization_missing",
                         "description":
                             "Authorization header is expected"}, 401)
-    return auth
+    return auth['netid']
 
 def requires_auth(f):
     @wraps(f)
