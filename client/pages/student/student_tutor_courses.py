@@ -25,5 +25,5 @@ def studentTutorCourses():
     courses = res.json()
    
     return render_template(
-        '/student/student-tutor-courses.html', courses=courses
+        '/student/student-tutor-courses.html', courses=courses, user=user
     )

@@ -53,5 +53,6 @@ def student_tutor_application_confirm():
 
     return render_template(
         '/student/student-confirmation.html',
-        message=message
+        message=message, 
+        user=user
     )

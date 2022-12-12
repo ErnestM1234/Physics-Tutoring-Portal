@@ -23,12 +23,16 @@ def create_tutor_course_confirm():
     # get headers
     headers = get_header()
 
-    tutor_id = request.form.get('tutor_id')
-    course_id = request.form.get('course_id')
+    tutor_id = request.form.get('tutor')
+    course_id = request.form.get('course')
     status = request.form.get('status')
 
+    print(tutor_id)
+    print(course_id)
+    print(status)
+
     if tutor_id is None or course_id is None or status is None:
-        return redirect('/')
+        return redirect('/admin/create-tutor-course')
 
 
     # param validation
@@ -36,7 +40,7 @@ def create_tutor_course_confirm():
         validated_tutor_id = int(float(tutor_id))
         validated_course_id = int(float(course_id))
     else:
-        return redirect('/')
+        return redirect('/admin/create-tutor-course')
 
     data = {
         'tutor_id': validated_tutor_id,

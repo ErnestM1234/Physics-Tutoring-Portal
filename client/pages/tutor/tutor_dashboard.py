@@ -55,5 +55,5 @@ def tutor_dashboard():
 
 
     return render_template(
-        '/tutor/tutor-dashboard.html', tutor=tutor, accepted_tutorships=accepted_tutorships, requested_tutorships=requested_tutorships, tutor_courses = tutor_courses
+        '/tutor/tutor-dashboard.html', tutor=tutor, accepted_tutorships=accepted_tutorships, requested_tutorships=requested_tutorships, tutor_courses = tutor_courses, user=user
     )

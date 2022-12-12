@@ -24,5 +24,5 @@ def editBio():
     tutor = res.json()
 
     return render_template(
-        '/tutor/tutor-editbio.html', tutor=tutor
+        '/tutor/tutor-editbio.html', tutor=tutor, user=user
     )

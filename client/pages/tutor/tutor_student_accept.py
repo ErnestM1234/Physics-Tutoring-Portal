@@ -40,5 +40,6 @@ def tutor_student_accept():
         '/tutor/tutor-student-accept.html',
         student=student,
         course=course,
-        tutor=tutor
+        tutor=tutor, 
+        user=user
     )

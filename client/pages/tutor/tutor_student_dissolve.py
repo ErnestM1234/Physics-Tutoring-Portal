@@ -42,5 +42,6 @@ def tutor_student_dissolve():
         '/tutor/tutor-student-dissolve.html',
         student=student,
         course=course,
-        tutor=tutor
+        tutor=tutor, 
+        user=user
     )
