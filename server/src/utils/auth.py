@@ -5,9 +5,11 @@ from functools import wraps
 from flask import Flask, request, jsonify, _request_ctx_stack
 # from jose import jwt
 # from authlib.jose import jwt
-from app import app, context
+from app import app, context, db
 
 import jwt
+
+from src.database.models import Users
 
 
 
@@ -28,65 +30,30 @@ def handle_auth_error(ex):
     return response
 
 # Format error response and append status code
-def get_token_auth_header():
-    """Obtains the Access Token from the Authorization Header
+def get_auth_netid():
+    """Obtains the netid from the Authorization Header
     """
     auth = request.headers.get("Authorization", None)
-    if not auth:
+    if not auth or auth == "":
         raise AuthError({"code": "authorization_header_missing",
                         "description":
                             "Authorization header is expected"}, 401)
-
-    parts = auth.split()
-
-    if parts[0].lower() != "bearer":
-        raise AuthError({"code": "invalid_header",
-                        "description":
-                            "Authorization header must start with"
-                            " Bearer"}, 401)
-    elif len(parts) == 1:
-        raise AuthError({"code": "invalid_header",
-                        "description": "Token not found"}, 401)
-    elif len(parts) > 2:
-        raise AuthError({"code": "invalid_header",
-                        "description":
-                            "Authorization header must be"
-                            " Bearer token"}, 401)
-
-    token = parts[1]
-    return token
+    return auth
 
 def requires_auth(f):
-    """Determines if the Access Token is valid
-    """
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = get_token_auth_header()
+        netid = get_auth_netid()
         try:
-            payload = jwt.decode(token, options={"verify_signature": False})
-            if (payload['sub'] is not None and payload['sub'] != ''):
-                context['auth_id'] = payload['sub']
-            else:
-                raise AuthError({"code": "invalid_header",
-                            "description":
-                                "Cannot find payload['sub'] in"
-                                " token."}, 401)
-
-        except jwt.ExpiredSignatureError:
-            raise AuthError({"code": "token_expired",
-                            "description": "token is expired"}, 401)
-        # except jwt.JWTClaimsError:
-        #     raise AuthError({"code": "invalid_claims",
-        #                     "description":
-        #                         "incorrect claims,"
-        #                         "please check the audience and issuer"}, 401)
+            user = Users.query.filter(Users.netid == netid).first()
         except Exception as e:
             print(str(e))
             raise AuthError({"code": "invalid_header",
                             "description":
                                 "Unable to parse authentication"
                                 " token."}, 401)
+        if not user:
+            context['netid'] = netid
 
-        _request_ctx_stack.top.current_user = payload
         return f(*args, **kwargs)
     return decorated
