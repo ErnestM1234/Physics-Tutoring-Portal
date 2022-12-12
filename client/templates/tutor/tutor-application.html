@@ -9,15 +9,17 @@
     </head>
 
     <body class="princeton-gradient">
+      &nbsp;
+      {% include "/components/tutor-sidebar-header.html" %}
 
-        <div class="non-sidebar">
+        <div>
             {% include '/components/tutor-dashboard-title.html' %}
             <br>
             <h1>Tutoring Application for {{course.name}}</h1>
 
             <br>
 
-            <form action = "/tutor/application/confirm" method = "POST"></form>
+            <form action = "/tutor/application/confirm" method = "POST">
 
             <!--
               <div class="form-group">
@@ -60,11 +62,8 @@
     
         </div>
 
-        &nbsp;
-        {% include '/components/tutor-navbar.html' %}
-
-
         
+        {% include "/components/sidebar-footer.html" %}
 
 
     </body>

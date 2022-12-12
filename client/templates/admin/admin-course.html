@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Course List </title>
+      <title>Physics Tutoring Portal Tutorship </title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -9,9 +9,10 @@
     </head>
 
     <body class="princeton-gradient">
-        &nbsp;
-        {% include "/components/admin-sidebar-header.html" %}
-  
+
+      &nbsp;
+      {% include "/components/admin-sidebar-header.html" %}
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script>
             function set_tutor_course_status(tutor_course_id, status) {
@@ -26,17 +27,62 @@
             }
         </script>
 
+
         <div>
-            {% include '/components/admin-dashboard-title.html' %}
+          {% include '/components/admin-dashboard-title.html' %}
             <br>
 
-            <br><br><br>
+            <br>
 
             {% if course  %}
-                <h3>COURSE NAME: {{course.name}}</h3>
+                <h2 class="text-center"><strong>COURSE NAME: {{course.name}}</strong></h2>
             {% endif %}
+            <br>
 
-            <h3>TUTORS</h3>
+            <h3><strong>TUTORSHIPS</strong></h3>
+
+            <a href="/admin/tutorships/create-tutorship">Add a new tutorship</a><br>
+    
+            <div class ="list">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th class="bg-white" scope="col">Courses</th>
+                    <th class="bg-white" scope="col">Student Id</th>
+                    <th class="bg-white" scope="col">Student Name</th>
+                    <th class="bg-white" scope="col">Tutor Id</th>
+                    <th class="bg-white" scope="col">Tutor Name</th>
+                    <th class="bg-white" scope="col">Course Id</th>
+                    <th class="bg-white" scope="col">Course Name</th>
+                    <th class="bg-white" scope="col">Status</th>
+                    <th class="bg-white" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for tutorship in tutorships %}
+                        <tr>
+                            <td class="bg-white">{{tutorship.id}}</td>
+                            <td class="bg-white">{{tutorship.student_id}}</td>
+                            <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">{{tutorship.student.name}}</a></td>
+                            <td class="bg-white">{{tutorship.tutor_id}}</td>
+                            <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutorship.tutor_id | string}}">{{tutorship.tutor.name}}</a></td>
+                            <td class="bg-white">{{tutorship.course_id}}</td>
+                            <td class="bg-white">{{tutorship.course.name}}</td>
+                            <td class="bg-white">{{tutorship.status}}</td>
+                            <td class="bg-white"><a href="{{'/admin/tutorships/remove-tutorship/?tutorship_id=' + tutorship.id | string}}"><button>Dissolve</button></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <br>
+            <br>
+            <br>
+
+            <h3><strong>TUTORS: </strong></h3>
+
+
+            <h3>Accepted Tutors</h3>
             <a href="/admin/create-tutor-course">Assign a tutor to a course</a><br>
     
             <div class ="list">
@@ -67,11 +113,12 @@
                 </tbody>
               </table>
             </div>
-
-
+    
+    
             <br><br><br>
-
-            <h3>TUTOR REQUESTS</h3>
+    
+            
+            <h3>Tutor Requests</h3>
     
             <div class ="list">
             <table class="table">
@@ -102,10 +149,10 @@
                 </tbody>
               </table>
             </div>
-
+    
             <br><br><br>
-
-            <h3>DENIED TUTORS</h3>
+    
+            <h3>Denied Tutors</h3>
     
             <div class ="list">
             <table class="table">
@@ -133,14 +180,13 @@
                 </tbody>
               </table>
             </div>
-            
     
         </div>
 
-        
+
+
+
         {% include "/components/sidebar-footer.html" %}
 
 
     </body>
-
-</html>
