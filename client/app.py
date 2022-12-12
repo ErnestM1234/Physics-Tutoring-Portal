@@ -8,6 +8,7 @@ from dotenv import find_dotenv, load_dotenv
 import auth.auth as auth
 import json
 from pages.shared.get_user import *
+from services.oit import *
 
 
 # env
@@ -50,13 +51,19 @@ def login():
         session.clear()
         return 'failed login'
 
+
+
     # check if user exists
     if 'id' not in user.keys():
+        # get user info
+        user_info = get_basic_student(netid)
+
+
         # create new user when user not found
         data = {
-            "netid": netid, # TODO: Find their name and email
-            "name" : netid,
-            "email": netid,
+            "netid": netid,
+            "name" : user_info["name"],
+            "email": user_info["mail"],
         }
         res = requests.post(
             url = str(os.environ['API_ADDRESS']+'/api/user/create/'),
