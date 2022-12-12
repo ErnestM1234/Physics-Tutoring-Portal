@@ -26,8 +26,7 @@
                   <tr>
                     <th class="bg-white" scope="col">Id</th>
                     <th class="bg-white" scope="col">Name</th>
-                    <th class="bg-white" scope="col">Tutorships</th>
-                    <th class="bg-white" scope="col">Tutors</th>
+                    <th class="bg-white" scope="col">Tutorships/Tutors</th>
                     <th class="bg-white" scope="col">Action</th>
                   </tr>
                 </thead>
@@ -36,8 +35,8 @@
                         <tr>
                             <td class="bg-white">{{course.id}}</td>
                             <td class="bg-white">{{course.name}}</td>
-                            <td class="bg-white"><a href="{{'/admin/tutorships/?course_id=' + course.id | string}}">Tutorships</a></td>
-                            <td class="bg-white"><a href="{{'/admin/tutors/?course_id=' + course.id | string}}">Tutors</a></td>
+                            <td class="bg-white"><a href="{{'/admin/course/?course_id=' + course.id | string}}">Tutorships/Tutors</a></td>
+                            <!--<td class="bg-white"><a href="{{'/admin/tutors/?course_id=' + course.id | string}}">Tutors</a></td>-->
                             <td class="bg-white"><a href="{{'/admin/courses/remove-course/?course_id=' + course.id | string}}"><button>Remove</button></a></td>
                         </tr>
                     {% endfor %}
