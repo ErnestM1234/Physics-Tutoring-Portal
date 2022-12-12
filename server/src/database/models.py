@@ -8,7 +8,6 @@ class Users(db.Model):
     __tablename__ = 'users'
 
     id = db.Column('id',db.Integer,primary_key=True)
-    auth_id = db.Column('auth_id',db.String())
     
     netid = db.Column('netid',db.String(50),unique=True,nullable=False)
     netid = db.Column('netid',db.String(50),unique=True,nullable=False)
@@ -23,8 +22,7 @@ class Users(db.Model):
 
     tutor_courses = db.relationship('TutorCourses', backref='tutor', lazy=True)
 
-    def __init__(self, auth_id, netid, name, email, bio, is_student, is_tutor, is_admin):
-        self.auth_id = auth_id
+    def __init__(self, netid, name, email, bio, is_student, is_tutor, is_admin):
         self.netid = netid
         self.name = name
         self.email = email
