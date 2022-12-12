@@ -11,6 +11,90 @@ h1 {
   font-size: 60px;
 }
 
+.non-sidebar{
+  position: fixed;
+  margin-left: 25px;
+  width: calc(100vw - 50px);
+}
+
+/* SIDEBAR */
+
+/* The sidebar menu */
+.sidebar {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0;
+  left: 0;
+  background-image: url(uni.jpg);
+  background-size: 2000px;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  border-right: none;
+}
+
+/* The sidebar links */
+.sidebar a {
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+  text-align: center;
+}
+
+/* The sidebar links */
+.sidebar img {
+  display: block;
+  margin: auto;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* The button used to open the sidebar */
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s; /* If you want a transition effect */
+  padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
+
+
+
+/* LISTS */
+
 .list-box-frame{
   border-radius: 20px;
 }
@@ -18,7 +102,6 @@ h1 {
 .list-box{
   font-size: 15px;
   min-width: 400px;
-  width: calc(100vw - 350px);
   display: flex;
   justify-content: space-between;
   overflow-wrap: break-word;
@@ -41,7 +124,7 @@ h1 {
 
 .one-item{
   min-width: 390px;
-  width: calc(100vw - 400px);
+  width: 100%;
   padding-right: 10px;
   text-align:center;
   color: black !important;
@@ -49,42 +132,42 @@ h1 {
 
 .two-item{
   min-width: 190px;
-  width: calc(50vw - 200px);
+  width: 50%;
   padding-right: 10px;
   text-align:left;
 }
 
 .three-item{
   min-width: 123px;
-  width: calc(33.3vw - 133px);
+  width: 33.3%;
   padding-right: 10px;
   text-align:left;
 }
 
 .five-item{
   min-width: 70px;
-  width: calc(20vw - 80px);
+  width: 20%;
   padding-right: 10px;
   text-align:left;
 }
 
 .six-item{
   min-width: 57px;
-  width: calc(16.7vw - 67px);
+  width: 16.7%;
   padding-right: 10px;
   text-align:left;
 }
 
 .four-item{
   min-width: 90px;
-  width: calc(25vw - 100px);
+  width: 25%;
   padding-right: 10px;
   text-align:left;
 }
 
 .eight-item{
   min-width: 40px;
-  width: calc(12.5vw - 50px);
+  width: 12.5%;
   padding-right: 10px;
   text-align:left;
 }
@@ -116,64 +199,10 @@ h1 {
   color: black;
 }
 
-.non-sidebar{
-  position: fixed;
-  left: 300px;
-  top: 50px;
-}
-
 @mixin gradient-directional($start-color: $gray-700, $end-color: $gray-800, $deg: 45deg) {
   background-image: linear-gradient($deg, $start-color, $end-color);
 }
 
 .princeton-gradient {
     @include gradient-directional(rgb(249, 214, 162), rgb(250, 175, 151)); 
-}
-
-.sidebar {
-  display: flex;
-  align-items: space-between;
-  width: 250px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  background-image: url(uni.jpg);
-  background-size: 600%;
-  color: black;
-  border-right: solid rgb(232,119,34) 2px;
-}
-
-.sidebar-button {
-  border-radius: 25px;
-  left: 5%;
-  width: 90%;
-  height: 40px;
-  background-image: linear-gradient(45deg, rgb(249, 214, 162), rgb(250, 175, 151));
-  border-width: 0px;
-}
-
-.sidebar-button:hover {
-  background-image: linear-gradient(45deg,rgb(199, 170, 128), rgb(185, 128, 109));
-}
-
-.sidebar-button:active {
-  color: black;
-}
-
-#userlisttable {
-  border-collapse: collapse;
-  color: black;
-}
-
-#userlist td, tr {
-  padding: 20px;
-  background-color: #fffffff1;
-}
-
-#userlist tr:hover {background-color: rgb(0, 0, 0, 1);}
-
-#userlistheader td, tr {
-  padding-left: 20px;
-  background-color: rgb(0, 0, 0, 0);
 }

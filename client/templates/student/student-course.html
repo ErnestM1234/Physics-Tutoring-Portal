@@ -4,8 +4,10 @@
     </head>
 
     <body class="princeton-gradient">
+      &nbsp;
+      {% include "/components/student-sidebar-header.html" %}
         
-        <div class="non-sidebar">
+        <div>
             {% include '/components/student-dashboard-title.html' %}
             <h1>{{course.get('dept_course')}}</h1>
 
@@ -37,9 +39,7 @@
               </table>
         </div>
 
-        &nbsp;
-
-        {% include "/components/student-sidebar.html" %}
+        {% include "/components/sidebar-footer.html" %}
 
     </body>
 
