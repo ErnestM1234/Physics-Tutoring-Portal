@@ -39,7 +39,8 @@ def admin_course():
             tutorship_params['course_id'] = int(float(course_id))
             course_id = int(float(course_id))
         else:
-            return redirect('/')
+            session['error_message'] = "You have supplied an incorrect course id"
+            return redirect('/error/')
     
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
     if res.status_code != 200:

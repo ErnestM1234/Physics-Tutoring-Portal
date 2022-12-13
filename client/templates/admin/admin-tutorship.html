@@ -25,16 +25,16 @@
             <li>
                 <strong>Student Name: </strong><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">{{tutorship.student.name}}</a>
             </li>
-            
+
             <li>
                 <strong>Tutor Name: </strong><a href="{{'/admin/tutor-profile/?tutor_id=' + tutorship.tutor_id | string}}">{{tutorship.tutor.name}}</a>
             </li>
 
             <li>
-                <strong>Course: {{tutorship.course.name}}
+                <strong>Course:</strong> {{tutorship.course.name}}
             </li>
             <li>
-                <strong>Status: {{tutorship.status}}
+                <strong>Status:</strong> {{tutorship.status}}
             </li>
             <li>
                 <a href="{{'/admin/tutorships/remove-tutorship/?tutorship_id=' + tutorship.id | string}}"><button>Dissolve</button></a>
@@ -44,7 +44,7 @@
         </ul>
 
         
-        {% include "/components/sidebar-footer.html" %}
+        {% include "/components/admin-sidebar-footer.html" %}
 
 
     </body>
