@@ -23,9 +23,8 @@
                         status
                     }
                     $.post("/admin/tutors/update_status", data, function(result){
-                        // $("#course-results").html(result);
                         console.log(result)
-                    });
+                    }).then(location.reload());
                 }
             </script>
 
