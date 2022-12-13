@@ -18,7 +18,7 @@
 
             <br><br><br>
             
-            <h3>STUDENT PROFILE</h3>
+            <h3>{{student.name}}'s Student Profile</h3>
 
             <ul>
                 <li>
@@ -44,7 +44,7 @@
 
 
 
-            <h3>COURSES</h3>
+            <h3>{{student.name}}'s Courses</h3>
     
             <div class ="list-group list-box-frame">
                 <a class = "list-group-item disabled list-box list-box-header">
@@ -53,7 +53,7 @@
                     <div class="three-item">Status</div>
                 </a>
                 {% for tutorship in tutorships %}
-                    <a class = "list-group-item list-group-item-action list-box no-gradient disabled">
+                    <a class = "list-group-item disabled list-box no-gradient disabled">
                         <div class="three-item">{{tutorship.tutor.name}}</div>
                         <div class="three-item">{{tutorship.course.name}}</div>
                         <div class="three-item">{{tutorship.status}}</div>

@@ -15,24 +15,13 @@
           <div>
             {% include '/components/admin-dashboard-title.html' %}
 
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-            <script>
-                function set_tutor_course_status(tutor_course_id, status) {
-                    const data = {
-                        tutor_course_id,
-                        status
-                    }
-                    $.post("/admin/tutors/update_status", data, function(result){
-                        console.log(result)
-                    }).then(location.reload());
-                }
-            </script>
+
 
             <br>
 
             <br><br><br>
             
-            <h3>TUTOR PROFILE</h3>
+            <h3>{{tutor.name}}'s Tutor Profile</h3>
 
 
             <ul>
@@ -61,44 +50,29 @@
 
 
 
-            <h3>COURSES</h3>
-    
-            <div class ="list">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th class="bg-white" scope="col">Course Title</th>
-                    <th class="bg-white" scope="col">Student Count</th>
-                    <th class="bg-white" scope="col">Has Taken Course?</th>
-                    <th class="bg-white" scope="col">Experience</th>
-                    <th class="bg-white" scope="col">Status</th>
-                    <th class="bg-white" scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for tutor_course in tutor_courses %}
-                        <tr>
-                            <td class="bg-white">{{tutor_course.course.name}}</td>
-                            <td class="bg-white">{{tutor_course.student_count}}</td>
-                            <td class="bg-white">{{tutor_course.taken_course}}</td>
-                            <td class="bg-white">{{tutor_course.experience}}</td>
-                            <td class="bg-white">{{tutor_course.status}}</td>
-                            <!--<td class="bg-white"><button>Dissolve</button></td>-->
+            <h3>{{tutor.name}}'s Courses</h3>
 
-                            {% if tutor_course.status == 'ACCEPTED' %}
-                                <td class="bg-white"><button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Revoke</button></td>
-                            {% elif tutor_course.status == 'REQUESTED' %}
-                                <td class="bg-white"><button onclick="set_tutor_course_status( {{tutor_course.id}}, 'ACCEPTED' )">Approve</button></td>
-                                <td class="bg-white"><button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Deny</button></td>
-                            {% elif tutor_course.status == 'DENIED'  %}
-                                <td class="bg-white"><button onclick="set_tutor_course_status( {{tutor_course.id}}, 'ACCEPTED' )">Approve</button></td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
+            <div class ="list-group list-box-frame">
+                <a class = "list-group-item disabled list-box list-box-header">
+                    <div class="five-item">Course Title</div>
+                    <div class="five-item">Has Taken Course?</div>
+                    <div class="five-item">Status</div>
+                    <div class="five-item">Experience</div>
+                    <div class="five-item">Status</div>
+                </a>
+                {% for tutor_course in tutor_courses %}
+                    <a href="{{'/admin/tutor-course?tutor_course_id=' + tutor_course.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                        <div class="five-item">{{tutor_course.course.name}}</div>
+                        <div class="five-item">{{tutor_course.student_count}}</div>
+                        <div class="five-item">{{tutor_course.taken_course}}</div>
+                        <div class="five-item">{{tutor_course.experience}}}</div>
+                        <div class="five-item">{{tutor_course.status}}</div>
+                    </a>
+                {% endfor %}
             </div>
-            
+
+    
+
     
         </div>
 

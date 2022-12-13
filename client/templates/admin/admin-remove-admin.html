@@ -19,7 +19,7 @@
             <br><br><br>
 
             <h3>REMOVE AN ADMIN</h3>
-            <p>Are you sure you want to demote {{user.name}} from their admin position?</p>
+            <p>Do you want to demote {{user.name}} from their admin position?</p>
             <form action="/admin/remove-admin/confirm/" method="GET">
                 <input type="hidden" name="user_id" value="{{user_id}}" readonly><br>
                 <input type="submit">

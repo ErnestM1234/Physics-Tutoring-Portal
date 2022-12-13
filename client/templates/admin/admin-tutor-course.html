@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Tutorship </title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+      &nbsp;
+      {% include "/components/admin-sidebar-header.html" %}
+  
+      <div>
+        {% include '/components/admin-dashboard-title.html' %}
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            function set_tutor_course_status(tutor_course_id, status) {
+                const data = {
+                    tutor_course_id,
+                    status
+                }
+                $.post("/admin/tutors/update_status", data, function(result){
+                    console.log(result)
+                }).then(location.reload());
+            }
+        </script>
+
+        
+        <br>
+
+        <br><br><br>
+        
+        <h3>Tutor for {{tutor_course.course.name}}</h3>
+
+        <ul>
+            <li>
+                <strong>Tutor Name: </strong>{{tutor.name}}
+            </li>
+
+            <li>
+                <strong>Course Name: </strong>{{tutor_course.course.name}}
+            </li>
+
+            <li>
+                <strong>Has taken course?:</strong> {{tutor_course.taken_course}}
+            </li>
+            <li>
+                <strong>Experience:</strong> {{tutor_course.experience}}
+            </li>
+            <li>
+                <strong>Status:</strong> {{tutor_course.status}}
+            </li>
+
+            {% if tutor_course.status == 'ACCEPTED' %}
+                <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Revoke</button>
+            {% elif tutor_course.status == 'REQUESTED' %}
+                <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'ACCEPTED' )">Approve</button></td>
+                <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Deny</button></td>
+            {% elif tutor_course.status == 'DENIED'  %}
+                <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'ACCEPTED' )">Approve</button></td>
+            {% endif %}
+            
+        </ul>
+
+        
+        {% include "/components/admin-sidebar-footer.html" %}
+
+
+    </body>
+
+</html>
