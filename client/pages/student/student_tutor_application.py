@@ -21,6 +21,9 @@ def studentTutorApplication():
 
     course_id = request.args.get('course_id')
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     course = res.json()
 
     return render_template(

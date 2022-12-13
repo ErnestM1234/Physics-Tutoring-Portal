@@ -34,7 +34,7 @@
                             <tr>
                                 <td class="bg-white">{{admin.id}}</td>
                                 <td class="bg-white">{{admin.name}}</td>
-                                <td class="bg-white"><button>Remove</button></td>
+                                <td class="bg-white"><a href="{{'/admin/remove-admin/?user_id=' + admin.id | string}}"><button>Remove</button>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -59,7 +59,7 @@
                             <tr>
                                 <td class="bg-white">{{non_admin.id}}</td>
                                 <td class="bg-white">{{non_admin.name}}</td>
-                                <td class="bg-white"><a href="{{'/admin/courses/add-admin/?user_id=' + non_admin.id | string}}"><button>Make Admin</button></a></td>
+                                <td class="bg-white"><a href="{{'/admin/add-admin/?user_id=' + non_admin.id | string}}"><button>Promote</button></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -14,11 +14,26 @@
   
           <div>
             {% include '/components/admin-dashboard-title.html' %}
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script>
+                function set_tutor_course_status(tutor_course_id, status) {
+                    const data = {
+                        tutor_course_id,
+                        status
+                    }
+                    $.post("/admin/tutors/update_status", data, function(result){
+                        console.log(result)
+                    }).then(location.reload());
+                }
+            </script>
+
             <br>
 
             <br><br><br>
             
             <h3>TUTOR PROFILE</h3>
+
 
             <ul>
                 <li>
@@ -37,10 +52,13 @@
                     <strong>Bio: </strong>{{tutor.bio}}
                 </li>
                 <li>
-                    <strong>Is A Student: </strong>{{tutor.is_tutor}}
+                    <strong>{{isAStudent}}</strong>
                 </li>
                 <li>
-                    <strong>Is An Admin: </strong>{{tutor.is_admin}}
+                    <strong>{{isATutor}}</strong>
+                </li>
+                <li>
+                    <strong>{{isAnAdmin}} </strong>
                 </li>
             </ul>
 
@@ -72,7 +90,16 @@
                             <td class="bg-white">{{tutor_course.taken_course}}</td>
                             <td class="bg-white">{{tutor_course.experience}}</td>
                             <td class="bg-white">{{tutor_course.status}}</td>
-                            <td class="bg-white"><button>Dissolve</button></td>
+                            <!--<td class="bg-white"><button>Dissolve</button></td>-->
+
+                            {% if tutor_course.status == 'ACCEPTED' %}
+                                <td class="bg-white"><button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Revoke</button></td>
+                            {% elif tutor_course.status == 'REQUESTED' %}
+                                <td class="bg-white"><button onclick="set_tutor_course_status( {{tutor_course.id}}, 'ACCEPTED' )">Approve</button></td>
+                                <td class="bg-white"><button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Deny</button></td>
+                            {% elif tutor_course.status == 'DENIED'  %}
+                                <td class="bg-white"><button onclick="set_tutor_course_status( {{tutor_course.id}}, 'ACCEPTED' )">Approve</button></td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>

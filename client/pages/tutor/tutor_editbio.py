@@ -21,6 +21,9 @@ def editBio():
     headers = get_header()
 
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user['id']}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutor = res.json()
 
     return render_template(

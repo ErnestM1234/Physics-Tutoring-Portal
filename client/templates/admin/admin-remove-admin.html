@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Add Admin</title>
+      <title>Physics Tutoring Portal Remove Admin</title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -18,9 +18,9 @@
 
             <br><br><br>
 
-            <h3>ADD AN ADMIN</h3>
-            <p>Are you sure you want to make {{user.name}} an admin?</p>
-            <form action="/admin/add-admin/confirm/" method="GET">
+            <h3>REMOVE AN ADMIN</h3>
+            <p>Are you sure you want to demote {{user.name}} from their admin position?</p>
+            <form action="/admin/remove-admin/confirm/" method="GET">
                 <input type="hidden" name="user_id" value="{{user_id}}" readonly><br>
                 <input type="submit">
             </form>
