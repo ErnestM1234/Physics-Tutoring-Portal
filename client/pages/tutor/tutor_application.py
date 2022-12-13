@@ -22,13 +22,7 @@ def tutorApplication():
     course_id = request.args.get('course_id')
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
     course = res.json()
-    print(course_id)
 
-
-
-    # do we need these ? 
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'), headers=headers)
-    courses = res.json()
 
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user['id']}, headers=headers)
     tutor = res.json()
