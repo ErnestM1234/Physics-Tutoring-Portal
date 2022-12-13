@@ -16,10 +16,9 @@ def create_tutorship_confirm():
     # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
+        
     # get headers
     headers = get_header()
 
@@ -40,14 +39,11 @@ def create_tutorship_confirm():
     }
 
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/create/'), data=json.dumps(data), headers=headers)
-    
-    message = str(res)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
 
-
-    return render_template(
-        '/admin/confirmation.html',
-        message=message
-    )
+    return redirect('/admin/tutorships/')
 
 @app.route('/admin/tutorships/create-tutorship/')
 def create_tutorship():
@@ -55,10 +51,9 @@ def create_tutorship():
    # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
+        
 
     return render_template(
         '/admin/admin-create-tutorship.html',

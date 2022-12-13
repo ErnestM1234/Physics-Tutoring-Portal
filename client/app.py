@@ -51,8 +51,6 @@ def login():
         session.clear()
         return 'failed login'
 
-
-
     # check if user exists
     if 'id' not in user.keys():
         # get user info

@@ -12,10 +12,9 @@ def tutor_profile():
     # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
+        
     # get headers
     headers = get_header()
 
@@ -27,31 +26,28 @@ def tutor_profile():
         if tutor_id.isnumeric() and int(float(tutor_id)) >= 0:
             tutorship_params['id'] = int(float(tutor_id))
         else:
-            return render_template(
-            '/admin/confirmation.html',
-            message="You have supplied an invalid user id"
-        )
-
-
-
-
+            session['error_message'] = "You have supplied an invalid user id"
+            return redirect('/error/')
 
     # get tutor
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": tutor_id}, headers=headers)
-    tutor = res.json()
-    # check if they are a tutor
     if res.status_code != 200:
-        return render_template(
-            '/admin/confirmation.html',
-            message="User not found"
-        )
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+    tutor = res.json()
 
     # get tutor-courses
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'tutor_id': tutor_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutor_courses = res.json()
 
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'tutor_id': tutor_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutorships = res.json()
 
     for tutor_course in tutor_courses:
@@ -59,8 +55,10 @@ def tutor_profile():
         student_count = len(list(filter(lambda tutorship: tutorship['status'] == 'ACCEPTED' and tutorship['course_id'] == tutor_course['course_id'] and tutor_course['status'] == "ACCEPTED", tutorships)))
         tutor_course["student_count"] = student_count
 
-
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutor_course.get('course_id')}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         course = res.json()
         tutor_course['course'] = course
 
@@ -72,7 +70,6 @@ def tutor_profile():
         isATutor = 'Is a Tutor'
     if(tutor['is_admin']):
         isAnAdmin = 'Is an Admin'
-
 
 
     return render_template(

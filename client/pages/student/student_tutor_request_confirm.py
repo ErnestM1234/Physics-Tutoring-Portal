@@ -26,20 +26,6 @@ def student_tutor_request_confirm():
     # get headers
     headers = get_header()
 
-     # get course
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={"id": course_id}, headers=headers)
-    course = res.json()
-
-    # get tutor
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": tutor_id}, headers=headers)
-    tutor = res.json()
-
     requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/create/'), data=json.dumps({'tutor_id': tutor_id, 'course_id': course_id, 'student_id': user['id'], 'status': 'REQUESTED'}), headers=headers)
 
     return redirect('/student/dashboard')
-    #return render_template(
-    #    'student-tutor-request-confirm.html',
-    #    user=user,
-    #    course=course,
-    #    tutor=tutor
-    #)

@@ -19,8 +19,6 @@ def tutor_application_confirm():
     # get headers
     headers = get_header()
 
-
-
     course_id = request.form.get('course_id')
     taken_course = request.form.get('taken_course')
     experience = request.form.get('experience')
@@ -38,19 +36,15 @@ def tutor_application_confirm():
     # mark student as a tutor
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps({'id': str(user['id']), 'is_tutor': True}), headers=headers)
     if res.status_code != 200:
-        return render_template(
-            '/tutor/tutor-confirmation.html',
-            message='Error: '  + str(res.content)
-        )
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
 
     # create relationship btwn tutor and course
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/create/'), data=json.dumps(data), headers=headers)
     message = str(res)
     if res.status_code != 200:
-        return render_template(
-            '/tutor/tutor-confirmation.html',
-            message='Error: ' + str(res.content)
-        )
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
 
 
     return render_template(
