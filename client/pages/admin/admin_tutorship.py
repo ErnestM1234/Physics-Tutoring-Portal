@@ -30,7 +30,8 @@ def admin_tutorship():
         if tutorship_id.isnumeric() and int(float(tutorship_id)) >= 0:
             tutorship_id = int(float(tutorship_id))
         else:
-            return redirect('/')
+            session['error_message'] = "You have supplied an incorrect tutorship id"
+            return redirect('/error/')
 
 
     # get tutorship

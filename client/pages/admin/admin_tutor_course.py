@@ -26,7 +26,7 @@ def tutor_course():
         if tutor_course_id.isnumeric() and int(float(tutor_course_id)) >= 0:
             tutor_course_id = int(float(tutor_course_id))
         else:
-            session['error_message'] = "You have supplied an tutor course id"
+            session['error_message'] = "You have supplied an incorrect tutor course id"
             return redirect('/error/')
 
     # get tutor-course
