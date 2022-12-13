@@ -2,7 +2,12 @@
     <img src="{{url_for('static', filename='portal_logo.png')}}" width="230px">
     <br>
     <br>
+    {% if user.get('is_tutor') or user.get('is_admin') %}
     <a id="myToggleButton" href="javascript:void(0)" onclick="openToggle()">&#9776; Student view</a>
+    {% else %}
+    <a id="myToggleButtonDisabled">Student view</a>
+    {% endif %}
+    
     <div id="myToggle" class="toggle">
       {% if user.get('is_tutor') %}
       <a id="toggle-button" href="/tutor/dashboard">Tutor view</a>

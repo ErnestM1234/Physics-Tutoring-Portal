@@ -72,21 +72,9 @@
                 {% endif %}
 
                 {% for tutor_course in tutor_courses: %}
-                {% if tutor_course.get('status') == 'ACCEPTED' %}
-                <a class="list-group-item list-group-item-action accepted-gradient list-box">
-                {% elif tutor_course.get('status') == 'REQUESTED' %}
-                <a class="list-group-item list-group-item-action requested-gradient list-box">
-                {% else %}
                 <a class="list-group-item disabled list-box">
-                {% endif %}
                   <div class="two-item">{{tutor_course.get('course').get('dept_course')}}</div>
-                  {% if tutor_course.get('status') == 'ACCEPTED' %}
-                  <div class="two-item" style="color: green;">{{tutor_course.get('status')}}</div>
-                  {% elif tutor_course.get('status') == 'REQUESTED' %}
-                  <div class="two-item" style="color: blue;">{{tutor_course.get('status')}}</div>
-                  {% else %}
                   <div class="two-item">{{tutor_course.get('status')}}</div>
-                  {% endif %}
                 </a>
                 {% endfor %}
               </div>
