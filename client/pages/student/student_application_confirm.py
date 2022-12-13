@@ -45,4 +45,4 @@ def student_tutor_application_confirm():
         session['error_message'] = str(res.content)
         return redirect('/error/')
 
-    return redirect('/tutor/dashboard')
+    return redirect('/student/dashboard')

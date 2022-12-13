@@ -15,8 +15,13 @@ h2 {
   font-size: 30px;
 }
 
+span {
+  margin-left: 15px;
+  font-size:25px;
+}
+
 .non-sidebar{
-  position: fixed;
+  /*position: fixed;*/
   margin-left: 25px;
   width: calc(100vw - 45px);
   /*overflow-wrap: break-word;*/
@@ -252,5 +257,6 @@ h2 {
 }
 
 .princeton-gradient {
-    @include gradient-directional(rgb(249, 214, 162), rgb(250, 175, 151)); 
+    @include gradient-directional(rgb(249, 214, 162), rgb(250, 175, 151));
+    background-attachment: fixed;
 }
