@@ -31,9 +31,8 @@ h2 {
   left: 0;
   overflow-x: hidden; /* Disable horizontal scroll */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
-  background-color: red;
+  background-color: rgb(255, 159, 86);
 }
-
 /* The sidebar menu */
 .sidebar {
   height: 100%; /* 100% Full-height */
@@ -43,7 +42,7 @@ h2 {
   top: 0;
   left: 0;
   background-image: url(uni.jpg);
-  background-size: 2000px;
+  background-size: 1600px;
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 50px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
@@ -55,11 +54,11 @@ h2 {
   width: 230px;
   margin-left: 10px;
   border-radius: 20px;
-  margin-top: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  margin-top: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 20px;
   color: black;
   display: block;
   text-align: center;
@@ -72,13 +71,10 @@ h2 {
 }
 
 /* The sidebar links */
-#sidebar-toggle-button {
-  width: 230px;
-  margin-left: 10px;
-  border-radius: 20px;
-  margin-top: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+#myToggleButton {
+  width: 250px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   text-decoration: none;
   font-size: 25px;
   color: black;
@@ -88,14 +84,30 @@ h2 {
 }
 
 /* When you mouse over the navigation links, change their color */
-#sidebar-toggle-button:hover {
+#myToggleButton:hover {
+  background-color: rgb(255, 145, 60);
+}
+
+#toggle-button{
+  width: 250px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  display: block;
+  text-align: center;
+  background-color: rgb(255, 174, 112);
+}
+
+#toggle-button:hover{
   background-color: rgb(255, 145, 60);
 }
 
 /* The sidebar links */
 .sidebar img {
   display: block;
-  margin: auto;
+  margin-left: 10px;
 }
 
 /* Position and style the close button (top right corner) */
@@ -109,7 +121,7 @@ h2 {
 
 /* The button used to open the sidebar */
 .openbtn {
-  font-size: 20px;
+  font-size: 25px;
   margin-left: -45px;
   cursor: pointer;
   background-color: rgb(255, 159, 86);
@@ -129,10 +141,6 @@ h2 {
 #main {
   transition: margin-left .5s; /* If you want a transition effect */
   padding: 20px;
-}
-
-#myToggleButton {
-  background-color: blue;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

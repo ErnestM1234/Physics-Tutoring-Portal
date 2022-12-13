@@ -1,10 +1,15 @@
 <div id="mySidebar" class="sidebar">
     <img src="{{url_for('static', filename='portal_logo.png')}}" width="230px">
     <br>
-    <a id="myToggleButton" href="javascript:void(0)" onclick="openToggle()">Student view</a>
+    <br>
+    <a id="myToggleButton" href="javascript:void(0)" onclick="openToggle()">&#9776; Student view</a>
     <div id="myToggle" class="toggle">
-      <a href="/tutor/dashboard">Tutor view</a>
-      <a href="/admin/dashboard">Admin view</a>
+      {% if user.get('is_tutor') %}
+      <a id="toggle-button" href="/tutor/dashboard">Tutor view</a>
+      {% endif %}
+      {% if user.get('is_admin') %}
+      <a id="toggle-button" href="/admin/dashboard">Admin view</a>
+      {% endif %}
     </div>
     <a id="sidebar-button" href="/student/dashboard">Dashboard</a>
     <a id="sidebar-button" href="/student/courses">Find a tutor</a>

@@ -13,8 +13,9 @@
     }
 
     function openToggle() {
-    document.getElementById("myToggle").style.height = "150px";
+    document.getElementById("myToggle").style.height = "auto";
     document.getElementById("myToggleButton").onclick = function() { closeToggle() };
+    document.getElementById("myToggleButton").innerHTML = "&times; Student view";
     }
 
     /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
@@ -31,5 +32,6 @@
     function closeToggle() {
     document.getElementById("myToggle").style.height = "0";
     document.getElementById("myToggleButton").onclick = function() { openToggle() };
+    document.getElementById("myToggleButton").innerHTML = "&#9776; Student view";
     }
   </script>
