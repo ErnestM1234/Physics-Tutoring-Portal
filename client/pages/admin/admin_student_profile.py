@@ -83,7 +83,6 @@ def student_profile():
     isATutor = 'Not a Tutor'
     isAnAdmin = 'Not an Admin'
         
-    print(student['is_tutor'])
     if(student['is_tutor']):
         isATutor = 'Is a Tutor'
     if(student['is_admin']):
