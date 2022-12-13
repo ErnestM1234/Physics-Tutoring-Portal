@@ -14,6 +14,11 @@ h2 {
   font-size: 30px;
 }
 
+span {
+  margin-left: 15px;
+  font-size: 25px;
+}
+
 .non-sidebar {
   position: fixed;
   margin-left: 25px;

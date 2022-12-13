@@ -34,13 +34,12 @@ def student_tutors_request_confirm():
     
     tutor_courses = res.json()
 
-    # TO DO: PRUNE DUPLICATES
-    # TO DO: DO NOT REQUEST UNAVAILABLE TUTORS
+    # INTENTIONAL: Ignore errored responses for duplicate tutorships
     for tutor_course in tutor_courses:
         res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/create/'), data=json.dumps({'tutor_id': tutor_course['tutor_id'], 'course_id': course_id, 'student_id': user['id'], 'status': 'REQUESTED'}), headers=headers)
-        if res.status_code != 200:
-            session['error_message'] = str(res.content)
-            return redirect('/error/')
+        #if res.status_code != 200:
+        #    session['error_message'] = str(res.content)
+        #    return redirect('/error/')
 
     return redirect('/student/dashboard')
 
