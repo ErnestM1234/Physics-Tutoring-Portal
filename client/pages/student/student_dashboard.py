@@ -50,7 +50,6 @@ def student_dashboard():
         session['error_message'] = str(res.content)
         return redirect('/error/')
     tutor_courses = res.json()
-    print(tutor_courses)
 
     # addition info about tutor application
     for tutor_course in tutor_courses:
@@ -60,7 +59,6 @@ def student_dashboard():
             return redirect('/error/')
         course = res.json()
         tutor_course['course'] = course
-        print(course)
 
     return render_template(
         '/student/student-dashboard.html',
