@@ -200,6 +200,7 @@ from pages.tutor.tutor_student_dissolve_confirm import*
 from pages.tutor.tutor_student_dissolve import*
 from pages.tutor.tutor_student_reject_confirm import *
 from pages.tutor.tutor_student_reject import *
+from pages.tutor.tutor_student import *
 
 from pages.error.error_page import *
 
