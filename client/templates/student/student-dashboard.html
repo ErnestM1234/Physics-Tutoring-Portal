@@ -36,7 +36,7 @@
                 {% elif tutorship.get('status') == 'REQUESTED' %}
                 <a href="/student/tutor?tutor_id={{tutorship.get('tutor').get('id')}}&course_id={{tutorship.get('course').get('id')}}" class="list-group-item list-group-item-action requested-gradient list-box">
                 {% else %}
-                <a href="/student/tutor?tutor_id={{tutorship.get('tutor').get('id')}}&course_id={{tutorship.get('course').get('id')}}" class="list-group-item list-group-item-action list-box">
+                <a href="/student/tutor?tutor_id={{tutorship.get('tutor').get('id')}}&course_id={{tutorship.get('course').get('id')}}" class="list-group-item list-group-item-action no-gradient list-box">
                 {% endif %}
                   <div class="six-item">{{tutorship.get('course').get('dept_course')}}</div>
                   <div class="six-item">{{tutorship.get('tutor').get('name')}}</div>
@@ -57,8 +57,42 @@
               <br>
               <br>
 
+              <h2>My applications to tutor</h2>
+            <br>
+              <div class="list-group list-box-frame">
+                <a class="list-group-item disabled list-box list-box-header">
+                  <div class="two-item">Course</div>
+                  <div class="two-item">Status</div>
+                </a>
+
+                {% if tutor_courses|length==0: %}
+                <a class="list-group-item disabled list-box">
+                <div class="one-item">No applications to show.</div>
+                </a>
+                {% endif %}
+
+                {% for tutor_course in tutor_courses: %}
+                {% if tutor_course.get('status') == 'ACCEPTED' %}
+                <a class="list-group-item list-group-item-action accepted-gradient list-box">
+                {% elif tutor_course.get('status') == 'REQUESTED' %}
+                <a class="list-group-item list-group-item-action requested-gradient list-box">
+                {% else %}
+                <a class="list-group-item disabled list-box">
+                {% endif %}
+                  <div class="two-item">{{tutor_course.get('course').get('dept_course')}}</div>
+                  {% if tutor_course.get('status') == 'ACCEPTED' %}
+                  <div class="two-item" style="color: green;">{{tutor_course.get('status')}}</div>
+                  {% elif tutor_course.get('status') == 'REQUESTED' %}
+                  <div class="two-item" style="color: blue;">{{tutor_course.get('status')}}</div>
+                  {% else %}
+                  <div class="two-item">{{tutor_course.get('status')}}</div>
+                  {% endif %}
+                </a>
+                {% endfor %}
+              </div>
+
         </div>
-        {% include "/components/sidebar-footer.html" %}
+        {% include "/components/student-sidebar-footer.html" %}
     </body>
 
 </html>

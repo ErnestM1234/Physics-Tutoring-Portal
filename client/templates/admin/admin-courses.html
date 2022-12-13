@@ -22,34 +22,56 @@
 
             <a href="/admin/courses/create-course">Add a new course</a><br>
     
-            <div class ="list">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th class="bg-white" scope="col">Course Id</th>
-                    <th class="bg-white" scope="col">Name</th>
-                    <th class="bg-white" scope="col">Tutorships/Tutors</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for course in courses %}
-                        <tr>
-                            <td class="bg-white">{{course.id}}</td>
-                            <td class="bg-white">{{course.name}}</td>
-                            <td class="bg-white"><a href="{{'/admin/course/?course_id=' + course.id | string}}">Tutorships/Tutors</a></td>
-                            <!--<td class="bg-white"><a href="{{'/admin/tutors/?course_id=' + course.id | string}}">Tutors</a></td>-->
-                            <!--<td class="bg-white"><a href="{{'/admin/courses/remove-course/?course_id=' + course.id | string}}"><button>Remove</button></a></td>-->
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
+            <div class ="list-group list-box-frame">
+                <a class = "list-group-item disabled list-box list-box-header">
+                    <div class="two-item">Department & Number</div>
+                    <div class="two-item">Name</div>
+                    <!--<div class="three-item">Tutorships/Tutors</div>-->
+                  </a>
+                {% for course in courses %}
+                  <a href="{{'/admin/course/?course_id=' + course.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                    
+                    <div class="two-item">{{course.dept_course}}</div>
+                    <div class="two-item">{{course.name}}</div>
+                    <!--<div class="three-item"><a href="{{'/admin/course/?course_id=' + course.id | string}}">Tutorships/Tutors</a></div>-->
+                    <!--<td class="bg-white"><a href="{{'/admin/tutors/?course_id=' + course.id | string}}">Tutors</a></td>-->
+                    <!--<td class="bg-white"><a href="{{'/admin/courses/remove-course/?course_id=' + course.id | string}}"><button>Remove</button></a></td>-->
+                  </a>
+                {% endfor %}
             </div>
+
+            <!--
+
+            <div class ="list">
+              <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="bg-white" scope="col">Department & Number</th>
+                      <th class="bg-white" scope="col">Name</th>
+                      <th class="bg-white" scope="col">Tutorships/Tutors</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for course in courses %}
+                          <tr>
+                              <td class="bg-white">{{course.dept_course}}</td>
+                              <td class="bg-white">{{course.name}}</td>
+                              <td class="bg-white"><a href="{{'/admin/course/?course_id=' + course.id | string}}">Tutorships/Tutors</a></td> -->
+                              <!--<td class="bg-white"><a href="{{'/admin/tutors/?course_id=' + course.id | string}}">Tutors</a></td>-->
+                              <!--<td class="bg-white"><a href="{{'/admin/courses/remove-course/?course_id=' + course.id | string}}"><button>Remove</button></a></td>-->
+                         <!-- </tr>
+                      {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+            -->
             
     
         </div>
 
         
-        {% include "/components/sidebar-footer.html" %}
+        {% include "/components/admin-sidebar-footer.html" %}
 
     </body>
 

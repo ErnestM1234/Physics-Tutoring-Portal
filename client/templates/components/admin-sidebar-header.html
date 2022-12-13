@@ -1,14 +1,23 @@
 <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <img src="{{url_for('static', filename='portal_logo.png')}}" width="230px">
-    <br>
-    <a href="/admin/dashboard">Dashboard</a>
-    <a href="/admin/courses">All courses</a>
-    <a href="/admin/tutors">All tutors</a>
-    <a href="/admin/tutorships">All tutorships</a>
-    <a href="/admin/students">All students</a>
-    <a href="/admin/admins">All admin</a>
+  <img src="{{url_for('static', filename='portal_logo.png')}}" width="230px">
+  <br>
+  <br>
+  <a id="myToggleButton" href="javascript:void(0)" onclick="openToggle()">&#9776; Admin view</a>
+  <div id="myToggle" class="toggle">
+    {% if user.get('is_student') %}
+    <a id="toggle-button" href="/student/dashboard">Student view</a>
+    {% endif %}
+    {% if user.get('is_tutor') %}
+    <a id="toggle-button" href="/tutor/dashboard">Tutor view</a>
+    {% endif %}
+  </div>
+    <a id="sidebar-button" href="/admin/dashboard">Dashboard</a>
+    <a id="sidebar-button" href="/admin/courses">All courses</a>
+    <a id="sidebar-button" href="/admin/tutors">All tutors</a>
+    <a id="sidebar-button" href="/admin/tutorships">All tutorships</a>
+    <a id="sidebar-button" href="/admin/students">All students</a>
+    <a id="sidebar-button" href="/admin/admins">All admin</a>
   </div>
   
   <div id="main" class="non-sidebar">
-    <button class="openbtn" onclick="openNav()">&#9776;</button>
+    <button id="mySidebarButton" class="openbtn" onclick="openNav()">&#9776; Admin view</button>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Tutorship </title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+      &nbsp;
+      {% include "/components/admin-sidebar-header.html" %}
+  
+      <div>
+        {% include '/components/admin-dashboard-title.html' %}
+        <br>
+
+        <br><br><br>
+        
+        <h3>TUTORSHIP PROFILE</h3>
+
+        <ul>
+
+            <li>
+                <strong>Student Name: </strong><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">{{tutorship.student.name}}</a>
+            </li>
+
+            <li>
+                <strong>Tutor Name: </strong><a href="{{'/admin/tutor-profile/?tutor_id=' + tutorship.tutor_id | string}}">{{tutorship.tutor.name}}</a>
+            </li>
+
+            <li>
+                <strong>Course:</strong> {{tutorship.course.name}}
+            </li>
+            <li>
+                <strong>Status:</strong> {{tutorship.status}}
+            </li>
+            <li>
+                <a href="{{'/admin/tutorships/remove-tutorship/?tutorship_id=' + tutorship.id | string}}"><button>Dissolve</button></a>
+
+            </li>
+            
+        </ul>
+
+        
+        {% include "/components/admin-sidebar-footer.html" %}
+
+
+    </body>
+
+</html>

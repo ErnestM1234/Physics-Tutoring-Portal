@@ -80,7 +80,7 @@ def student_profile():
     if(student['is_admin']):
         isAnAdmin = 'Is an Admin'
         
-
+        
 
     return render_template(
         '/admin/admin-profile-student.html',

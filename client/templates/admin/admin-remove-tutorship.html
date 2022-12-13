@@ -28,39 +28,25 @@
             <br><br><br>
             
             <h3>TUTORSHIP</h3>
-    
-            <div class ="list">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th class="bg-white" scope="col">Courses</th>
-                    <th class="bg-white" scope="col">Student Id</th>
-                    <th class="bg-white" scope="col">Student Name</th>
-                    <th class="bg-white" scope="col">Tutor Id</th>
-                    <th class="bg-white" scope="col">Tutor Name</th>
-                    <th class="bg-white" scope="col">Course Id</th>
-                    <th class="bg-white" scope="col">Course Name</th>
-                    <th class="bg-white" scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="bg-white">{{tutorship.id}}</td>
-                        <td class="bg-white">{{tutorship.student_id}}</td>
-                        <td class="bg-white">{{tutorship.student.name}}</td>
-                        <td class="bg-white">{{tutorship.tutor.id}}</td>
-                        <td class="bg-white">{{tutorship.tutor.name}}</td>
-                        <td class="bg-white">{{tutorship.course_id}}</td>
-                        <td class="bg-white">{{tutorship.course.name}}</td>
-                        <td class="bg-white">{{tutorship.status}}</td>
-                    </tr>
-                </tbody>
-              </table>
-            </div>
-        </div>
 
+
+        <div class ="list-group list-box-frame">
+          <a class = "list-group-item disabled list-box list-box-header">
+              <div class="four-item">Student Name</div>
+              <div class="four-item">Tutor Name</div>
+              <div class="four-item">Course Name</div>
+              <div class="four-item">Status</div>
+          </a>
+
+          <a class = "list-group-item diabled list-box no-gradient">
+              <div class="four-item">{{tutorship.student.name}}</div>
+              <div class="four-item">{{tutorship.tutor.name}}</div>
+              <div class="four-item">{{tutorship.course.name}}</div>
+              <div class="four-item">{{tutorship.status}}</div>
+          </a>
+      </div>
         
-        {% include "/components/sidebar-footer.html" %}
+        {% include "/components/admin-sidebar-footer.html" %}
 
     </body>
 

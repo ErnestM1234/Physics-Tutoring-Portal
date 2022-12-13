@@ -39,7 +39,8 @@ def admin_course():
             tutorship_params['course_id'] = int(float(course_id))
             course_id = int(float(course_id))
         else:
-            return redirect('/')
+            session['error_message'] = "You have supplied an incorrect course id"
+            return redirect('/error/')
     
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
     if res.status_code != 200:
@@ -61,6 +62,12 @@ def admin_course():
         session['error_message'] = str(res.content)
         return redirect('/error/')
     tutor_courses = res.json()
+
+    for tutor_course in tutor_courses:
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutor_course['course_id']}, headers=headers)
+        course2 = res.json()
+        course2_name = course2['name']
+        tutor_course['course_name']= course2_name
 
     approved_tutor_courses = list(filter(lambda tutor_course: tutor_course['status'] == 'ACCEPTED', tutor_courses))
 
@@ -104,8 +111,10 @@ def admin_course():
         tutorship['tutor'] = tutor
         tutorship['course'] = course
 
+  
     return render_template(
         '/admin/admin-course.html',
+        user=user,
         tutorships=tutorships,
         course = course,
         course_id=course_id,

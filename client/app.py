@@ -168,6 +168,8 @@ from pages.admin.admin_tutor_profile import *
 from pages.admin.admin_add_admin import *
 from pages.admin.admin_remove_admin import *
 from pages.admin.admin_course import *
+from pages.admin.admin_tutorship import *
+from pages.admin.admin_tutor_course import *
 
 
 from pages.student.student_dashboard import *
@@ -198,6 +200,7 @@ from pages.tutor.tutor_student_dissolve_confirm import*
 from pages.tutor.tutor_student_dissolve import*
 from pages.tutor.tutor_student_reject_confirm import *
 from pages.tutor.tutor_student_reject import *
+from pages.tutor.tutor_student import *
 
 from pages.error.error_page import *
 

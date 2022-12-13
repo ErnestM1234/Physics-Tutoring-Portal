@@ -57,14 +57,20 @@ def remove_admin():
     else:
         session['error_message'] = 'There is no provided user_id, or the user_id is invalid'
         return redirect('/error/')
-    
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user_id}, headers=headers)
-    user = res.json()
 
+
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+    user2 = res.json()
+    
+    
 
     return render_template(
         '/admin/admin-remove-admin.html',
+        user=user,
         user_id=user_id,
-        user=user
+        user2=user2
     )
 

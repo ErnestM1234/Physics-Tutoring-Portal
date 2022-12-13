@@ -41,40 +41,29 @@
 
             <h3><strong>Tutorships for {{course.name}}</strong></h3>
 
-            <a href="/admin/tutorships/create-tutorship">Add a new tutorship</a><br>
     
-            <div class ="list">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <!-- <th class="bg-white" scope="col">Tutorship Id</th> -->
-                    <!-- <th class="bg-white" scope="col">Student Id</th> -->
-                    <th class="bg-white" scope="col">Student Name</th>
-                    <!--<th class="bg-white" scope="col">Tutor Id</th> -->
-                    <th class="bg-white" scope="col">Tutor Name</th>
-                    <th class="bg-white" scope="col">Course Id</th>
-                    <th class="bg-white" scope="col">Course Name</th>
-                    <th class="bg-white" scope="col">Status</th>
-                    <th class="bg-white" scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for tutorship in tutorships %}
-                        <tr>
-                            <!--<td class="bg-white">{{tutorship.id}}</td>-->
-                            <!--<td class="bg-white">{{tutorship.student_id}}</td>-->
-                            <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">{{tutorship.student.name}}</a></td>
-                            <!--<td class="bg-white">{{tutorship.tutor_id}}</td>-->
-                            <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutorship.tutor_id | string}}">{{tutorship.tutor.name}}</a></td>
-                            <td class="bg-white">{{tutorship.course_id}}</td>
-                            <td class="bg-white">{{tutorship.course.name}}</td>
-                            <td class="bg-white">{{tutorship.status}}</td>
-                            <td class="bg-white"><a href="{{'/admin/tutorships/remove-tutorship/?tutorship_id=' + tutorship.id | string}}"><button>Dissolve</button></a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
+
+            <div class ="list-group list-box-frame">
+              <a class = "list-group-item disabled list-box list-box-header">
+                  <div class="four-item">Student Name</div>
+                  <div class="four-item">Tutor Name</div>
+                  <div class="four-item">Course Name</div>
+                  <div class="four-item">Status</div>
+                  <!--<div class="four-item">Action</div>-->
+              </a>
+              {% for tutorship in tutorships %}
+              <a href="{{'/admin/tutorship/?tutorship_id=' + tutorship.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                  <div class="four-item">{{tutorship.student.name}}</div>
+                  <div class="four-item">{{tutorship.tutor.name}}</div>
+                  <div class="four-item">{{tutorship.course.name}}</div>
+                  <div class="four-item">{{tutorship.status}}</div>
+                  <!--<div class="four-item"><a href="{{'/admin/tutorships/remove-tutorship/?tutorship_id=' + tutorship.id | string}}"><button>Dissolve</button></a></div>-->
+                </a>
+                    
+              {% endfor %}
             </div>
+
+
             <br>
             <br>
             <br>
@@ -82,111 +71,84 @@
             <h3><strong>Tutors for {{course.name}}: </strong></h3>
 
 
-            <h3>Accepted Tutors</h3>
-            <a href="/admin/create-tutor-course">Assign a tutor to a course</a><br>
+            <h3>ACCEPTED TUTORS</h3>
     
-            <div class ="list">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <!--<th class="bg-white" scope="col">Id</th>-->
-                    <th class="bg-white" scope="col">Name</th>
-                    <th class="bg-white" scope="col">Course Id</th>
-                    <th class="bg-white" scope="col">Status</th>
-                    <th class="bg-white" scope="col">Student Count</th>
-                    <th class="bg-white" scope="col">Profile</th>
-                    <!--<th class="bg-white" scope="col">Action</th>-->
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for tutor_course in tutor_courses %}
-                        <tr>
-                            <!--<td class="bg-white">{{tutor_course.id}}</td>-->
-                            <td class="bg-white">{{get_name(tutor_course.tutor_id)}}</td>
-                            <td class="bg-white">{{tutor_course.course_id}}</td>
-                            <td class="bg-white">{{tutor_course.status}}</td>
-                            <td class="bg-white">{{student_count[loop.index0]}}</td>
-                            <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_course.tutor_id | string}}">Profile</a></td>
-                            <!--<td class="bg-white"><button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Revoke</button></td>-->
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
-            </div>
-    
-    
-            <br><br><br>
-    
+            <div class ="list-group list-box-frame">
+              <a class = "list-group-item disabled list-box list-box-header">
+                  <div class="three-item">Tutor Name</div>
+                  <div class="three-item">Course Name</div>
+                  <div class="three-item">Student Count</div>
+                  <!--<th class="bg-white" scope="col">Profile</th>-->
+                  <!--<th class="bg-white" scope="col">Action</th>-->
+              </a>
+              {% for tutor_course in tutor_courses %}
+                  <a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_course.tutor_id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                      <div class="three-item">{{get_name(tutor_course.tutor_id)}}</div>
+                      <div class="three-item">{{tutor_course.course_name}}</div>
+                      <div class="three-item">{{student_count[loop.index0]}}</div>
+                  </a>
+              {% endfor %}
+          </div>
+
+
+
+
+          <br><br><br>
+
+          <h3>TUTOR REQUESTS</h3>
+  
+          <div class ="list-group list-box-frame">
+              <a class = "list-group-item disabled list-box list-box-header">
+                  <div class="three-item">Tutor Name</div>
+                  <div class="three-item">Course Name</div>
+                  <div class="three-item">Student Count</div>
+              </a>
+              {% for tutor_request in tutor_requests %}
+                  <a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_request.tutor_id | string }}"class = "list-group-item list-group-item-action list-box no-gradient">
+                      <div class="three-item">{{get_name(tutor_request.tutor_id)}}</div>
+                      <div class="three-item">{{tutor_request.course_name}}</div>
+                      <div class="three-item">{{student_count[loop.index0]}}</div>
+                  </a>
+              {% endfor %}
+          </div>
+
+          <br><br><br>
+
+
+
+
+          <h3>DENIED TUTORS</h3>
+  
+          <div class ="list-group list-box-frame">
+              <a class = "list-group-item disabled list-box list-box-header">
+                  <div class="three-item">Tutor Name</div>
+                  <div class="three-item">Course Name</div>
+                  <div class="three-item">Student Count</div>
+                </a>
+              {% for denied_tutor in denied_tutors %}
+                  <a href="{{'/admin/tutor-profile/?tutor_id=' + denied_tutor.tutor_id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                      <div class="three-item">{{get_name(denied_tutor.tutor_id)}}</div>
+                      <div class="three-item">{{denied_tutor.course_name}}</div>
+                      <div class="three-item">{{student_count[loop.index0]}}</div>
+                  </a>
+              {% endfor %}
+            </table>
+          </div>
+
+
+
+
+
+
+
             
-            <h3>Tutor Requests</h3>
-    
-            <div class ="list">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <!--<th class="bg-white" scope="col">Id</th>-->
-                    <th class="bg-white" scope="col">Name</th>
-                    <th class="bg-white" scope="col">Course Id</th>
-                    <th class="bg-white" scope="col">Tutorships</th>
-                    <th class="bg-white" scope="col">Profile</th>
-                    <!--<th class="bg-white" scope="col">Action</th>-->
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for tutor_request in tutor_requests %}
-                        <tr>
-                            <!--<td class="bg-white">{{tutor_request.id}}</td>-->
-                            <td class="bg-white">{{get_name(tutor_request.tutor_id)}}</td>
-                            <td class="bg-white">{{tutor_request.course_id}}</td>
-                            <td class="bg-white">{{student_count[loop.index0]}}</td>
-                            <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_request.tutor_id | string}}">Profile</a></td>
-                           <!--<td class="bg-white">
-                                <button onclick="set_tutor_course_status( {{tutor_request.id}}, 'ACCEPTED' )">Approve</button>
-                                <button onclick="set_tutor_course_status( {{tutor_request.id}}, 'DENIED' )">Deny</button>
-                            </td>-->
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
-            </div>
-    
-            <br><br><br>
-    
-            <h3>Denied Tutors</h3>
-    
-            <div class ="list">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <!--<th class="bg-white" scope="col">Id</th>-->
-                    <th class="bg-white" scope="col">Name</th>
-                    <th class="bg-white" scope="col">Course Id</th>
-                    <th class="bg-white" scope="col">Profile</th>
-                    <!--<th class="bg-white" scope="col">Action</th>-->
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for denied_tutor in denied_tutors %}
-                        <tr>
-                            <!--<td class="bg-white">{{denied_tutor.id}}</td>-->
-                            <td class="bg-white">{{get_name(denied_tutor.tutor_id)}}</td>
-                            <td class="bg-white">{{denied_tutor.course_id}}</td>
-                            <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + denied_tutor.tutor_id | string}}">Profile</a></td>
-                            <!--<td class="bg-white">
-                                <button onclick="set_tutor_course_status( {{denied_tutor.id}}, 'ACCEPTED' )">Approve</button>
-                            </td>-->
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
-            </div>
     
         </div>
 
 
 
 
-        {% include "/components/sidebar-footer.html" %}
+        {% include "/components/admin-sidebar-footer.html" %}
 
 
     </body>

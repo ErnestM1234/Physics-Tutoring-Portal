@@ -21,147 +21,163 @@
 
     <br><br><br>
 
-    <div class="list">
-      <h3>MY STUDENTS</h3>
+      <h3>My students</h3>
       <br>
-      <table id="userlisttable">
-        <thead id="userlistheader">
-          <tr>
-            <td>
-              <h5>Course</h5>
-            </td>
-            <td>
-              <h5>Name</h5>
-            </td>
-            <td>
-              <h5>NetID</h5>
-            </td>
-            <td>
-              <h5>Email</h5>
-            </td>
-            <td>
-              <h5>Status</h5>
-            </td>
-            <td>
-              <h5>Action</h5>
-            </td>
-            <td>
-              <h5></h5>
-            </td>
-          </tr>
-        </thead>
-        <tbody id="userlist">
+      <div class="list-group list-box-frame">
+        <a class="list-group-item disabled list-box list-box-header">
+              <div class="six-item">Course</div>
+              <div class="six-item">Name</div>
+              <div class="six-item">NetID</div>
+              <div class="three-item">Email</div>
+              <div class="six-item">Status</div>
+        </a>
 
-          {% for tutorship in accepted_tutorships: %}
-          <tr>
-            <td>{{tutorship.course.name}}</td>
-            <td>{{tutorship.student.name}}</td>
-            <td>{{tutorship.student.netid}}</td>
-            <td>{{tutorship.student.email}}</td>
-            <td>{{tutorship.status}}</td>
-            <td><a
-                href="/tutor/student/dissolve?student_id={{tutorship.student.id}}&course_id={{tutorship.course.id}}"><button>Dissolve</button></a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+                {% if accepted_tutorships|length==0: %}
+                <a class="list-group-item disabled list-box">
+                <div class="one-item">No students to show.</div>
+                </a>
+                {% endif %}
+
+
+                {% for tutorship in accepted_tutorships: %}
+                {% if tutorship.status == 'ACCEPTED' %}
+                <a href="/tutor/student?student_id={{tutorship.student.id}}&course_id={{tutorship.course.id}}" class="list-group-item list-group-item-action accepted-gradient list-box">
+                {% elif tutorship.status == 'REQUESTED' %}
+                <a href="/tutor/student?student_id={{tutorship.student.id}}&course_id={{tutorship.course.id}}" class="list-group-item list-group-item-action requested-gradient list-box">
+                {% else %}
+                <a href="/tutor/student?student_id={{tutorship.student.id}}&course_id={{tutorship.course.id}}" class="list-group-item list-group-item-action no-gradient list-box">
+                {% endif %}
+                  <div class="six-item">{{tutorship.course.dept_course}}</div>
+                  <div class="six-item">{{tutorship.student.name}}</div>
+                  <div class="six-item">{{tutorship.student.netid}}</div>
+                  <div class="three-item">{{tutorship.student.email}}</div>
+                  {% if tutorship.status == 'ACCEPTED' %}
+                  <div class="six-item" style="color: green;">{{tutorship.status}}</div>
+                  {% elif tutorship.get('status') == 'REQUESTED' %}
+                  <div class="six-item" style="color: blue;">{{tutorship.status}}</div>
+                  {% else %}
+                  <div class="six-item">{{tutorship.status}}</div>
+                  {% endif %}
+                </a>
+                {% endfor %}
+        </div>
+
+
+    <br>
+    <br>
+    <br>
+
+
+
+    <h3>Student requests</h3>
+      <br>
+      <div class="list-group list-box-frame">
+        <a class="list-group-item disabled list-box list-box-header">
+              <div class="six-item">Course</div>
+              <div class="six-item">Name</div>
+              <div class="six-item">NetID</div>
+              <div class="three-item">Email</div>
+              <div class="six-item">Status</div>
+        </a>
+
+                {% if requested_tutorships|length==0: %}
+                <a class="list-group-item disabled list-box">
+                <div class="one-item">No students to show.</div>
+                </a>
+                {% endif %}
+
+
+                {% for tutorship in requested_tutorships: %}
+                {% if tutorship.status == 'ACCEPTED' %}
+                <a href="/tutor/student?student_id={{tutorship.student.id}}&course_id={{tutorship.course.id}}" class="list-group-item list-group-item-action accepted-gradient list-box">
+                {% elif tutorship.status == 'REQUESTED' %}
+                <a href="/tutor/student?student_id={{tutorship.student.id}}&course_id={{tutorship.course.id}}" class="list-group-item list-group-item-action requested-gradient list-box">
+                {% else %}
+                <a href="/tutor/student?student_id={{tutorship.student.id}}&course_id={{tutorship.course.id}}" class="list-group-item list-group-item-action no-gradient list-box">
+                {% endif %}
+                  <div class="six-item">{{tutorship.course.dept_course}}</div>
+                  <div class="six-item">{{tutorship.student.name}}</div>
+                  <div class="six-item">{{tutorship.student.netid}}</div>
+                  <div class="three-item">{{tutorship.student.email}}</div>
+                  {% if tutorship.status == 'ACCEPTED' %}
+                  <div class="six-item" style="color: green;">{{tutorship.status}}</div>
+                  {% elif tutorship.get('status') == 'REQUESTED' %}
+                  <div class="six-item" style="color: blue;">{{tutorship.status}}</div>
+                  {% else %}
+                  <div class="six-item">{{tutorship.status}}</div>
+                  {% endif %}
+                </a>
+                {% endfor %}
+        </div>
+
+
+    <br>
+    <br>
+    <br>
+
+      <h3>My courses</h3>
+      <br>
+      <div class="list-group list-box-frame">
+        <a class="list-group-item disabled list-box list-box-header">
+          <div class="two-item">Department & number</div>
+          <div class="two-item">Title</div>
+        </a>
+
+        {% if accepted_tutor_courses|length==0: %}
+        <a class="list-group-item disabled list-box">
+        <div class="one-item">No courses to show.</div>
+        </a>
+        {% endif %}
+
+        {% for tutor_course in accepted_tutor_courses: %}
+        <a class="list-group-item disabled list-box">
+          <div class="two-item">{{tutor_course.get('course').get('dept_course')}}</div>
+          <div class="two-item">{{tutor_course.get('course').get('name')}}</div>
+        </a>
+        {% endfor %}
+
+      </div>
+
+    <br>
+    <br>
+    <br>
+
+
+    <h2>My applications to tutor</h2>
+    <br>
+    <div class="list-group list-box-frame">
+      <a class="list-group-item disabled list-box list-box-header">
+        <div class="three-item">Department & number</div>
+        <div class="three-item">Title</div>
+        <div class="three-item">Status</div>
+      </a>
+
+      {% if other_tutor_courses|length==0: %}
+      <a class="list-group-item disabled list-box">
+      <div class="one-item">No courses to show.</div>
+      </a>
+      {% endif %}
+
+      {% for tutor_course in other_tutor_courses: %}
+      <a class="list-group-item disabled list-box">
+        <div class="three-item">{{tutor_course.get('course').get('dept_course')}}</div>
+        <div class="three-item">{{tutor_course.get('course').get('name')}}</div>
+        <div class="three-item">{{tutor_course.get('status')}}</div>
+      </a>
+      {% endfor %}
+
     </div>
 
-
-
-    <br>
-    <br>
-    <br>
-
-
-
-    <div class="list">
-      <h3>STUDENT REQUESTS</h3>
-      <br>
-      <table id="userlisttable">
-        <thead id="userlistheader">
-          <tr>
-            <td>
-              <h5>Course</h5>
-            </td>
-            <td>
-              <h5>Name</h5>
-            </td>
-            <td>
-              <h5>NetID</h5>
-            </td>
-            <td>
-              <h5>Email</h5>
-            </td>
-            <td>
-              <h5>Status</h5>
-            </td>
-            <td>
-              <h5></h5>
-            </td>
-          </tr>
-        </thead>
-        <tbody id="userlist">
-
-          {% for tutorship in requested_tutorships: %}
-          <tr>
-            <td>{{tutorship.get('course').get('dept_course')}}</td>
-            <td>{{tutorship.student.name}}</td>
-            <td>{{tutorship.student.netid}}</td>
-            <td>{{tutorship.student.email}}</td>
-            <td>{{tutorship.get('status')}}</td>
-            <td><a
-                href="/tutor/student/accept?student_id={{tutorship.student.id}}&course_id={{tutorship.course.id}}">Accept
-                tutorship</a></td>
-            <td><a
-                href="/tutor/student/reject?student_id={{tutorship.student.id}}&course_id={{tutorship.course.id}}">Reject
-                tutorship</a></td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-
-    <br>
-    <br>
-    <br>
-
-    <div class="list">
-      <h3>MY COURSES</h3>
-      <br>
-      <table id="userlisttable">
-        <thead id="userlistheader">
-          <tr>
-            <td>
-              <h5>Course ID</h5>
-            </td>
-            <td>
-              <h5>Course Name</h5>
-            </td>
-          </tr>
-        </thead>
-        <tbody id="userlist">
-          {% for tutor_course in tutor_courses: %}
-          <tr>
-            <td>{{tutor_course.course.id}}</td>
-            <td>{{tutor_course.course.name}}</td>
-          </tr>
-          {% endfor %}
-
-        </tbody>
-      </table>
-    </div>
-
-    <br>
+  <br>
+  <br>
+  <br>
 
     
   </div>
 
 
 
-  {% include "/components/sidebar-footer.html" %}
+  {% include "/components/tutor-sidebar-footer.html" %}
 
 
 </body>

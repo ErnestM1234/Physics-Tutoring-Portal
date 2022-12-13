@@ -18,45 +18,48 @@
 
             <br><br><br>
 
-            {% if course  %}
+            {% if course is not none %}
                 <h3>COURSE NAME: {{course.name}}</h3>
             {% endif %}
 
             <h3>TUTORSHIPS</h3>
 
-            <a href="/admin/tutorships/create-tutorship">Add a new tutorship</a><br>
+            <a href="/admin/tutorships/create-tutorship">Manually add a new tutorship</a><br>
     
-            <div class ="list">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th class="bg-white" scope="col">Student Name</th>
-                    <th class="bg-white" scope="col">Tutor Name</th>
-                    <th class="bg-white" scope="col">Course Id</th>
-                    <th class="bg-white" scope="col">Course Name</th>
-                    <th class="bg-white" scope="col">Status</th>
-                    <th class="bg-white" scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for tutorship in tutorships %}
-                        <tr>
-                            <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">{{tutorship.student.name}}</a></td>
-                            <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutorship.tutor_id | string}}">{{tutorship.tutor.name}}</a></td>
-                            <td class="bg-white">{{tutorship.course_id}}</td>
-                            <td class="bg-white">{{tutorship.course.name}}</td>
-                            <td class="bg-white">{{tutorship.status}}</td>
-                            <td class="bg-white"><a href="{{'/admin/tutorships/remove-tutorship/?tutorship_id=' + tutorship.id | string}}"><button>Dissolve</button></a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
+            <div class ="list-group list-box-frame">
+              <a class = "list-group-item disabled list-box list-box-header">
+                  <div class="four-item">Student Name</div>
+                  <div class="four-item">Tutor Name</div>
+                  <div class="four-item">Course Name</div>
+                  <div class="four-item">Status</div>
+                  <!--<div class="four-item">Action</div>-->
+              </a>
+              {% for tutorship in tutorships %}
+              <a href="{{'/admin/tutorship/?tutorship_id=' + tutorship.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                  <div class="four-item">{{tutorship.student.name}}</div>
+                  <div class="four-item">{{tutorship.tutor.name}}</div>
+                  <div class="four-item">{{tutorship.course.name}}</div>
+                  <div class="four-item">{{tutorship.status}}</div>
+                  <!--<div class="four-item"><a href="{{'/admin/tutorships/remove-tutorship/?tutorship_id=' + tutorship.id | string}}"><button>Dissolve</button></a></div>-->
+                </a>
+                    
+              {% endfor %}
             </div>
+
+
+
+
+
+
+
+
+
+
     
         </div>
 
         
-        {% include "/components/sidebar-footer.html" %}
+        {% include "/components/admin-sidebar-footer.html" %}
 
 
     </body>

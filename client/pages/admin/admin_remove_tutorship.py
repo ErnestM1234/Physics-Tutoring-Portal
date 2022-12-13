@@ -94,8 +94,10 @@ def remove_tutorship():
         return redirect('/error/')
 
 
+
     return render_template(
         '/admin/admin-remove-tutorship.html',
+        user=user,
         tutorship=tutorship
     )
 
