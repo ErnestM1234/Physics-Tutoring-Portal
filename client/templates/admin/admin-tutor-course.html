@@ -24,7 +24,7 @@
                 }
                 $.post("/admin/tutors/update_status", data, function(result){
                     console.log(result)
-                }).then(location.reload());
+                });
             }
         </script>
 
@@ -53,15 +53,40 @@
             <li>
                 <strong>Status:</strong> {{tutor_course.status}}
             </li>
+                {% if tutor_course.status == 'ACCEPTED' %}
+                    <!-- <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Revoke</button> -->
+                    <form action="/admin/tutors/update-tutor" method="GET">
+                        <input type="hidden" name="tutor_course_id" value="{{tutor_course.id}}" readonly>
+                        <input type="hidden" name="status" value="DENIED" readonly>
+                        <input type="hidden" name="tutor_id" value="{{tutor.id}}" readonly>
+                        <input type="submit" value="Revoke">
+                    </form>
 
-            {% if tutor_course.status == 'ACCEPTED' %}
-                <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Revoke</button>
-            {% elif tutor_course.status == 'REQUESTED' %}
-                <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'ACCEPTED' )">Approve</button></td>
-                <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Deny</button></td>
-            {% elif tutor_course.status == 'DENIED'  %}
-                <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'ACCEPTED' )">Approve</button></td>
-            {% endif %}
+                {% elif tutor_course.status == 'REQUESTED' %}
+                    <!-- <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'ACCEPTED' )">Approve</button></td>
+                    <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Deny</button></td> -->
+                    <form action="/admin/tutors/update-tutor" method="GET">
+                        <input type="hidden" name="tutor_course_id" value="{{tutor_course.id}}" readonly>
+                        <input type="hidden" name="status" value="ACCEPTED" readonly>
+                        <input type="hidden" name="tutor_id" value="{{tutor.id}}" readonly>
+                        <input type="submit" value="Accept">
+                    </form>
+                    
+                    <form action="/admin/tutors/update-tutor" method="GET">
+                        <input type="hidden" name="tutor_course_id" value="{{tutor_course.id}}" readonly>
+                        <input type="hidden" name="status" value="DENIED" readonly>
+                        <input type="hidden" name="tutor_id" value="{{tutor.id}}" readonly>
+                        <input type="submit" value="Deny">
+                    </form>
+                {% elif tutor_course.status == 'DENIED'  %}
+                    <!-- <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'ACCEPTED' )">Approve</button></td> -->
+                    <form action="/admin/tutors/update-tutor" method="GET">
+                        <input type="hidden" name="tutor_course_id" value="{{tutor_course.id}}" readonly>
+                        <input type="hidden" name="status" value="ACCEPTED" readonly>
+                        <input type="hidden" name="tutor_id" value="{{tutor.id}}" readonly>
+                        <input type="submit" value="Accept">
+                    </form>
+                {% endif %}
             
         </ul>
 
