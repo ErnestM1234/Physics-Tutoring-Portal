@@ -25,14 +25,23 @@ def student_course():
 
     # get approved tutors
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'course_id': course_id, 'status': 'ACCEPTED'}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutor_courses = res.json()
 
     for tutor_course in tutor_courses:
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutor_course['tutor_id']}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         tutor = res.json()
         tutor_course['tutor'] = tutor
 
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     course = res.json()
 
     return render_template(

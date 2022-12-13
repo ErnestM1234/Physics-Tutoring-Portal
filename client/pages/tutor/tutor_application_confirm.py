@@ -22,8 +22,6 @@ def tutor_application_confirm():
     course_id = request.form.get('course_id')
     taken_course = request.form.get('taken_course')
     experience = request.form.get('experience')
-
-
    
     data = {
         'tutor_id': user['id'],
@@ -41,14 +39,8 @@ def tutor_application_confirm():
 
     # create relationship btwn tutor and course
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/create/'), data=json.dumps(data), headers=headers)
-    message = str(res)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
 
-
-    return render_template(
-        '/tutor/tutor-confirmation.html',
-        message=message, 
-        user=user
-    )
+    return redirect('/tutor/courses')

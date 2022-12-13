@@ -23,7 +23,6 @@ def edit_bio_confirm():
     if bio is None:
         return redirect('/tutor/editbio.html')
 
-   
     data = {
         'bio': bio,
         'id': user['id']
@@ -33,11 +32,5 @@ def edit_bio_confirm():
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
-    message = str(res)
 
-
-    return render_template(
-        '/tutor/tutor-confirmation.html',
-        message=message, 
-        user=user
-    )
+    return redirect('/tutor/editbio')

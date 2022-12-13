@@ -24,22 +24,11 @@ def tutor_student_accept_confirm():
     course_id = request.args.get('course_id')
     student_id = request.args.get('student_id')
 
-    
-    # get student
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": student_id}, headers=headers)
-    student = res.json()
-
-
-     # get course
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={"id": course_id}, headers=headers)
-    course = res.json()
-
-    # get tutor
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": user['id']}, headers=headers)
-    tutor = res.json()
-
     # get tutorship
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': student_id, 'tutor_id': user['id'], 'course_id': course_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutorship = res.json()
     
 
@@ -47,12 +36,9 @@ def tutor_student_accept_confirm():
         tutorship = None
     else:
         tutorship=tutorship[0]
-        requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/update'), data=json.dumps({'id': tutorship['id'], 'status': 'ACCEPTED'}), headers=headers)
+        res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/update'), data=json.dumps({'id': tutorship['id'], 'status': 'ACCEPTED'}), headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
 
-    return render_template(
-        '/tutor/tutor-student-accept-confirm.html',
-        student=student,
-        course=course,
-        tutor=tutor, 
-        user=user
-    )
+    return redirect('/tutor/dashboard')

@@ -26,6 +26,9 @@ def student_tutor_request_confirm():
     # get headers
     headers = get_header()
 
-    requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/create/'), data=json.dumps({'tutor_id': tutor_id, 'course_id': course_id, 'student_id': user['id'], 'status': 'REQUESTED'}), headers=headers)
+    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/create/'), data=json.dumps({'tutor_id': tutor_id, 'course_id': course_id, 'student_id': user['id'], 'status': 'REQUESTED'}), headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
 
     return redirect('/student/dashboard')

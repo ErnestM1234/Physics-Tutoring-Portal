@@ -24,27 +24,45 @@ def tutor_dashboard():
         return redirect('/tutor/tutorapplication')
 
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user['id']}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutor = res.json()
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'tutor_id': user['id']}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutor_courses = res.json()
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'tutor_id': user['id']}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutorships = res.json()
 
 
     for tutorship in tutorships:
         student_id = tutorship['student_id']
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': student_id}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         student = res.json()
         tutorship['student'] = student
 
         course_id = tutorship['course_id']
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         course = res.json()
         tutorship['course'] = course
    
     for tutor_course in tutor_courses:
         course_id = tutor_course['course_id']
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
         course = res.json()
         tutor_course['course'] = course
 

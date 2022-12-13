@@ -26,29 +26,21 @@ def student_tutors_request_confirm():
     headers = get_header()
 
 
-     # get course
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={"id": course_id}, headers=headers)
-    course = res.json()
-
     # get all tutors for that course
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses'), params={"course_id": course_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     
     tutor_courses = res.json()
 
     # TO DO: PRUNE DUPLICATES
     # TO DO: DO NOT REQUEST UNAVAILABLE TUTORS
     for tutor_course in tutor_courses:
-        #res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships'), params={"student_id": userId, "tutor_id": tutor_course['tutor_id'], "course_id": course_id})
-        #tutorships = res.json()
-
-        #if len(tutorships) == 0:
-        #    requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/create/'), data=json.dumps({'tutor_id': tutor_course['tutor_id'], 'course_id': course_id, 'student_id': userId, 'status': 'REQUESTED'}))
-        
-        requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/create/'), data=json.dumps({'tutor_id': tutor_course['tutor_id'], 'course_id': course_id, 'student_id': user['id'], 'status': 'REQUESTED'}), headers=headers)
+        res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/create/'), data=json.dumps({'tutor_id': tutor_course['tutor_id'], 'course_id': course_id, 'student_id': user['id'], 'status': 'REQUESTED'}), headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
 
     return redirect('/student/dashboard')
-    #return render_template(
-    #    'student-tutors-request-confirm.html',
-    #    user=user,
-    #    course=course
-    #)
+

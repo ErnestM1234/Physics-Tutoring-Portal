@@ -24,6 +24,9 @@ def student_courses():
 
     # get courses
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'), headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     courses = res.json()
 
     # Get current time in GMT
