@@ -19,30 +19,26 @@
 
             <br><br><br>
 
-            <h3>COURSES</h3>
+            <h3>COURSE STATS</h3>
     
-            <div class ="list">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th class="bg-white" scope="col">Courses</th>
-                    <th class="bg-white" scope="col">Approved Tutors</th>
-                    <th class="bg-white" scope="col">Available Tutors</th>
-                    <th class="bg-white" scope="col">Tutees</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for course in courses %}
-                        <tr>
-                            <td class="bg-white" >{{course.name}}</td>
-                            <td class="bg-white">{{approved_tutors_count[loop.index0]}}</td>
-                            <td class="bg-white">{{available_tutors_count[loop.index0]}}</td>
-                            <td class="bg-white">{{tutees_count[loop.index0]}}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
-            </div>
+
+
+            <div class ="list-group list-box-frame">
+              <a class = "list-group-item disabled list-box list-box-header">
+                  <div class="four-item">Courses</div>
+                  <div class="four-item">Approved Tutors</div>
+                  <div class="four-item">Available Tutors</div>
+                  <div class="four-item">Tutees</div>
+              </a>
+              {% for course in courses %}
+                  <a href="{{'/admin/course/?course_id=' + course.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                    <div class="four-item">{{course.name}}</div>
+                    <div class="four-item">{{approved_tutors_count[loop.index0]}}</div>
+                    <div class="four-item">{{available_tutors_count[loop.index0]}}</div>
+                    <div class="four-item">{{tutees_count[loop.index0]}}</div>
+                  </a>
+              {% endfor %}
+          </div>
     
         </div>
 
