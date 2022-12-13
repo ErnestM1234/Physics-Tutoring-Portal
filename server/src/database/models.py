@@ -53,7 +53,7 @@ class Courses(db.Model):
     __tablename__ = 'courses'
 
     id = db.Column('id',db.Integer,primary_key=True)
-    name = db.Column('name',db.String(300),nullable=False)
+    name = db.Column('name',db.String(300),nullable=False,unique=True)
     dept_course = db.Column('dept_course',db.String(100),nullable=False)
 
     tutor_courses = db.relationship('TutorCourses', backref='courses', lazy=True)

@@ -20,13 +20,14 @@ def student_tutor_application_confirm():
     headers = get_header()
 
 
-    #course_id = request.form.get('course_id')
+    course_id = request.form.get('course_id')
     taken_course = request.form.get('taken_course')
     experience = request.form.get('experience')
 
    
     data = {
         'tutor_id': user['id'],
+        'course_id': course_id,
         'taken_course': taken_course,
         'experience': experience,
         'status': 'REQUESTED'
@@ -43,10 +44,5 @@ def student_tutor_application_confirm():
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
-    message = str(res)
 
-    return render_template(
-        '/student/student-confirmation.html',
-        message=message, 
-        user=user
-    )
+    return redirect('/tutor/dashboard')

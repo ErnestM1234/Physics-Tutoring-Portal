@@ -23,7 +23,6 @@ def edit_bio_confirm():
     if bio is None:
         return redirect('/tutor/editbio.html')
 
-   
     data = {
         'bio': bio,
         'id': user['id']

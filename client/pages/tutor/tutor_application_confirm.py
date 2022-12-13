@@ -22,8 +22,6 @@ def tutor_application_confirm():
     course_id = request.form.get('course_id')
     taken_course = request.form.get('taken_course')
     experience = request.form.get('experience')
-
-
    
     data = {
         'tutor_id': user['id'],
