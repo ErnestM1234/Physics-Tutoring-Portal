@@ -64,16 +64,16 @@ def admin_tutorships():
         if res.status_code != 200:
             session['error_message'] = str(res.content)
             return redirect('/error/')
-        course = res.json()
+        course2 = res.json()
 
-        if not student or not tutor or not course:
+        if not student or not tutor or not course2:
             session['error_message'] = "There is a missing tutor or course associated with this user!"
             return redirect('/error/')
 
 
         tutorship['student'] = student
         tutorship['tutor'] = tutor
-        tutorship['course'] = course
+        tutorship['course'] = course2
 
     return render_template(
         '/admin/admin-tutorships.html',
