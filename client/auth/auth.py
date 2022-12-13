@@ -177,14 +177,12 @@ def authenticate():
     # If the username is in the session, then the user was
     # authenticated previously.  So return the username.
     if 'username' in flask.session:
-        print('logged in')
         return flask.session.get('username')
 
     # If the request does not contain a login ticket, then redirect
     # the browser to the login page to get one.
     ticket = flask.request.args.get('ticket')
     if ticket is None:
-        print('no ticket')
         login_url = (_CAS_URL + 'login?service=' +
             urllib.parse.quote(flask.request.url))
         flask.abort(flask.redirect(login_url))
@@ -193,7 +191,6 @@ def authenticate():
     # to the login page to get a new one.
     username = validate(ticket)
     if username is None:
-        print('username not found, log in time!')
         login_url = (_CAS_URL + 'login?service='
             + urllib.parse.quote(strip_ticket(flask.request.url)))
         flask.abort(flask.redirect(login_url))
@@ -202,7 +199,6 @@ def authenticate():
     # the session.
     username = username.strip()
     flask.session['username'] = username
-    print('logged in')
     return username
 
 #-----------------------------------------------------------------------

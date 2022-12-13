@@ -16,10 +16,9 @@ def add_admin_confirm():
     # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
+
     # get headers
     headers = get_header()
 
@@ -27,20 +26,17 @@ def add_admin_confirm():
     if user_id and user_id.isnumeric() and int(float(user_id)) >= 0:
         user_id = int(float(user_id))
     else:
-        return render_template(
-            '/admin/confirmation.html',
-            message="There is no provided user_id, or the user_id is invalid"
-        )
+        session['error_message'] = 'There is no provided user_id, or the user_id is invalid'
+        return redirect('/error/')
 
 
     # make admin
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps({'is_admin': 'True', 'id': 'user_id'}), headers=headers)
     if res.status_code != 200:
-        print(str(res.content))
-        return render_template(
-        '/admin/confirmation.html',
-        message=str(res)
-    )
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+
+    return redirect('/admin/courses/')
 
 
 @app.route('/admin/courses/add-admin/')
@@ -48,10 +44,9 @@ def add_admin():
     # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
+        
     # get headers
     headers = get_header()
 
@@ -60,16 +55,11 @@ def add_admin():
     if user_id and user_id.isnumeric() and int(float(user_id)) >= 0:
         user_id = int(float(user_id))
     else:
-        return render_template(
-            '/admin/confirmation.html',
-            message="There is no provided user_id, or the user_id is invalid"
-        )
+        session['error_message'] = 'There is no provided user_id, or the user_id is invalid'
+        return redirect('/error/')
     
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user_id}, headers=headers)
     user = res.json()
-
-    
-    
 
 
     return render_template(

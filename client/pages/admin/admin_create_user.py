@@ -16,10 +16,9 @@ def create_user_confirm():
     # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
+        
     # get headers
     headers = get_header()
 
@@ -46,13 +45,11 @@ def create_user_confirm():
     }
 
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/create/'), data=json.dumps(data), headers=headers)
-    
-    message = str(res)
-
-    return render_template(
-        '/admin/confirmation.html',
-        message=message
-    )
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+   
+    return redirect('/admin/students/')
 
 @app.route('/admin/user/create-user/')
 def create_user():
@@ -60,10 +57,9 @@ def create_user():
     # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
+        
 
 
     return render_template(

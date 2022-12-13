@@ -19,9 +19,7 @@ def edit_bio_confirm():
     # get headers
     headers = get_header()
 
-
     bio = request.form.get('bio')
-
     if bio is None:
         return redirect('/tutor/editbio.html')
 
@@ -32,7 +30,9 @@ def edit_bio_confirm():
     }
 
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps(data), headers=headers)
-   
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     message = str(res)
 
 
