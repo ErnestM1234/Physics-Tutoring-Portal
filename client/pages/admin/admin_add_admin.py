@@ -36,6 +36,8 @@ def add_admin_confirm():
         session['error_message'] = str(res.content)
         return redirect('/error/')
 
+    return redirect('/admin/courses/')
+
 
 @app.route('/admin/courses/add-admin/')
 def add_admin():
@@ -58,9 +60,6 @@ def add_admin():
     
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user_id}, headers=headers)
     user = res.json()
-
-    
-    
 
 
     return render_template(

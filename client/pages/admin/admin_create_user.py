@@ -48,12 +48,8 @@ def create_user_confirm():
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
-    message = str(res)
-
-    return render_template(
-        '/admin/confirmation.html',
-        message=message
-    )
+   
+    return redirect('/admin/students/')
 
 @app.route('/admin/user/create-user/')
 def create_user():

@@ -25,10 +25,9 @@ def admin_course():
     # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
+
     # get headers
     headers = get_header()
 
@@ -56,9 +55,7 @@ def admin_course():
     tutorships = res.json()
 
 
-
-
-    # get tutorships
+    # get tutor_courses
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params=tutorship_params, headers=headers)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
@@ -82,14 +79,6 @@ def admin_course():
     denied_tutors = list(filter(lambda tutor_course: tutor_course['status'] == 'DENIED', tutor_courses))
 
 
-    if res.status_code != 200:
-        message = str(res)
-        return render_template(
-        '/admin/confirmation.html',
-        message=message
-    )
-
-
     for tutorship in tutorships:
         # TODO: implement a faster way of doing this (python lists have O(1) look up time)
         
@@ -104,7 +93,7 @@ def admin_course():
             session['error_message'] = str(res.content)
             return redirect('/error/')
         tutor = res.json()
-        
+
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutorship.get('course_id')}, headers=headers)
         if res.status_code != 200:
             session['error_message'] = str(res.content)

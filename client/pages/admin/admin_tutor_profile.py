@@ -25,10 +25,8 @@ def tutor_profile():
         if tutor_id.isnumeric() and int(float(tutor_id)) >= 0:
             tutorship_params['id'] = int(float(tutor_id))
         else:
-            return render_template(
-            '/admin/confirmation.html',
-            message="You have supplied an invalid user id"
-        )
+            session['error_message'] = "You have supplied an invalid user id"
+            return redirect('/error/')
 
     # get tutor
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": tutor_id}, headers=headers)

@@ -33,12 +33,8 @@ def remove_tutorship_confirm():
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
-    message = str(res)
 
-    return render_template(
-        '/admin/confirmation.html',
-        message=message
-    )
+    return redirect('/admin/tutorships/')
 
 @app.route('/admin/tutorships/remove-tutorship/')
 def remove_tutorship():

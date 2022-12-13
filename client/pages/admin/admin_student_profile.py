@@ -27,16 +27,11 @@ def student_profile():
         if student_id.isnumeric() and int(float(student_id)) >= 0:
             tutorship_params['id'] = int(float(student_id))
         else:
-            return render_template(
-            'confirmation.html',
-            message="You have supplied an invalid user id"
-        )
-
-    # this is temporary, this will be given to us by CAS or smth
-    userId = 1
+            session['error_message'] = "You have supplied an invalid user id"
+            return redirect('/error/')
     
     # get admin
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId}, headers=headers)
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": user.id}, headers=headers)
     user = res.json()
     # verify is admin
     if "id" not in user.keys() or user['is_admin'] == False:
@@ -48,10 +43,8 @@ def student_profile():
     student = res.json()
     # check if they are a student
     if "id" not in student.keys() or not student['is_student']:
-        return render_template(
-            'confirmation.html',
-            message="This ID does not belong to a 'Student'"
-        )
+        session['error_message'] = "This ID does not belong to a 'Student'"
+        return redirect('/error/')
 
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': student_id}, headers=headers)
@@ -60,7 +53,6 @@ def student_profile():
         return redirect('/error/')
     tutorships = res.json()
 
-    print(tutorships)
 
     for tutorship in tutorships:
         # TODO: implement a faster way of doing this (python lists have O(1) look up time)
@@ -78,10 +70,8 @@ def student_profile():
         course = res.json()
 
         if not tutor or not course:
-            return render_template(
-                'confirmation.html',
-                message="There is a missing tutor or course associated with this user!"
-            )
+            session['error_message'] = "There is a missing tutor or course associated with this user!"
+            return redirect('/error/')
 
         tutorship['tutor'] = tutor
         tutorship['course'] = course
@@ -92,14 +82,11 @@ def student_profile():
     isATutor = 'Not a Tutor'
     isAnAdmin = 'Not an Admin'
         
-    print(student['is_tutor'])
     if(student['is_tutor']):
         isATutor = 'Is a Tutor'
     if(student['is_admin']):
         isAnAdmin = 'Is an Admin'
         
-
-
 
 
     return render_template(

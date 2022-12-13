@@ -49,10 +49,8 @@ def admin_students():
         course = res.json()
 
         if not student or 'id' not in student.keys() or not tutor  or 'id' not in tutor.keys() or not course  or 'id' not in course.keys():
-            return render_template(
-                '/admin/confirmation.html',
-                message="There is a missing tutor or course associated with this user!"
-            )
+            session['error_message'] = "There is a missing tutor or course associated with this user!"
+            return redirect('/error/')
 
 
         tutorship['student'] = student

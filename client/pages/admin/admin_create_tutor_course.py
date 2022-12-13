@@ -48,15 +48,8 @@ def create_tutor_course_confirm():
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
-    
-    message = str(res)
-    print(res.content)
 
-
-    return render_template(
-        '/admin/confirmation.html',
-        message=message
-    )
+    return redirect('/admin/tutors/')
 
 @app.route('/admin/create-tutor-course')
 def create_tutor_course():

@@ -32,13 +32,15 @@ def remove_user_confirm():
     # TODO: set up an endpoint
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'course_id': course_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+
     tutorships = res.json()
     if not isinstance(tutorships, list):
-        print(str(res.content))
-        return render_template(
-            '/admin/confirmation.html',
-            message=str(tutorships)
-        )
+        session['error_message'] = 'something went wrong'
+        return redirect('/error/')
+
     # remove tutorships
     for tutorship in tutorships:
         res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/delete/'), data=json.dumps({'id': tutorship['id']}), headers=headers)
@@ -67,12 +69,8 @@ def remove_user_confirm():
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
-    message = str(res)
 
-    return render_template(
-        '/admin/confirmation.html',
-        message=message
-    )
+    return redirect('/admin/courses/')
 
 @app.route('/admin/courses/remove-course/')
 def remove_course():

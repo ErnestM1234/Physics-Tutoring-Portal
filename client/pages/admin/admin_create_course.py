@@ -39,12 +39,7 @@ def create_course_confirm():
         session['error_message'] = str(res.content)
         return redirect('/error/')
     
-    message = str(res)
-
-    return render_template(
-        '/admin/confirmation.html',
-        message=message
-    )
+    return redirect('/admin/courses/')
 
 @app.route('/admin/courses/create-course')
 def create_course():
