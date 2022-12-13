@@ -169,6 +169,7 @@ from pages.admin.admin_add_admin import *
 from pages.admin.admin_remove_admin import *
 from pages.admin.admin_course import *
 from pages.admin.admin_tutorship import *
+from pages.admin.admin_tutor_course import *
 
 
 from pages.student.student_dashboard import *

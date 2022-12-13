@@ -18,12 +18,9 @@
 
             <br><br><br>
             
-            <h3>STUDENT PROFILE</h3>
+            <h3>{{student.name}}'s Student Profile</h3>
 
             <ul>
-                <li>
-                    <strong>Id: </strong>{{student.id}}
-                </li>
                 <li>
                     <strong>Name: </strong>{{student.name}}
                 </li>
@@ -34,50 +31,35 @@
                     <strong>Email: </strong>{{student.email}}
                 </li>
                 <li>
-                    <strong>Is a student: </strong>{{student.is_student}}
+                    <strong>{{isAStudent}}</strong>
                 </li>
                 <li>
-                    <strong>Is a tutor: </strong>{{student.is_tutor}}
+                    <strong>{{isATutor}}</strong>
                 </li>
                 <li>
-                    <strong>Is an admin: </strong>{{student.is_admin}}
+                    <strong>{{isAnAdmin}} </strong>
                 </li>
                 
             </ul>
 
 
 
-            <h3>COURSES</h3>
+            <h3>{{student.name}}'s Courses</h3>
     
-            <div class ="list">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th class="bg-white" scope="col">Tutorship Id</th>
-                    <th class="bg-white" scope="col">Tutor Id</th>
-                    <th class="bg-white" scope="col">Tutor Name</th>
-                    <th class="bg-white" scope="col">Course Id</th>
-                    <th class="bg-white" scope="col">Course Name</th>
-                    <th class="bg-white" scope="col">Status</th>
-                    <th class="bg-white" scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for tutorship in tutorships %}
-                        <tr>
-                            <td class="bg-white">{{tutorship.id}}</td>
-                            <td class="bg-white">{{tutorship.tutor.id}}</td>
-                            <td class="bg-white">{{tutorship.tutor.name}}</td>
-                            <td class="bg-white">{{tutorship.course.id}}</td>
-                            <td class="bg-white">{{tutorship.course.name}}</td>
-                            <td class="bg-white">{{tutorship.status}}</td>
-                            <td class="bg-white"><button>Dissolve</button></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
+            <div class ="list-group list-box-frame">
+                <a class = "list-group-item disabled list-box list-box-header">
+                    <div class="three-item">Tutor Name</div>
+                    <div class="three-item">Course Name</div>
+                    <div class="three-item">Status</div>
+                </a>
+                {% for tutorship in tutorships %}
+                    <a class = "list-group-item disabled list-box no-gradient disabled">
+                        <div class="three-item">{{tutorship.tutor.name}}</div>
+                        <div class="three-item">{{tutorship.course.name}}</div>
+                        <div class="three-item">{{tutorship.status}}</div>
+                    </a>
+                {% endfor %}
             </div>
-            
     
         </div>
 

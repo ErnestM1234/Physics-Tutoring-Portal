@@ -20,50 +20,39 @@
 
             <h3>ADMINS</h3>
     
-            <div class ="list">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th class="bg-white" scope="col">Id</th>
-                        <th class="bg-white" scope="col">Name</th>
-                        <th class="bg-white" scope="col">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {% for admin in admins %}
-                            <tr>
-                                <td class="bg-white">{{admin.id}}</td>
-                                <td class="bg-white">{{admin.name}}</td>
-                                <td class="bg-white"><a href="{{'/admin/remove-admin/?user_id=' + admin.id | string}}"><button>Remove</button>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class ="list-group list-box-frame">
+                <a class = "list-group-item disabled list-box list-box-header">
+                    <div class="two-item">Name</div>
+                    <div class="two-item">NetId</div>
+                </a>
+
+                {% for admin in admins %}
+                    <a href="{{'/admin/remove-admin/?user_id=' + admin.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                        <div class="two-item">{{admin.name}}</div>
+                        <div class="two-item">{{admin.netid}}</div>
+                    </a>
+                {% endfor %}
             </div>
+
+
+
 
             <br><br><br>
 
             <h3>NON-ADMINS</h3>
-    
-            <div class ="list">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th class="bg-white" scope="col">Id</th>
-                        <th class="bg-white" scope="col">Name</th>
-                        <th class="bg-white" scope="col">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {% for non_admin in non_admins %}
-                            <tr>
-                                <td class="bg-white">{{non_admin.id}}</td>
-                                <td class="bg-white">{{non_admin.name}}</td>
-                                <td class="bg-white"><a href="{{'/admin/add-admin/?user_id=' + non_admin.id | string}}"><button>Promote</button></a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+
+            <div class ="list-group list-box-frame">
+                <a class = "list-group-item disabled list-box list-box-header">
+                    <div class="two-item">Name</div>
+                    <div class="two-item">NetId</div>
+                </a>
+
+                {% for non_admin in non_admins %}
+                    <a href="{{'/admin/add-admin/?user_id=' + non_admin.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                        <div class="two-item">{{non_admin.name}}</div>
+                        <div class="two-item">{{non_admin.netid}}</div>
+                    </a>
+                {% endfor %}
             </div>
             
     
