@@ -26,16 +26,6 @@ def student_tutor_dissolve_confirm():
     # get headers
     headers = get_header()
 
-
-
-     # get course
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={"id": course_id}, headers=headers)
-    course = res.json()
-
-    # get tutor
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": tutor_id}, headers=headers)
-    tutor = res.json()
-
     # get tutorship
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': user['id'], 'tutor_id': tutor_id, 'course_id': course_id}, headers=headers)
     tutorship = res.json()
@@ -47,10 +37,3 @@ def student_tutor_dissolve_confirm():
         requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/delete/'), data=json.dumps({'id': tutorship['id']}), headers=headers)
 
     return redirect('/student/dashboard')
-    
-    #return render_template(
-    #    'student-tutor-dissolve-confirm.html',
-    #    user=user,
-    #    course=course,
-    #    tutor=tutor
-    #)
