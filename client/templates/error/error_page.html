@@ -17,6 +17,16 @@
 
             <h3>Error</h3>
             {{message}}
+            <br>
+            <br>
+            {% if dashboard_url is not none %}
+                <p>Back to dashboard: </p>
+                <a href="{{dashboard_url}}"><button type="submit" class="sidebar-button">Dashboard</button></a>
+            {% else %}
+                <p>Back to landing: </p>
+                <a href="/"><button type="submit" class="sidebar-button">Dashboard</button></a>
+            {% endif %}
+
         </div>
 
         &nbsp;
