@@ -21,6 +21,7 @@ def tutor_profile():
 
     # param validation
     tutor_id = request.args.get('tutor_id')
+
     tutorship_params = {"id": None}
     if tutor_id is not None:
         if tutor_id.isnumeric() and int(float(tutor_id)) >= 0:
@@ -31,15 +32,8 @@ def tutor_profile():
             message="You have supplied an invalid user id"
         )
 
-    # this is temporary, this will be given to us by CAS or smth
-    userId = 1
-    
-    # get admin
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": userId}, headers=headers)
-    user = res.json()
-    # verify is admin
-    if "id" not in user.keys() or user['is_admin'] == False:
-        return redirect('/')
+
+
 
 
     # get tutor
@@ -70,6 +64,7 @@ def tutor_profile():
         course = res.json()
         tutor_course['course'] = course
 
+    
 
 
 
