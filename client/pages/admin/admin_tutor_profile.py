@@ -64,13 +64,23 @@ def tutor_profile():
         course = res.json()
         tutor_course['course'] = course
 
-    
+    isAStudent = 'Is a Student'
+    isATutor = 'Not a Tutor'
+    isAnAdmin = 'Not an Admin'
+        
+    if(tutor['is_tutor']):
+        isATutor = 'Is a Tutor'
+    if(tutor['is_admin']):
+        isAnAdmin = 'Is an Admin'
 
 
 
     return render_template(
         '/admin/admin-profile-tutor.html',
         tutor=tutor,
-        tutor_courses=tutor_courses
+        tutor_courses=tutor_courses, 
+        isATutor = isATutor, 
+        isAnAdmin = isAnAdmin, 
+        isAStudent = isAStudent
     )
 
