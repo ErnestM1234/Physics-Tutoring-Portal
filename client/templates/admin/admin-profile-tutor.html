@@ -37,9 +37,6 @@
 
             <ul>
                 <li>
-                    <strong>Id: </strong>{{tutor.id}}
-                </li>
-                <li>
                     <strong>Name: </strong>{{tutor.name}}
                 </li>
                 <li>
@@ -70,9 +67,7 @@
             <table class="table">
                 <thead>
                   <tr>
-                    <th class="bg-white" scope="col">Tutor Course Id</th>
-                    <th class="bg-white" scope="col">Course Id</th>
-                    <th class="bg-white" scope="col">Course Name</th>
+                    <th class="bg-white" scope="col">Course Title</th>
                     <th class="bg-white" scope="col">Student Count</th>
                     <th class="bg-white" scope="col">Has Taken Course?</th>
                     <th class="bg-white" scope="col">Experience</th>
@@ -83,8 +78,6 @@
                 <tbody>
                     {% for tutor_course in tutor_courses %}
                         <tr>
-                            <td class="bg-white">{{tutor_course.id}}</td>
-                            <td class="bg-white">{{tutor_course.course_id}}</td>
                             <td class="bg-white">{{tutor_course.course.name}}</td>
                             <td class="bg-white">{{tutor_course.student_count}}</td>
                             <td class="bg-white">{{tutor_course.taken_course}}</td>
