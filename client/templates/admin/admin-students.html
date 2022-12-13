@@ -64,29 +64,24 @@
             <h3>STUDENTS</h3>
 
 
-            <div class ="list">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th class="bg-white" scope="col">Student Id</th>
-                        <th class="bg-white" scope="col">Student Name</th>
-                        <th class="bg-white" scope="col">Profile</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {% for student in students %}
-                            <tr>
-                                <td class="bg-white">{{student.id}}</td>
-                                <td class="bg-white">{{student.name}}</td>
-                                <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + student.id | string}}">PROFILE</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class ="list-group list-box-frame">
+                <a class = "list-group-item disabled list-box list-box-header">
+                    <div class="two-item">Name</div>
+                    <div class="two-item">Netid</div>
+                </a>
+
+                {% for student in students %}
+                    <a href="{{'/admin/student-profile/?student_id=' + student.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                        <div class="two-item">{{student.name}}</div>
+                        <div class="two-item">{{student.netid}}</div>
+                    </a>
+                {% endfor %}
             </div>
             
     
         </div>
+
+
 
         
         {% include "/components/sidebar-footer.html" %}

@@ -18,7 +18,7 @@
 
             <br><br><br>
 
-            {% if course  %}
+            {% if course is not none %}
                 <h3>COURSE NAME: {{course.name}}</h3>
             {% endif %}
 
@@ -31,14 +31,16 @@
                   <div class="four-item">Student Name</div>
                   <div class="four-item">Tutor Name</div>
                   <div class="four-item">Course Name</div>
-                  <div class="four-item">Action</div>
+                  <div class="four-item">Status</div>
+                  <!--<div class="four-item">Action</div>-->
               </a>
               {% for tutorship in tutorships %}
-                <a class = "list-group-item disabled list-box list-box-header">
-                  <div class="four-item"><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">{{tutorship.student.name}}</a></div>
-                  <div class="four-item"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutorship.tutor_id | string}}">{{tutorship.tutor.name}}</a></div>
+              <a href="{{'/admin/tutorship/?tutorship_id=' + tutorship.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                  <div class="four-item">{{tutorship.student.name}}</div>
+                  <div class="four-item">{{tutorship.tutor.name}}</div>
                   <div class="four-item">{{tutorship.course.name}}</div>
-                  <div class="four-item"><a href="{{'/admin/tutorships/remove-tutorship/?tutorship_id=' + tutorship.id | string}}"><button>Dissolve</button></a></div>
+                  <div class="four-item">{{tutorship.status}}</div>
+                  <!--<div class="four-item"><a href="{{'/admin/tutorships/remove-tutorship/?tutorship_id=' + tutorship.id | string}}"><button>Dissolve</button></a></div>-->
                 </a>
                     
               {% endfor %}
