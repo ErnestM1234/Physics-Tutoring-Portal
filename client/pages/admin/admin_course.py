@@ -62,6 +62,12 @@ def admin_course():
         return redirect('/error/')
     tutor_courses = res.json()
 
+    for tutor_course in tutor_courses:
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutor_course['course_id']}, headers=headers)
+        course2 = res.json()
+        course2_name = course2['name']
+        tutor_course['course_name']= course2_name
+
     approved_tutor_courses = list(filter(lambda tutor_course: tutor_course['status'] == 'ACCEPTED', tutor_courses))
 
 
