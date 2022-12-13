@@ -3,14 +3,36 @@
     <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
   </head>
 
-  <body class="princeton-gradient landing-body">
+  <body class="princeton-gradient">
     <div class="landing-wrapper">
-      <h1><strong>Princeton Physics<br>Tutoring Program</strong></h1>
+      <div class="landing-stripe"></div>
+      <div class="landing-header">
+        <h1>
+            <div class="landing-header-text">
+              <strong class="emphasize black">Physics Tutoring Portal</strong>
+              <div class="gray">Princeton University <br></div>
+          </strong>
+        </h1>
+          
+      </div>
+      
 
       <br><br><br>
+        
+      <h3 class="cta-wrapper">
+        <div class="cta-button">
+          <a href="/login" class="cta-link" >
+            <div class="cta-text">
+              Find Tutors
+            </div>
+          </a>
+        </div>
+      </h3>
 
-      <a href="/login" class="cta-button"><h3 class="cta">Find Tutors</h3></a>
+
+      <img class="landing-footer-logo" src="{{url_for('static', filename='PU-standard.png')}}">
     </div>
+
 
   </body>
 </html>
