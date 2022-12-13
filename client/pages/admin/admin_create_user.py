@@ -61,8 +61,7 @@ def create_user():
         return redirect('/error/')
         
 
-
     return render_template(
-        '/admin/admin-create-user.html',
+        '/admin/admin-create-user.html', user=user
     )
 

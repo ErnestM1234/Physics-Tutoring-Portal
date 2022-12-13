@@ -104,8 +104,10 @@ def admin_course():
         tutorship['tutor'] = tutor
         tutorship['course'] = course
 
+  
     return render_template(
         '/admin/admin-course.html',
+        user=user,
         tutorships=tutorships,
         course = course,
         course_id=course_id,

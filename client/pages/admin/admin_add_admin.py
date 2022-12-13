@@ -57,9 +57,6 @@ def add_admin():
     else:
         session['error_message'] = 'There is no provided user_id, or the user_id is invalid'
         return redirect('/error/')
-    
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user_id}, headers=headers)
-    user = res.json()
 
 
     return render_template(

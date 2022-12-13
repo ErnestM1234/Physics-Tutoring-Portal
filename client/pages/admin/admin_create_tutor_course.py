@@ -79,6 +79,7 @@ def create_tutor_course():
 
     return render_template(
         '/admin/admin-create-tutor-course.html', 
+        user=user,
         tutors = tutors, 
         courses=courses
     )

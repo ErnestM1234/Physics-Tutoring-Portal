@@ -28,8 +28,10 @@ def admin_courses():
     courses = res.json()
 
 
+
     return render_template(
         '/admin/admin-courses.html',
+        user=user,
         courses=courses
     )
 
