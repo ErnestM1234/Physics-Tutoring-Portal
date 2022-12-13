@@ -22,10 +22,14 @@ def set_tutor_course_status():
     tutor_course_id = request.form.get('tutor_course_id')
     status = request.form.get('status')
     # param validation
-    if int(float(tutor_course_id)) >= 0:
+    if tutor_course_id.isnumeric() and int(float(tutor_course_id)) >= 0:
         validated_tutor_course_id = int(float(tutor_course_id))
     else:
-        return redirect('/')
+        session['error_message'] = "You have supplied an incorrect tutor course id"
+        return redirect('/error/')
+
+        
+
 
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/update'), data=json.dumps({"id": str(validated_tutor_course_id), "status": status}), headers=headers)
     if res.status_code != 200:
@@ -46,7 +50,8 @@ def get_name(id):
     user = res.json()
 
     if 'id' not in user.keys():
-        return redirect('/')
+        session['error_message'] = "You have supplied an incorrect user id"
+        return redirect('/error/')
     return user['name']
 
 @app.route('/admin/tutors/')
@@ -69,7 +74,8 @@ def admin_tutors():
             tutor_course_params['course_id'] = int(float(course_id))
             course_id = int(float(course_id))
         else:
-            return redirect('/') # TODO: change this to an error message
+            session['error_message'] = "You have supplied an incorrect course id"
+            return redirect('/error/')
 
         #added this: 
         res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
