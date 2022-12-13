@@ -19,7 +19,6 @@ def set_tutor_course_status():
     # get headers
     headers = get_header()
 
-
     tutor_course_id = request.form.get('tutor_course_id')
     status = request.form.get('status')
     # param validation
