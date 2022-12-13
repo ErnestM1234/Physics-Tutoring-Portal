@@ -84,6 +84,20 @@ def admin_tutors():
             return redirect('/error/')
         course = res.json()
 
+    
+    
+    
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'is_tutor': True}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+    tutors = res.json()
+    
+    
+    
+    
+    
+    
     # get tutorships
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params=tutor_course_params, headers=headers)
     if res.status_code != 200:
@@ -122,12 +136,9 @@ def admin_tutors():
     return render_template(
         '/admin/admin-tutors.html',
         user=user,
-        tutor_courses=approved_tutor_courses,
-        student_count=student_count,
-        tutor_requests=tutor_requests,
-        denied_tutors=denied_tutors,
-        get_name=get_name,
-        course_id=course_id, 
-        course=course
+        tutors = tutors, 
+        tutor_requests=tutor_requests, 
+        get_name = get_name, 
+        student_count = student_count
     )
 
