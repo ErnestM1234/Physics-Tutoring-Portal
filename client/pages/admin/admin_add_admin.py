@@ -34,7 +34,7 @@ def add_admin_confirm():
 
 
     # make admin
-    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps({'is_admin': 'True'}), headers=headers)
+    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps({'is_admin': 'True', 'id': 'user_id'}), headers=headers)
     if res.status_code != 200:
         print(str(res.content))
         return render_template(

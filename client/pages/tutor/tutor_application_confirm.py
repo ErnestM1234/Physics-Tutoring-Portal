@@ -11,7 +11,6 @@ load_dotenv()
 def tutor_application_confirm():
     # verify is student
     user = get_user(requests)
-    print(user)
     if user is None or "id" not in user.keys() or user['is_tutor'] == False:
         return render_template(
             '/tutor/tutor-no-access.html',
@@ -23,12 +22,9 @@ def tutor_application_confirm():
 
 
     course_id = request.form.get('course_id')
-    print("hi")
-    print(course_id)
     taken_course = request.form.get('taken_course')
-    print(taken_course)
     experience = request.form.get('experience')
-    print(experience)
+
 
    
     data = {
