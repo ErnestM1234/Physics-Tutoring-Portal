@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Physics Tutoring Portal Update Tutor</title>
+      <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+      <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body class="princeton-gradient">
+        &nbsp;
+        {% include "/components/admin-sidebar-header.html" %}
+  
+          <div>
+            {% include '/components/admin-dashboard-title.html' %}
+            <br>
+
+            <br><br><br>
+
+            <h3>UPDATE TUTOR STATUS</h3>
+            <p>Are you sure you want to update this tutor's status to {{status}}?</p>
+            <br>
+
+            {% if status == 'DENIED' %}
+                    <form action="/admin/tutors/update-tutor/confirm" method="GET">
+                        <input type="hidden" name="tutor_course_id" value="{{tutor_course_id}}" readonly>
+                        <input type="hidden" name="status" value="DENIED" readonly>
+                        <input type="hidden" name="tutor_id" value="{{tutor_id}}" readonly>
+                        <input type="submit" value="Confirm">
+                    </form>
+                    {% if tutorship_count != 0 %}
+                        <p>Denying this tutor will delete {{ tutorship_count }} tutorships! </p>
+                    {% endif %}
+
+                {% elif status == 'REQUESTED' %}
+                    <form action="/admin/tutors/update-tutor/confirm" method="GET">
+                        <input type="hidden" name="tutor_course_id" value="{{tutor_course_id}}" readonly>
+                        <input type="hidden" name="status" value="REQUESTED" readonly>
+                        <input type="hidden" name="tutor_id" value="{{tutor_id}}" readonly>
+                        <input type="submit" value="Confirm">
+                    </form>
+
+                    {% if tutorship_count != 0 %}
+                        <p>Denying this tutor will delete {{ tutorship_count }} tutorships! </p>
+                    {% endif %}
+                {% elif status == 'ACCEPTED'  %}
+                    <form action="/admin/tutors/update-tutor/confirm" method="GET">
+                        <input type="hidden" name="tutor_course_id" value="{{tutor_course_id}}" readonly>
+                        <input type="hidden" name="status" value="ACCEPTED" readonly>
+                        <input type="hidden" name="tutor_id" value="{{tutor_id}}" readonly>
+                        <input type="submit" value="Confirm">
+                    </form>
+                {% endif %}
+        </div>
+
+        
+        {% include "/components/admin-sidebar-footer.html" %}
+
+
+    </body>
+
+</html>

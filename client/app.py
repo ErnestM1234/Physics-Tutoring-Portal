@@ -155,6 +155,7 @@ from pages.admin.admin_dashboard import *
 from pages.admin.admin_courses import *
 from pages.admin.admin_tutorships import *
 from pages.admin.admin_tutors import *
+from pages.admin.admin_update_tutor_course import *
 from pages.admin.admin_students import *
 from pages.admin.admin_admins import *
 from pages.admin.admin_create_course import *
