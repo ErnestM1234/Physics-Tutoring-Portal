@@ -43,8 +43,28 @@ def student_dashboard():
         course = res.json()
         tutorship['course'] = course
 
+
+    # get any applications to tutor
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'tutor_id': user['id']}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+    tutor_courses = res.json()
+    print(tutor_courses)
+
+    # addition info about tutor application
+    for tutor_course in tutor_courses:
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutor_course['course_id']}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
+        course = res.json()
+        tutor_course['course'] = course
+        print(course)
+
     return render_template(
         '/student/student-dashboard.html',
         user=user,
-        tutorships=tutorships
+        tutorships=tutorships,
+        tutor_courses=tutor_courses
     )
