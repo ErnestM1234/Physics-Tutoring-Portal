@@ -31,14 +31,23 @@ def tutor_application_confirm():
         'status': 'REQUESTED'
     }
 
-    # mark student as a tutor
-    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps({'id': str(user['id']), 'is_tutor': True}), headers=headers)
-    if res.status_code != 200:
-        session['error_message'] = str(res.content)
-        return redirect('/error/')
+
 
     # create relationship btwn tutor and course
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/create/'), data=json.dumps(data), headers=headers)
+    if res.status_code != 200:
+        try:
+            content = res.json()
+            if str(content['message']) == 'Cannot create duplicate tutor_courses.':
+                session['error_message'] = 'You cannot apply for courses where you have a preexisting relationship.'
+                return redirect('/error/')
+        except:
+            pass
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+
+    # mark student as a tutor
+    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps({'id': str(user['id']), 'is_tutor': True}), headers=headers)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
