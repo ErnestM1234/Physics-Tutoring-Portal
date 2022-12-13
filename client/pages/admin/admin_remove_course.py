@@ -113,8 +113,10 @@ def remove_course():
         return redirect('/error/')
 
 
+
     return render_template(
         '/admin/admin-remove-course.html',
+        user=user,
         course_id=course_id,
         tutorship_count=len(tutorships),
         tutor_course_count=len(course_tutors)

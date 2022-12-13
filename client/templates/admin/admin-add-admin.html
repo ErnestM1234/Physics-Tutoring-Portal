@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Remove Course</title>
+      <title>Physics Tutoring Portal Add Admin</title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -20,15 +20,15 @@
 
             <h3>ADD AN ADMIN</h3>
             <p>Are you sure you want to make {{user.name}} an admin?</p>
-            <form action="/admin/courses/add-admin/confirm/" method="GET">
+            <form action="/admin/add-admin/confirm/" method="GET">
                 <input type="hidden" name="user_id" value="{{user_id}}" readonly><br>
-                <input type="submit" value="ADD">
+                <input type="submit">
             </form>
             <br>
         </div>
 
         
-        {% include "/components/sidebar-footer.html" %}
+        {% include "/components/admin-sidebar-footer.html" %}
 
 
     </body>

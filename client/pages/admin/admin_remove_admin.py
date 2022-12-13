@@ -10,8 +10,8 @@ from pages.shared.get_user import *
 
 load_dotenv()
 
-@app.route('/admin/add-admin/confirm/', methods=['GET'])
-def add_admin_confirm():
+@app.route('/admin/remove-admin/confirm/', methods=['GET'])
+def remove_admin_confirm():
 
     # verify is admin
     user = get_user(requests)
@@ -31,7 +31,7 @@ def add_admin_confirm():
 
 
     # make admin
-    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps({'is_admin': True, 'id': str(user_id)}), headers=headers)
+    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps({'is_admin': False, 'id': str(user_id)}), headers=headers)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
@@ -39,8 +39,8 @@ def add_admin_confirm():
     return redirect('/admin/admins/')
 
 
-@app.route('/admin/add-admin/')
-def add_admin():
+@app.route('/admin/remove-admin/')
+def remove_admin():
     # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
@@ -57,11 +57,11 @@ def add_admin():
     else:
         session['error_message'] = 'There is no provided user_id, or the user_id is invalid'
         return redirect('/error/')
-
+    
 
     return render_template(
-        '/admin/admin-add-admin.html',
+        '/admin/admin-remove-admin.html',
+        user=user,
         user_id=user_id,
-        user=user
     )
 

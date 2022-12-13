@@ -68,6 +68,7 @@ def admin_students():
 
     return render_template(
         '/admin/admin-students.html',
+        user=user,
         tutorships=tutorships,
         students=students
     )

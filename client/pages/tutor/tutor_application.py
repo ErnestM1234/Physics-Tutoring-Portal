@@ -21,16 +21,16 @@ def tutorApplication():
 
     course_id = request.args.get('course_id')
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     course = res.json()
-    print(course_id)
 
-
-
-    # do we need these ? 
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'), headers=headers)
-    courses = res.json()
 
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user['id']}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutor = res.json()
 
     return render_template(

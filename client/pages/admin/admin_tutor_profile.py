@@ -71,9 +71,10 @@ def tutor_profile():
     if(tutor['is_admin']):
         isAnAdmin = 'Is an Admin'
 
-
+ 
     return render_template(
         '/admin/admin-profile-tutor.html',
+        user=user,
         tutor=tutor,
         tutor_courses=tutor_courses, 
         isATutor = isATutor, 

@@ -26,14 +26,23 @@ def student_tutor():
 
     # get tutor
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutor_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutor = res.json()
 
     # get course
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     course = res.json()
 
     # get tutorship
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': user['id'], 'tutor_id': tutor_id, 'course_id': course_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutorship = res.json()
 
     if len(tutorship) == 0:

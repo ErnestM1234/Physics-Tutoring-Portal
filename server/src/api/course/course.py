@@ -99,6 +99,10 @@ def create_course():
         return {"message": str(errors) }, 400
     
     try:
+        course = Courses.query.filter(Courses.name == data.get('name')).first()
+        if course is not None:
+            return {"message": "Failed to create course. A course with this name already exists." }, 400
+
         course = Courses(data.get('name'), data.get('dept_course'))
         db.session.add(course)
         db.session.commit()

@@ -51,8 +51,8 @@ def create_course():
         return redirect('/error/')
         
 
-
     return render_template(
         '/admin/admin-create-course.html',
+        user=user
     )
 

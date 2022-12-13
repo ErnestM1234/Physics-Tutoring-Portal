@@ -29,13 +29,6 @@ def student_profile():
         else:
             session['error_message'] = "You have supplied an invalid user id"
             return redirect('/error/')
-    
-    # get admin
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": user['id']}, headers=headers)
-    user = res.json()
-    # verify is admin
-    if "id" not in user.keys() or user['is_admin'] == False:
-        return redirect('/')
 
 
     # get student
@@ -87,7 +80,7 @@ def student_profile():
     if(student['is_admin']):
         isAnAdmin = 'Is an Admin'
         
-
+        
 
     return render_template(
         '/admin/admin-profile-student.html',

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Remove Course</title>
+      <title>Physics Tutoring Portal Remove Admin</title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -18,17 +18,13 @@
 
             <br><br><br>
 
-            <h3>REMOVE A COURSE</h3>
-            <p>Are you sure you want to remove this course?</p>
-            <form action="/admin/courses/remove-course/confirm/" method="GET">
-                <input type="hidden" name="course_id" value="{{course_id}}" readonly><br>
-                <input type="submit" value="REMOVE">
+            <h3>REMOVE AN ADMIN</h3>
+            <p>Are you sure you want to demote {{user.name}} from their admin position?</p>
+            <form action="/admin/remove-admin/confirm/" method="GET">
+                <input type="hidden" name="user_id" value="{{user_id}}" readonly><br>
+                <input type="submit">
             </form>
             <br>
-            <p>Removing this course will delete {{ tutorship_count }} tutorships! </p>
-
-
-            <p>Removing this course will delete {{ tutor_course_count }} tutor-courses! </p>
         </div>
 
         

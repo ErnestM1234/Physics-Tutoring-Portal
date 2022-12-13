@@ -58,8 +58,6 @@ def admin_dashboard():
         tutees_count.append(len(list(filter(lambda tutorship: tutorship['course_id'] == course['id'], tutorships))))
 
 
-
-
     return render_template(
         '/admin/admin-dashboard.html',
         user=user,

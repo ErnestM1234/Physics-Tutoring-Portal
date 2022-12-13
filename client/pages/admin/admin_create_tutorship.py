@@ -53,9 +53,11 @@ def create_tutorship():
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
         session['error_message'] = 'you do not have permission to access this page'
         return redirect('/error/')
-        
+
+
 
     return render_template(
         '/admin/admin-create-tutorship.html',
+        user=user
     )
 
