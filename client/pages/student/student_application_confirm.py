@@ -27,7 +27,6 @@ def student_tutor_application_confirm():
    
     data = {
         'tutor_id': user['id'],
-        #'course_id': course_id,
         'taken_course': taken_course,
         'experience': experience,
         'status': 'REQUESTED'
