@@ -36,7 +36,7 @@
                 <h3>COURSE NAME: {{course.name}}</h3>
             {% endif %}
 
-            <h3>TUTORS</h3>
+            <h3>ACCEPTED TUTORS</h3>
             <a href="/admin/create-tutor-course">Assign a tutor to a course</a><br>
     
             <div class ="list">
@@ -44,22 +44,24 @@
                 <thead>
                   <tr>
                     <th class="bg-white" scope="col">Tutor Name</th>
+                    <th class="bg-white" scope="col">Course Name</th>
                     <th class="bg-white" scope="col">Course Id</th>
-                    <th class="bg-white" scope="col">Status</th>
+                    <!--<th class="bg-white" scope="col">Status</th>-->
                     <th class="bg-white" scope="col">Student Count</th>
                     <th class="bg-white" scope="col">Profile</th>
-                    <th class="bg-white" scope="col">Action</th>
+                    <!--<th class="bg-white" scope="col">Action</th>-->
                   </tr>
                 </thead>
                 <tbody>
                     {% for tutor_course in tutor_courses %}
                         <tr>
                             <td class="bg-white">{{get_name(tutor_course.tutor_id)}}</td>
+                            <td class="bg-white">{{tutor_course.course_name}}</td>
                             <td class="bg-white">{{tutor_course.course_id}}</td>
-                            <td class="bg-white">{{tutor_course.status}}</td>
+                            <!--<td class="bg-white">{{tutor_course.status}}</td>-->
                             <td class="bg-white">{{student_count[loop.index0]}}</td>
                             <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_course.tutor_id | string}}">Profile</a></td>
-                            <td class="bg-white"><button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Revoke</button></td>
+                            <!--<td class="bg-white"><button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Revoke</button></td>-->
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -76,23 +78,27 @@
                 <thead>
                   <tr>
                     <th class="bg-white" scope="col">Tutor Name</th>
+                    <th class="bg-white" scope="col">Course Name</th>
                     <th class="bg-white" scope="col">Course Id</th>
                     <th class="bg-white" scope="col">Tutorships</th>
                     <th class="bg-white" scope="col">Profile</th>
-                    <th class="bg-white" scope="col">Action</th>
+                    <!--<th class="bg-white" scope="col">Action</th>-->
                   </tr>
                 </thead>
                 <tbody>
                     {% for tutor_request in tutor_requests %}
+
                         <tr>
                             <td class="bg-white">{{get_name(tutor_request.tutor_id)}}</td>
+                            <td class="bg-white">{{tutor_request.course_name}}</td>
                             <td class="bg-white">{{tutor_request.course_id}}</td>
                             <td class="bg-white">{{student_count[loop.index0]}}</td>
-                            <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_request.tutor_id | string}}">Profile</a></td>
-                            <td class="bg-white">
+                            <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_request.tutor_id | string }}">Profile</a></td>
+
+                            <!--<td class="bg-white">
                                 <button onclick="set_tutor_course_status( {{tutor_request.id}}, 'ACCEPTED' )">Approve</button>
                                 <button onclick="set_tutor_course_status( {{tutor_request.id}}, 'DENIED' )">Deny</button>
-                            </td>
+                            </td>-->
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -108,20 +114,20 @@
                 <thead>
                   <tr>
                     <th class="bg-white" scope="col">Tutor Name</th>
+                    <th class="bg-white" scope="col">Course Name</th>
                     <th class="bg-white" scope="col">Course Id</th>
                     <th class="bg-white" scope="col">Profile</th>
-                    <th class="bg-white" scope="col">Action</th>
+                    <!--<th class="bg-white" scope="col">Action</th>-->
                   </tr>
                 </thead>
                 <tbody>
                     {% for denied_tutor in denied_tutors %}
                         <tr>
                             <td class="bg-white">{{get_name(denied_tutor.tutor_id)}}</td>
+                            <td class="bg-white">{{denied_tutor.course_name}}</td>
                             <td class="bg-white">{{denied_tutor.course_id}}</td>
-                            <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + denied_tutor.tutor_id | string}}">PROFILE</a></td>
-                            <td class="bg-white">
-                                <button onclick="set_tutor_course_status( {{denied_tutor.id}}, 'ACCEPTED' )">APPROVE</button>
-                            </td>
+                            <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + denied_tutor.tutor_id | string}}">Profile</a></td>
+                            <!--<td class="bg-white"><button onclick="set_tutor_course_status( {{denied_tutor.id}}, 'ACCEPTED' )">Approve</button></td>-->
                         </tr>
                     {% endfor %}
                 </tbody>
