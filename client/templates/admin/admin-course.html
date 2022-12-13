@@ -36,6 +36,7 @@
 
             {% if course  %}
                 <h2 class="text-center"><strong>COURSE NAME: {{course.name}}</strong></h2>
+                <h2 class="text-center"><a href="{{'/admin/courses/remove-course/?course_id=' + course.id | string}}">Delete Course</a></h2>
             {% endif %}
             <br>
 
@@ -47,10 +48,10 @@
             <table class="table">
                 <thead>
                   <tr>
-                    <th class="bg-white" scope="col">Courses</th>
-                    <th class="bg-white" scope="col">Student Id</th>
+                    <!-- <th class="bg-white" scope="col">Tutorship Id</th> -->
+                    <!-- <th class="bg-white" scope="col">Student Id</th> -->
                     <th class="bg-white" scope="col">Student Name</th>
-                    <th class="bg-white" scope="col">Tutor Id</th>
+                    <!--<th class="bg-white" scope="col">Tutor Id</th> -->
                     <th class="bg-white" scope="col">Tutor Name</th>
                     <th class="bg-white" scope="col">Course Id</th>
                     <th class="bg-white" scope="col">Course Name</th>
@@ -61,10 +62,10 @@
                 <tbody>
                     {% for tutorship in tutorships %}
                         <tr>
-                            <td class="bg-white">{{tutorship.id}}</td>
-                            <td class="bg-white">{{tutorship.student_id}}</td>
+                            <!--<td class="bg-white">{{tutorship.id}}</td>-->
+                            <!--<td class="bg-white">{{tutorship.student_id}}</td>-->
                             <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">{{tutorship.student.name}}</a></td>
-                            <td class="bg-white">{{tutorship.tutor_id}}</td>
+                            <!--<td class="bg-white">{{tutorship.tutor_id}}</td>-->
                             <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutorship.tutor_id | string}}">{{tutorship.tutor.name}}</a></td>
                             <td class="bg-white">{{tutorship.course_id}}</td>
                             <td class="bg-white">{{tutorship.course.name}}</td>
@@ -89,7 +90,7 @@
             <table class="table">
                 <thead>
                   <tr>
-                    <th class="bg-white" scope="col">Id</th>
+                    <!--<th class="bg-white" scope="col">Id</th>-->
                     <th class="bg-white" scope="col">Name</th>
                     <th class="bg-white" scope="col">Course Id</th>
                     <th class="bg-white" scope="col">Status</th>
@@ -101,7 +102,7 @@
                 <tbody>
                     {% for tutor_course in tutor_courses %}
                         <tr>
-                            <td class="bg-white">{{tutor_course.id}}</td>
+                            <!--<td class="bg-white">{{tutor_course.id}}</td>-->
                             <td class="bg-white">{{get_name(tutor_course.tutor_id)}}</td>
                             <td class="bg-white">{{tutor_course.course_id}}</td>
                             <td class="bg-white">{{tutor_course.status}}</td>
@@ -124,7 +125,7 @@
             <table class="table">
                 <thead>
                   <tr>
-                    <th class="bg-white" scope="col">Id</th>
+                    <!--<th class="bg-white" scope="col">Id</th>-->
                     <th class="bg-white" scope="col">Name</th>
                     <th class="bg-white" scope="col">Course Id</th>
                     <th class="bg-white" scope="col">Tutorships</th>
@@ -135,7 +136,7 @@
                 <tbody>
                     {% for tutor_request in tutor_requests %}
                         <tr>
-                            <td class="bg-white">{{tutor_request.id}}</td>
+                            <!--<td class="bg-white">{{tutor_request.id}}</td>-->
                             <td class="bg-white">{{get_name(tutor_request.tutor_id)}}</td>
                             <td class="bg-white">{{tutor_request.course_id}}</td>
                             <td class="bg-white">{{student_count[loop.index0]}}</td>
@@ -158,7 +159,7 @@
             <table class="table">
                 <thead>
                   <tr>
-                    <th class="bg-white" scope="col">Id</th>
+                    <!--<th class="bg-white" scope="col">Id</th>-->
                     <th class="bg-white" scope="col">Name</th>
                     <th class="bg-white" scope="col">Course Id</th>
                     <th class="bg-white" scope="col">Profile</th>
@@ -168,7 +169,7 @@
                 <tbody>
                     {% for denied_tutor in denied_tutors %}
                         <tr>
-                            <td class="bg-white">{{denied_tutor.id}}</td>
+                            <!--<td class="bg-white">{{denied_tutor.id}}</td>-->
                             <td class="bg-white">{{get_name(denied_tutor.tutor_id)}}</td>
                             <td class="bg-white">{{denied_tutor.course_id}}</td>
                             <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + denied_tutor.tutor_id | string}}">PROFILE</a></td>

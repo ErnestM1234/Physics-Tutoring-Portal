@@ -16,10 +16,9 @@ def create_tutor_course_confirm():
     # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
+        
     # get headers
     headers = get_header()
 
@@ -27,12 +26,9 @@ def create_tutor_course_confirm():
     course_id = request.form.get('course')
     status = request.form.get('status')
 
-    print(tutor_id)
-    print(course_id)
-    print(status)
-
     if tutor_id is None or course_id is None or status is None:
-        return redirect('/admin/create-tutor-course')
+        session['error_message'] = 'id field is missing'
+        return redirect('/error/')
 
 
     # param validation
@@ -48,18 +44,12 @@ def create_tutor_course_confirm():
         'status': status,
     }
 
-
-
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/create'), data=json.dumps(data), headers=headers)
-    
-    message = str(res)
-    print(res.content)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
 
-
-    return render_template(
-        '/admin/confirmation.html',
-        message=message
-    )
+    return redirect('/admin/tutors/')
 
 @app.route('/admin/create-tutor-course')
 def create_tutor_course():
@@ -67,19 +57,23 @@ def create_tutor_course():
     # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
     
     # get headers
     headers = get_header()
 
 
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'is_tutor': True}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutors = res.json()
 
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'), headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     courses = res.json()
 
 

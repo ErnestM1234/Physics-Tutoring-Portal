@@ -15,23 +15,31 @@ def admin_dashboard():
     # verify is admin
     user = get_user(requests)
     if user is None or "id" not in user.keys() or user['is_admin'] == False:
-        return render_template(
-            '/admin/confirmation.html',
-            message='you do not have permission to access this page'
-        )
+        session['error_message'] = 'you do not have permission to access this page'
+        return redirect('/error/')
+        
     # get headers
     headers = get_header()
 
     # get courses
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/courses/'), headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     courses = res.json()
 
     # get tutors by coures
     # get tutees by course
     # todo(Ernest): spin up a diff process for these requests?? these two is a bit ~C~ ~H~ ~U~ ~N~ ~K~ ~Y~
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'status': "ACCEPTED"}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutor_courses = res.json()
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'status': "ACCEPTED"}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
     tutorships = res.json()
 
     approved_tutors_count = []

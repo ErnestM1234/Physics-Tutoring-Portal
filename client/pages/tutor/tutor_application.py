@@ -20,9 +20,9 @@ def tutorApplication():
     headers = get_header()
 
     course_id = request.args.get('course_id')
-    print(course_id)
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': course_id}, headers=headers)
     course = res.json()
+    print(course_id)
 
 
 
@@ -34,7 +34,7 @@ def tutorApplication():
     tutor = res.json()
 
     return render_template(
-        '/tutor/tutor-application.html', tutor=tutor, course = course, 
+        '/tutor/tutor-application.html', tutor=tutor, course_id = course_id, course=course, 
         user=user
 
     )

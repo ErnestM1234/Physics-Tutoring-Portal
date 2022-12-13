@@ -10,7 +10,8 @@ def get_user(requests):
     # get netid
     netid = session.get('username')
     if netid is None:
-        abort(redirect('/error/?message=' + str(res.content)))
+        session['error_message'] = 'Login Failed'
+        abort(redirect('/error/'))
     
     # get user object
     res = requests.post(
@@ -18,11 +19,14 @@ def get_user(requests):
         headers=get_header(),
         data=json.dumps({"netid": netid})
     )
-    user = res.json()
 
     if res.status_code != 200:
         print(str(res.content))
-        abort(redirect('/error/?message=' + str(res.content)))
+        session['error_message'] = 'Login Failed'
+        abort(redirect('/error/'))
+    
+
+    user = res.json()
     return user
 
 
@@ -33,5 +37,7 @@ def get_header():
             "exp": datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(minutes=30)
         }, os.environ['APP_SECRET_KEY'], algorithm="HS256")
     if netid is None:
-       abort(redirect('/error/?message=netid-missing'))
+        print('net id not found')
+        session['error_message'] = 'Login Failed'
+        abort(redirect('/error/'))
     return {"authorization": encoded_jwt}
