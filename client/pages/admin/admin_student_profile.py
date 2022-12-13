@@ -31,7 +31,7 @@ def student_profile():
             return redirect('/error/')
     
     # get admin
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": user.id}, headers=headers)
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": user['id']}, headers=headers)
     user = res.json()
     # verify is admin
     if "id" not in user.keys() or user['is_admin'] == False:
