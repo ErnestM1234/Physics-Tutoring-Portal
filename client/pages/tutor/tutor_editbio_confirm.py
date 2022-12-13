@@ -25,7 +25,7 @@ def edit_bio_confirm():
 
     data = {
         'bio': bio,
-        'id': user['id']
+        'id': str(user['id'])
     }
 
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps(data), headers=headers)
