@@ -370,6 +370,27 @@ span {
   width: 50%;
 }
 
+.stats-wrapper {
+  display: flex;
+}
+
+.stats-block {
+  background-color: white;
+  width: 200px;
+  height: 200px;
+  border-radius: 25px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: rgb(232, 119, 34);
+  margin-right: 50px;
+}
+
+.stats-stats {
+  color: black;
+  font-size: 35px;
+  margin: 25px;
+}
+
 
 @media screen and (min-width: 767px) {
 

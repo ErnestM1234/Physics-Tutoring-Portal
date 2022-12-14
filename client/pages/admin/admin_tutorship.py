@@ -42,8 +42,6 @@ def admin_tutorship():
     tutorship = res.json()
     tutorship = tutorship[0]
 
-    print(tutorship)
-
         
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship['student_id']}, headers=headers)
     if res.status_code != 200:

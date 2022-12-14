@@ -19,22 +19,41 @@
 
             <br><br><br>
 
-            <h3>COURSE STATS</h3>
-    
+            <h3>AGGREGATE STATISTICS</h3>
+            <div class="stats-wrapper">
+              <div class="stats-block">
+                <div class="stats-stats">
+                  {{total_courses}}<br>
+                  Courses
+                </div>
+              </div>
+              <div class="stats-block">
+                <div class="stats-stats">
+                  {{total_students}}<br>
+                  Students
+                </div>
+              </div>
+              <div class="stats-block">
+                <div class="stats-stats">
+                  {{total_tutors}}<br>
+                  Tutors
+                </div>
+              </div>
+            </div>
 
+
+            <h3>COURSE STATISTICS</h3>
 
             <div class ="list-group list-box-frame">
               <a class = "list-group-item disabled list-box list-box-header">
                   <div class="four-item">Courses</div>
                   <div class="four-item">Approved Tutors</div>
-                  <div class="four-item">Available Tutors</div>
                   <div class="four-item">Tutees</div>
               </a>
               {% for course in courses %}
                   <a href="{{'/admin/course/?course_id=' + course.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
                     <div class="four-item">{{course.name}}</div>
                     <div class="four-item">{{approved_tutors_count[loop.index0]}}</div>
-                    <div class="four-item">{{available_tutors_count[loop.index0]}}</div>
                     <div class="four-item">{{tutees_count[loop.index0]}}</div>
                   </a>
               {% endfor %}
