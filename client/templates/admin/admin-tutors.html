@@ -37,24 +37,40 @@
 
             <h3>TUTORS</h3>
             <a href="/admin/create-tutor-course">Manually assign a tutor to a course</a><br>
-    
-            <div class ="list-group list-box-frame">
-                <a class = "list-group-item disabled list-box list-box-header">
-                    <div class="three-item">Tutor Name</div>
-                    <div class="three-item">Tutor NetId</div>
-                    <div class="three-item">Student Count</div>
-                    <!--<div class="three-item">Student Count</div>-->
-                    <!--<th class="bg-white" scope="col">Profile</th>-->
-                </a>
-                {% for tutor_course in approved_tutor_courses %}
-                    <a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_course.tutor.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
-                        <div class="three-item">{{tutor_course.tutor.name}}</div>
-                        <div class="three-item">{{tutor_course.tutor.netid}}</div>
-                        <div class="three-item">{{tutor_course.tutorship_count}}</div>
 
+            {% if tutors is not none %}
+                <div class ="list-group list-box-frame">
+                    <a class = "list-group-item disabled list-box list-box-header">
+                        <div class="three-item">Tutor Name</div>
+                        <div class="three-item">Tutor NetId</div>
+                        <div class="three-item">Student Count</div>
                     </a>
-                {% endfor %}
-            </div>
+                    {% for tutor in tutors %}
+                        <a href="{{'/admin/tutor-profile/?tutor_id=' + tutor.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                            <div class="three-item">{{tutor.name}}</div>
+                            <div class="three-item">{{tutor.netid}}</div>
+                            <div class="three-item">{{tutor.tutorship_count}}</div>
+
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class ="list-group list-box-frame">
+                    <a class = "list-group-item disabled list-box list-box-header">
+                        <div class="three-item">Tutor Name</div>
+                        <div class="three-item">Tutor NetId</div>
+                        <div class="three-item">Student Count</div>
+                    </a>
+                    {% for tutor_course in approved_tutor_courses %}
+                        <a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_course.tutor.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                            <div class="three-item">{{tutor_course.tutor.name}}</div>
+                            <div class="three-item">{{tutor_course.tutor.netid}}</div>
+                            <div class="three-item">{{tutor_course.tutorship_count}}</div>
+
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
 
 

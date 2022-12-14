@@ -68,7 +68,7 @@ def admin_tutors():
     # param validation
     course_id = request.args.get('course_id')
     tutor_course_params = {}
-    # course = None
+    tutors = None
     if course_id is not None:
         if course_id.isnumeric() and int(float(course_id)) >= 0:
             tutor_course_params['course_id'] = int(float(course_id))
@@ -76,6 +76,24 @@ def admin_tutors():
         else:
             session['error_message'] = "You have supplied an incorrect course id"
             return redirect('/error/')
+    else:
+        # get tutors
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'is_tutor': True}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
+        tutors = res.json()
+        for tutor in tutors:
+            params = {
+                "tutor_id": tutor['id'],
+                "status": 'ACCEPTED',
+            }
+            res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params=params, headers=headers)
+            if res.status_code != 200:
+                session['error_message'] = str(res.content)
+                return redirect('/error/')
+            tutorships = res.json()
+            tutor['tutorship_count'] = len(tutorships)
 
     
     # get tutor_courses
@@ -144,6 +162,7 @@ def admin_tutors():
         approved_tutor_courses = approved_tutor_courses, 
         tutor_requests=tutor_requests, 
         get_name = get_name, 
-        student_count = student_count
+        student_count = student_count,
+        tutors=tutors
     )
 
