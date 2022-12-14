@@ -7,7 +7,7 @@ from app import app
 
 
 # returns a user object associated with the google auth id from the session
-def get_user():
+def get_user_error():
     # get netid
     netid = session.get('username')
     if netid is None:
@@ -29,7 +29,7 @@ def get_user():
 
 @app.route('/error/', methods=['GET'])
 def error_page():
-    user = get_user()
+    user = get_user_error()
     if user is None:
         return render_template(
             '/error/error_page.html',
