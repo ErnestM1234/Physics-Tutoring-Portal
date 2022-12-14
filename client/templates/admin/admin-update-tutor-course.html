@@ -27,7 +27,7 @@
                         <input type="hidden" name="tutor_course_id" value="{{tutor_course_id}}" readonly>
                         <input type="hidden" name="status" value="DENIED" readonly>
                         <input type="hidden" name="tutor_id" value="{{tutor_id}}" readonly>
-                        <input type="submit" value="Confirm">
+                        <input type="submit" class="submit-button" value="Confirm">
                     </form>
                     {% if tutorship_count != 0 %}
                         <p>Denying this tutor will delete {{ tutorship_count }} tutorships! </p>
@@ -38,7 +38,7 @@
                         <input type="hidden" name="tutor_course_id" value="{{tutor_course_id}}" readonly>
                         <input type="hidden" name="status" value="REQUESTED" readonly>
                         <input type="hidden" name="tutor_id" value="{{tutor_id}}" readonly>
-                        <input type="submit" value="Confirm">
+                        <input type="submit" class="submit-button" value="Confirm">
                     </form>
 
                     {% if tutorship_count != 0 %}
@@ -49,7 +49,7 @@
                         <input type="hidden" name="tutor_course_id" value="{{tutor_course_id}}" readonly>
                         <input type="hidden" name="status" value="ACCEPTED" readonly>
                         <input type="hidden" name="tutor_id" value="{{tutor_id}}" readonly>
-                        <input type="submit" value="Confirm">
+                        <input type="submit" class="submit-button" value="Confirm">
                     </form>
                 {% endif %}
         </div>

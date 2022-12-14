@@ -33,7 +33,7 @@ def error_page():
     if user is None:
         return render_template(
             '/error/error_page.html',
-            message='Your account cannot be found. Please try logging in.',
+            message='You are no longer logged in. Your session has likely expired. Please log in.',
             dashboard_url=None
         )
         
