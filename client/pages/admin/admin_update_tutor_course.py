@@ -76,7 +76,7 @@ def update_tutor_course_confirm():
         session['error_message'] = str(res.content)
         return redirect('/error/')
     
-    return redirect('/admin/tutor-course/?tutor_course_id=' + str(tutor_course_id))
+    return redirect('/admin/tutor-profile/?tutor_id=' + str(tutor_id))
 
 @app.route('/admin/tutors/update-tutor')
 def update_tutor_course():
