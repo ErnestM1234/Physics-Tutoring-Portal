@@ -23,7 +23,7 @@ def admin_tutorships():
 
     # param validation
     course_id = request.args.get('course_id')
-    tutorship_params = {"course_id": None}
+    tutorship_params = {}
     course = None
     if course_id is not None:
         if course_id.isnumeric() and int(float(course_id)) >= 0:

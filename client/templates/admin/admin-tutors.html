@@ -40,15 +40,18 @@
     
             <div class ="list-group list-box-frame">
                 <a class = "list-group-item disabled list-box list-box-header">
-                    <div class="two-item">Tutor Name</div>
-                    <div class="two-item">Tutor NetId</div>
+                    <div class="three-item">Tutor Name</div>
+                    <div class="three-item">Tutor NetId</div>
+                    <div class="three-item">Student Count</div>
                     <!--<div class="three-item">Student Count</div>-->
                     <!--<th class="bg-white" scope="col">Profile</th>-->
                 </a>
-                {% for tutor in tutors %}
-                    <a href="{{'/admin/tutor-profile/?tutor_id=' + tutor.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
-                        <div class="two-item">{{tutor.name}}</div>
-                        <div class="two-item">{{tutor.netid}}</div>
+                {% for tutor_course in approved_tutor_courses %}
+                    <a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_course.tutor.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                        <div class="three-item">{{tutor_course.tutor.name}}</div>
+                        <div class="three-item">{{tutor_course.tutor.netid}}</div>
+                        <div class="three-item">{{tutor_course.tutorship_count}}</div>
+
                     </a>
                 {% endfor %}
             </div>
@@ -62,15 +65,13 @@
     
             <div class ="list-group list-box-frame">
                 <a class = "list-group-item disabled list-box list-box-header">
-                    <div class="three-item">Tutor Name</div>
-                    <div class="three-item">Course Name</div>
-                    <div class="three-item">Student Count</div>
+                    <div class="two-item">Tutor Name</div>
+                    <div class="two-item">Course Name</div>
                 </a>
                 {% for tutor_request in tutor_requests %}
                     <a href="{{'/admin/tutor-course?tutor_course_id=' + tutor_request.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
-                        <div class="three-item">{{get_name(tutor_request.tutor_id)}}</div>
-                        <div class="three-item">{{tutor_request.course_name}}</div>
-                        <div class="three-item">{{student_count[loop.index0]}}</div>
+                        <div class="two-item">{{get_name(tutor_request.tutor_id)}}</div>
+                        <div class="two-item">{{tutor_request.course_name}}</div>
                     </a>
                 {% endfor %}
             </div>
@@ -79,7 +80,7 @@
 
 
             
-
+<!-- 
 
             <h3>DENIED TUTORS</h3>
     
@@ -97,7 +98,7 @@
                     </a>
                 {% endfor %}
               </table>
-            </div>
+            </div> -->
 
            
 

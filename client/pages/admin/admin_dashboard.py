@@ -42,17 +42,23 @@ def admin_dashboard():
         return redirect('/error/')
     tutorships = res.json()
 
+    # get users
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+    users = res.json()
+
+    total_students = len(list(filter(lambda user: user['is_student'] == True, users)))
+    total_tutors = len(list(filter(lambda user: user['is_tutor'] == True, users)))
+
     approved_tutors_count = []
-    available_tutors_count = []
     tutees_count = []
     for course in courses: # todo (Ernest): this runs in like O(N^2) time. It can run in O(N) time. ATM I am too lazy to optimize this
         filtered_tutors = tutor_courses
 
         # calculate approved tutors
         approved_tutors_count.append(len(list(filter(lambda tutor_course: tutor_course['course_id'] == course['id'], tutor_courses))))
-
-        # calculate available tutors
-        available_tutors_count.append(3) # todo (Ernest): requires updates to the schema
 
         # calculate active tutees
         tutees_count.append(len(list(filter(lambda tutorship: tutorship['course_id'] == course['id'], tutorships))))
@@ -63,6 +69,8 @@ def admin_dashboard():
         user=user,
         courses=courses,
         approved_tutors_count=approved_tutors_count,
-        available_tutors_count=available_tutors_count,
-        tutees_count=tutees_count
+        tutees_count=tutees_count,
+        total_students=total_students,
+        total_tutors=total_tutors,
+        total_courses=len(courses)
     )
