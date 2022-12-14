@@ -37,9 +37,19 @@ def update_tutor_course_confirm():
 
     # remove tutorships
     if status == 'DENIED' or status == 'REQUESTED':
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/'), params={'id': tutor_course_id}, headers=headers)
+        if res.status_code != 200:
+            session['error_message'] = str(res.content)
+            return redirect('/error/')
+        tutor_course = res.json()
+        if 'id' not in tutor_course.keys():
+            session['error_message'] = 'something went wrong'
+            return redirect('/error/')
+
+        course_id = tutor_course['course_id']
 
         # get tutorships
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'tutor_id': tutor_id}, headers=headers)
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'tutor_id': tutor_id, 'course_id': course_id}, headers=headers)
         if res.status_code != 200:
             session['error_message'] = str(res.content)
             return redirect('/error/')
@@ -93,10 +103,22 @@ def update_tutor_course():
         session['error_message'] = 'Invalid arguments'
         return redirect('/error/')
 
+    # get tutor course
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/'), params={'id': tutor_course_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+    tutor_course = res.json()
+    if 'id' not in tutor_course.keys():
+        session['error_message'] = 'something went wrong'
+        return redirect('/error/')
+
+    course_id = tutor_course['course_id']
+
     
     # get tutorships
     tutorship_count = 0
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'tutor_id': tutor_id}, headers=headers)
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'tutor_id': tutor_id, 'course_id': course_id}, headers=headers)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
