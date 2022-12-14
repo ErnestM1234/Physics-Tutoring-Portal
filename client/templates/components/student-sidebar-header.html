@@ -1,5 +1,5 @@
 <div id="mySidebar" class="sidebar">
-    <img src="{{url_for('static', filename='portal_logo.png')}}" width="230px">
+    <img src="{{url_for('static', filename='portal_logo.png')}}" width="250px">
     <br>
     <br>
     {% if user.get('is_tutor') or user.get('is_admin') %}
@@ -22,4 +22,4 @@
   </div>
   
   <div id="main" class="non-sidebar">
-    <button id="mySidebarButton" class="openbtn" onclick="openNav()">&#9776; Student view</button>
+    <button id="mySidebarButton" class="openbtn" onclick="closeNav()">&times;</button>

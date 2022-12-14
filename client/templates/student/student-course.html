@@ -9,7 +9,7 @@
         
         <div>
             {% include '/components/student-dashboard-title.html' %}
-            <h1>{{course.get('dept_course')}}</h1>
+            <h1>{{course.get('dept_course')}}: {{course.get('name')}}</h1>
 
             <br>
 
@@ -18,25 +18,28 @@
             <!-- <a href="/student/tutors/request?course_id={{course.get('id')}}"><button>Request all</button></a> -->
 
             <br>
-            <br>
-            <br>
 
-            <table id="userlisttable">
-                <thead id="userlistheader">
-                  <tr>
-                    <td><h5>Tutor name</h5></td>
-                  </tr>
-                </thead>
-                <tbody id="userlist">
-
-                {% for tutor_course in tutor_courses: %}
-                <tr>
-                <td><a href="/student/tutor?tutor_id={{tutor_course.get('tutor').get('id')}}&course_id={{course.get('id')}}">{{tutor_course.get('tutor').get('name')}}</a></td>
-                </tr>
-                {% endfor %}
-
-                </tbody>
-              </table>
+                <div class="list-group list-box-frame">
+                  <a class="list-group-item disabled list-box list-box-header">
+                    <div class="three-item">Tutor name</div>
+                    <div class="three-item">Tutor email</div>
+                    <div class="three-item">Tutor netID</div>
+                  </a>
+  
+                  {% if tutor_courses|length==0: %}
+                  <a class="list-group-item disabled list-box">
+                  <div class="one-item">No tutors to show.</div>
+                  </a>
+                  {% endif %}
+  
+                  {% for tutor_course in tutor_courses: %}
+                  <a href="/student/tutor?tutor_id={{tutor_course.get('tutor').get('id')}}&course_id={{course.get('id')}}" class="list-group-item list-group-item-action list-box no-gradient">
+                    <div class="three-item">{{tutor_course.get('tutor').get('name')}}</div>
+                    <div class="three-item">{{tutor_course.get('tutor').get('email')}}</div>
+                    <div class="three-item">{{tutor_course.get('tutor').get('netid')}}</div>
+                  </a>
+                  {% endfor %}
+                </div>
         </div>
 
         {% include "/components/student-sidebar-footer.html" %}
