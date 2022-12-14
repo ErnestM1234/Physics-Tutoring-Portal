@@ -19,27 +19,18 @@
                 <h1>APPLY TO TUTOR</h1>
     
 
-                <div class ="list">
-                  <br>
-                  <table id="userlisttable">
-                    <thead id="userlistheader">
-                      <tr>
-                        <td><h5>Course Name</h5></td>
-                          <td><h5>Department and Number</h5></td>
-                      </tr>
-                    </thead>
-                    <tbody id="userlist">
-                        {% for course in courses: %}
-                        <tr>
-                          <td>{{course.name}}</td>
-                          <td>{{course.dept_course}}</td>
-                          <td><a href="/student/tutor/application?course_id={{course.get('id')}}"><h5>Apply to Tutor {{course.name}}</h5></a></td>
-
-                        </tr>
-                        {% endfor %}
-    
-                    </tbody>
-                  </table>
+                <br>
+                <div class ="list-group list-box-frame">
+                  <a class = "list-group-item disabled list-box list-box-header">
+                    <div class="two-item">Course Name</div>
+                    <div class="two-item">Department and Number</div>
+                  </a>
+                    {% for course in courses: %}
+                    <a href="/student/tutor/application?course_id={{course.get('id')}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                      <div class="two-item">{{course.name}}</div>
+                      <div class="two-item">{{course.dept_course}}</div>
+                    </a>
+                    {% endfor %}
                 </div>
         </div>
 
