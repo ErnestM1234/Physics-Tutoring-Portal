@@ -1,6 +1,5 @@
 import json
 import os
-import string
 from dotenv import load_dotenv
 from app import app
 import requests
