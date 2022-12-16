@@ -27,12 +27,12 @@
 
             <br><br><br>
             {% if tutorship==None %}
-            <button><a href="/student/tutor/request?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Request tutor</a></button>
+            <a href="/student/tutor/request?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}"><button>Request tutor</button></a>
             {% else %}
                 {% if tutorship.get('status')=='REQUESTED' %}
-                <button><a href="/student/tutor/cancel?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Cancel tutorship request</a></button>
+                <a href="/student/tutor/cancel?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}"><button>Cancel tutorship request</button></a>
                 {% else %}
-                <button><a href="/student/tutor/dissolve?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}">Dissolve tutorship</a></button>
+                <a href="/student/tutor/dissolve?tutor_id={{tutor.get('id')}}&course_id={{course.get('id')}}"><button>Dissolve tutorship</button></a>
                 {% endif %}
             {% endif %}
 
