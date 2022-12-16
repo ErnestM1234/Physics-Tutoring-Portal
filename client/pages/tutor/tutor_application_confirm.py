@@ -39,7 +39,7 @@ def tutor_application_confirm():
         try:
             content = res.json()
             if str(content['message']) == 'Cannot create duplicate tutor_courses.':
-                session['error_message'] = 'You cannot apply for courses where you have a preexisting relationship.'
+                session['error_message'] = 'You have already applied to this course.'
                 return redirect('/error/')
         except:
             pass
