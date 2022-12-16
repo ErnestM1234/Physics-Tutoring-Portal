@@ -34,12 +34,12 @@
             <br>
 
             {% if course  %}
-                <h2 class="text-center"><strong>COURSE NAME: {{course.name}}</strong></h2>
+                <h2 class="text-center"><strong>Course: {{course.dept_course}}, {{course.name}}</strong></h2>
                 <h2 class="text-center"><a href="{{'/admin/courses/remove-course/?course_id=' + course.id | string}}">Delete course</a></h2>
             {% endif %}
             <br>
 
-            <h3><strong>Tutorships for {{course.name}}</strong></h3>
+            <h3><strong>Tutorships for {{course.dept_course}}</strong></h3>
 
     
 
@@ -47,7 +47,7 @@
               <a class = "list-group-item disabled list-box list-box-header">
                   <div class="four-item">Student Name</div>
                   <div class="four-item">Tutor Name</div>
-                  <div class="four-item">Course Name</div>
+                  <div class="four-item">Course Title</div>
                   <div class="four-item">Status</div>
                   <!--<div class="four-item">Action</div>-->
               </a>
@@ -68,15 +68,15 @@
             <br>
             <br>
 
-            <h3><strong>Tutors for {{course.name}}: </strong></h3>
+            <h3><strong>Tutors for {{course.dept_course}}: </strong></h3>
 
 
-            <h3>ACCEPTED TUTORS</h3>
+            <h3>Accepted tutors</h3>
     
             <div class ="list-group list-box-frame">
               <a class = "list-group-item disabled list-box list-box-header">
                   <div class="three-item">Tutor Name</div>
-                  <div class="three-item">Course Name</div>
+                  <div class="three-item">Course Title</div>
                   <div class="three-item">Student Count</div>
                   <!--<th class="bg-white" scope="col">Profile</th>-->
                   <!--<th class="bg-white" scope="col">Action</th>-->
@@ -95,12 +95,12 @@
 
           <br><br><br>
 
-          <h3>TUTOR REQUESTS</h3>
+          <h3>Tutor requests</h3>
   
           <div class ="list-group list-box-frame">
               <a class = "list-group-item disabled list-box list-box-header">
                   <div class="three-item">Tutor Name</div>
-                  <div class="three-item">Course Name</div>
+                  <div class="three-item">Course Title</div>
                   <div class="three-item">Student Count</div>
               </a>
               {% for tutor_request in tutor_requests %}

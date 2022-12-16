@@ -33,7 +33,7 @@
 
         <br><br><br>
         
-        <h3>Tutor for {{tutor_course.course.name}}</h3>
+        <h3>Tutor for {{tutor_course.course.dept_course}}: {{tutor_course.course.name}}</h3>
 
         <ul>
             <li>
@@ -42,6 +42,10 @@
 
             <li>
                 <strong>Course Name: </strong>{{tutor_course.course.name}}
+            </li>
+
+            <li>
+                <strong>Dept & Num: </strong>{{tutor_course.course.dept_course}}
             </li>
 
             <li>

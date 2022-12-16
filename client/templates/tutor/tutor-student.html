@@ -9,8 +9,16 @@
 
         <div>
             {% include '/components/student-dashboard-title.html' %}
-            <h1>{{student.get('name')}}, {{course.get('dept_course')}} student</h1>
+            <h1>{{student.get('name')}}</h1>
+            <h2>{{course.get('name')}}, {{course.get('dept_course')}} student</h2>
             <br><br><br>
+
+
+
+            <h2>Contact Info</h2>
+
+            Email: {{student.get('email')}}
+
 
             <br><br><br>
             {% if tutorship==None %}

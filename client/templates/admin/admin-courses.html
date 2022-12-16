@@ -18,21 +18,21 @@
 
             <br><br><br>
 
-            <h3>COURSES</h3>
+            <h3>All Courses</h3>
 
             <a href="/admin/courses/create-course">Add a new course</a><br>
     
             <div class ="list-group list-box-frame">
                 <a class = "list-group-item disabled list-box list-box-header">
+                    <div class="two-item">Course Title</div>
                     <div class="two-item">Department & Number</div>
-                    <div class="two-item">Name</div>
+
                     <!--<div class="three-item">Tutorships/Tutors</div>-->
                   </a>
                 {% for course in courses %}
                   <a href="{{'/admin/course/?course_id=' + course.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
-                    
-                    <div class="two-item">{{course.dept_course}}</div>
                     <div class="two-item">{{course.name}}</div>
+                    <div class="two-item">{{course.dept_course}}</div>
                     <!--<div class="three-item"><a href="{{'/admin/course/?course_id=' + course.id | string}}">Tutorships/Tutors</a></div>-->
                     <!--<td class="bg-white"><a href="{{'/admin/tutors/?course_id=' + course.id | string}}">Tutors</a></td>-->
                     <!--<td class="bg-white"><a href="{{'/admin/courses/remove-course/?course_id=' + course.id | string}}"><button>Remove</button></a></td>-->

@@ -22,24 +22,26 @@
                 <h3>COURSE NAME: {{course.name}}</h3>
             {% endif %}
 
-            <h3>TUTORSHIPS</h3>
+            <h3>Tutorships</h3>
 
             <a href="/admin/tutorships/create-tutorship">Manually add a new tutorship</a><br>
     
             <div class ="list-group list-box-frame">
               <a class = "list-group-item disabled list-box list-box-header">
-                  <div class="four-item">Student Name</div>
-                  <div class="four-item">Tutor Name</div>
-                  <div class="four-item">Course Name</div>
-                  <div class="four-item">Status</div>
+                  <div class="five-item">Student Name</div>
+                  <div class="five-item">Tutor Name</div>
+                  <div class="five-item">Course Title</div>
+                  <div class="five-item">Dept & Num</div>
+                  <div class="five-item">Status</div>
                   <!--<div class="four-item">Action</div>-->
               </a>
               {% for tutorship in tutorships %}
               <a href="{{'/admin/tutorship/?tutorship_id=' + tutorship.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
-                  <div class="four-item">{{tutorship.student.name}}</div>
-                  <div class="four-item">{{tutorship.tutor.name}}</div>
-                  <div class="four-item">{{tutorship.course.name}}</div>
-                  <div class="four-item">{{tutorship.status}}</div>
+                  <div class="five-item">{{tutorship.student.name}}</div>
+                  <div class="five-item">{{tutorship.tutor.name}}</div>
+                  <div class="five-item">{{tutorship.course.name}}</div>
+                  <div class="five-item">{{tutorship.course.dept_course}}</div>
+                  <div class="five-item">{{tutorship.status}}</div>
                   <!--<div class="four-item"><a href="{{'/admin/tutorships/remove-tutorship/?tutorship_id=' + tutorship.id | string}}"><button>Dissolve</button></a></div>-->
                 </a>
                     

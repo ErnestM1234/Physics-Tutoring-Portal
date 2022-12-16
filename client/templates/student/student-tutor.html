@@ -9,11 +9,20 @@
 
         <div>
             {% include '/components/student-dashboard-title.html' %}
-            <h1>{{tutor.get('name')}}, {{course.get('dept_course')}} tutor</h1>
+            <h1>{{tutor.get('name')}}</h1>
+            <h2>{{course.get('name')}}, {{course.get('dept_course')}} tutor</h2>
             <br><br><br>
 
-            <h2>Bio</h2>
+
+            <h2>Contact Info</h2>
+
+
+            Email: {{tutor.get('email')}}
+
             <br>
+            <br>
+
+            <h2>Bio</h2>
             {{tutor.get('bio')}}
 
             <br><br><br>
