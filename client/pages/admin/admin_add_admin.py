@@ -57,10 +57,18 @@ def add_admin():
         session['error_message'] = 'There is no provided user_id, or the user_id is invalid'
         return redirect('/error/')
 
+    # get user to become admin
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user_id}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+    user2 = res.json()
+
 
     return render_template(
         '/admin/admin-add-admin.html',
         user_id=user_id,
-        user=user
+        user=user,
+        user2=user2
     )
 
