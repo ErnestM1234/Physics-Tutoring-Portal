@@ -10,7 +10,7 @@ def get_user(requests):
     # get netid
     netid = session.get('username')
     if netid is None:
-        session['error_message'] = 'Login Failed'
+        session['error_message'] = 'Your session likely has expired due to inactivity. Please log in again.'
         abort(redirect('/error/'))
     
     # get user object
@@ -38,6 +38,6 @@ def get_header():
         }, os.environ['APP_SECRET_KEY'], algorithm="HS256")
     if netid is None:
         print('net id not found')
-        session['error_message'] = 'Login Failed'
+        session['error_message'] = 'Your session likely has expired due to inactivity. Please log in again.'
         abort(redirect('/error/'))
     return {"authorization": encoded_jwt}
