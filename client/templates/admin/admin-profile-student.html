@@ -48,15 +48,17 @@
     
             <div class ="list-group list-box-frame">
                 <a class = "list-group-item disabled list-box list-box-header">
-                    <div class="three-item">Tutor Name</div>
-                    <div class="three-item">Course Name</div>
-                    <div class="three-item">Status</div>
+                    <div class="four-item">Tutor Name</div>
+                    <div class="four-item">Course Title</div>
+                    <div class="four-item">Dept & Num</div>
+                    <div class="four-item">Status</div>
                 </a>
                 {% for tutorship in tutorships %}
                     <a class = "list-group-item disabled list-box no-gradient disabled">
-                        <div class="three-item">{{tutorship.tutor.name}}</div>
-                        <div class="three-item">{{tutorship.course.name}}</div>
-                        <div class="three-item">{{tutorship.status}}</div>
+                        <div class="four-item">{{tutorship.tutor.name}}</div>
+                        <div class="four-item">{{tutorship.course.name}}</div>
+                        <div class="four-item">{{tutorship.course.dept_course}}</div>
+                        <div class="four-item">{{tutorship.status}}</div>
                     </a>
                 {% endfor %}
             </div>

@@ -17,11 +17,10 @@
             <br>
               <div class="list-group list-box-frame">
                 <a class="list-group-item disabled list-box list-box-header">
-                  <div class="six-item">Course</div>
-                  <div class="six-item">Tutor name</div>
-                  <div class="six-item">Tutor netID</div>
-                  <div class="three-item">Tutor email</div>
-                  <div class="six-item">Status</div>
+                  <div class="four-item">Course Title</div>
+                  <div class="four-item">Dept & Num</div>
+                  <div class="four-item">Tutor name</div>
+                  <div class="four-item">Status</div>
                 </a>
 
                 {% if tutorships|length==0: %}
@@ -38,16 +37,15 @@
                 {% else %}
                 <a href="/student/tutor?tutor_id={{tutorship.get('tutor').get('id')}}&course_id={{tutorship.get('course').get('id')}}" class="list-group-item list-group-item-action no-gradient list-box">
                 {% endif %}
-                  <div class="six-item">{{tutorship.get('course').get('dept_course')}}</div>
-                  <div class="six-item">{{tutorship.get('tutor').get('name')}}</div>
-                  <div class="six-item">{{tutorship.get('tutor').get('netid')}}</div>
-                  <div class="three-item">{{tutorship.get('tutor').get('email')}}</div>
+                  <div class="four-item">{{tutorship.get('course').get('name')}}</div>
+                  <div class="four-item">{{tutorship.get('course').get('dept_course')}}</div>
+                  <div class="four-item">{{tutorship.get('tutor').get('name')}}</div>
                   {% if tutorship.get('status') == 'ACCEPTED' %}
-                  <div class="six-item" style="color: green;">{{tutorship.get('status')}}</div>
+                  <div class="four-item" style="color: green;">{{tutorship.get('status')}}</div>
                   {% elif tutorship.get('status') == 'REQUESTED' %}
-                  <div class="six-item" style="color: blue;">{{tutorship.get('status')}}</div>
+                  <div class="four-item" style="color: blue;">{{tutorship.get('status')}}</div>
                   {% else %}
-                  <div class="six-item">{{tutorship.get('status')}}</div>
+                  <div class="four-item">{{tutorship.get('status')}}</div>
                   {% endif %}
                 </a>
                 {% endfor %}
@@ -61,8 +59,9 @@
             <br>
               <div class="list-group list-box-frame">
                 <a class="list-group-item disabled list-box list-box-header">
-                  <div class="two-item">Course</div>
-                  <div class="two-item">Status</div>
+                  <div class="three-item">Course Title</div>
+                  <div class="three-item">Course Dept & Num</div>
+                  <div class="three-item">Status</div>
                 </a>
 
                 {% if tutor_courses|length==0: %}
@@ -73,11 +72,27 @@
 
                 {% for tutor_course in tutor_courses: %}
                 <a class="list-group-item disabled list-box">
-                  <div class="two-item">{{tutor_course.get('course').get('dept_course')}}</div>
-                  <div class="two-item">{{tutor_course.get('status')}}</div>
+                  <div class="three-item">{{tutor_course.get('course').get('name')}}</div>
+                  <div class="three-item">{{tutor_course.get('course').get('dept_course')}}</div>
+                  <div class="three-item">{{tutor_course.get('status')}}</div>
                 </a>
                 {% endfor %}
+
               </div>
+
+              <br>
+
+              <br>
+              <br>
+
+                <a class ='text-center' href="https://docs.google.com/document/d/1AEap71os06omSv-VOZF7_D9x_88VQcfZfyKliNpzHfk/edit?usp=sharing" target="_blank"><button>Student Policies</button></a>
+
+              
+
+
+
+
+
 
         </div>
         {% include "/components/student-sidebar-footer.html" %}

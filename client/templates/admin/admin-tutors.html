@@ -32,10 +32,29 @@
             <br><br><br>
 
             {% if course  %}
-                <h3>COURSE NAME: {{course.name}}</h3>
+                <h3>Course title: {{course.name}}</h3>
             {% endif %}
 
-            <h3>TUTORS</h3>
+            <h3>Tutor requests</h3>
+    
+            <div class ="list-group list-box-frame">
+                <a class = "list-group-item disabled list-box list-box-header">
+                    <div class="two-item">Tutor Name</div>
+                    <div class="two-item">Course Title</div>
+
+                </a>
+                {% for tutor_request in tutor_requests %}
+                    <a href="{{'/admin/tutor-course?tutor_course_id=' + tutor_request.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                        <div class="two-item">{{get_name(tutor_request.tutor_id)}}</div>
+                        <div class="two-item">{{tutor_request.course_name}}</div>
+                    </a>
+                {% endfor %}
+            </div>
+
+            <br><br><br>
+
+
+            <h3>All tutors</h3>
             <a href="/admin/create-tutor-course">Manually assign a tutor to a course</a><br>
 
             {% if tutors is not none %}
@@ -77,22 +96,7 @@
 
             <br><br><br>
 
-            <h3>TUTOR REQUESTS</h3>
-    
-            <div class ="list-group list-box-frame">
-                <a class = "list-group-item disabled list-box list-box-header">
-                    <div class="two-item">Tutor Name</div>
-                    <div class="two-item">Course Name</div>
-                </a>
-                {% for tutor_request in tutor_requests %}
-                    <a href="{{'/admin/tutor-course?tutor_course_id=' + tutor_request.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
-                        <div class="two-item">{{get_name(tutor_request.tutor_id)}}</div>
-                        <div class="two-item">{{tutor_request.course_name}}</div>
-                    </a>
-                {% endfor %}
-            </div>
 
-            <br><br><br>
 
 
             

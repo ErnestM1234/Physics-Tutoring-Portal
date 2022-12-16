@@ -21,9 +21,7 @@
 
                 <div class="list-group list-box-frame">
                   <a class="list-group-item disabled list-box list-box-header">
-                    <div class="three-item">Tutor name</div>
-                    <div class="three-item">Tutor email</div>
-                    <div class="three-item">Tutor netID</div>
+                    <div class="one-item">Tutor name</div>
                   </a>
   
                   {% if tutor_courses|length==0: %}
@@ -34,9 +32,7 @@
   
                   {% for tutor_course in tutor_courses: %}
                   <a href="/student/tutor?tutor_id={{tutor_course.get('tutor').get('id')}}&course_id={{course.get('id')}}" class="list-group-item list-group-item-action list-box no-gradient">
-                    <div class="three-item">{{tutor_course.get('tutor').get('name')}}</div>
-                    <div class="three-item">{{tutor_course.get('tutor').get('email')}}</div>
-                    <div class="three-item">{{tutor_course.get('tutor').get('netid')}}</div>
+                    <div class="one-item">{{tutor_course.get('tutor').get('name')}}</div>
                   </a>
                   {% endfor %}
                 </div>

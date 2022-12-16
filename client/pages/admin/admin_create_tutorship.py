@@ -25,7 +25,7 @@ def create_tutorship_confirm():
     student_id = request.form.get('student')
     tutor_id = request.form.get('tutor')
     course_id = request.form.get('course')
-    status = request.form.get('status')
+    status = 'ACCEPTED'
 
     if student_id is None or tutor_id is None or course_id is None or status is None:
         session['error_message'] = 'id field is missing'

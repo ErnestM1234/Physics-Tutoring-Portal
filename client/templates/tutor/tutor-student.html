@@ -9,18 +9,26 @@
 
         <div>
             {% include '/components/student-dashboard-title.html' %}
-            <h1>{{student.get('name')}}, {{course.get('dept_course')}} student</h1>
+            <h1>{{student.get('name')}}</h1>
+            <h2>{{course.get('name')}}, {{course.get('dept_course')}} student</h2>
             <br><br><br>
+
+
+
+            <h2>Contact Info</h2>
+
+            Email: {{student.get('email')}}
+
 
             <br><br><br>
             {% if tutorship==None %}
             <a class="submit-button" href="/tutor/student/request?tutor_id={{student.get('id')}}&course_id={{course.get('id')}}">Request tutor</a>
             {% else %}
                 {% if tutorship.get('status')=='REQUESTED' %}
-                <a class="submit-button" href="/tutor/student/accept?student_id={{student.get('id')}}&course_id={{course.get('id')}}">Accept tutorship request</a>
-                <a class="submit-button" href="/tutor/student/reject?student_id={{student.get('id')}}&course_id={{course.get('id')}}">Decline tutorship request</a>
+                <a href="/tutor/student/accept?student_id={{student.get('id')}}&course_id={{course.get('id')}}"><button>Accept tutorship request</button></a>
+                <a href="/tutor/student/reject?student_id={{student.get('id')}}&course_id={{course.get('id')}}"><button>Decline tutorship request</button></a>
                 {% else %}
-                <a class="submit-button"href="/tutor/student/dissolve?student_id={{student.get('id')}}&course_id={{course.get('id')}}">Dissolve tutorship</a>
+                <a href="/tutor/student/dissolve?student_id={{student.get('id')}}&course_id={{course.get('id')}}"><button>Dissolve tutorship</button></a>
                 {% endif %}
             {% endif %}
 

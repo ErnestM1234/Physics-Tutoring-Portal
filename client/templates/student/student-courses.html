@@ -18,8 +18,8 @@
 
               <div class="list-group list-box-frame">
                 <a class="list-group-item disabled list-box list-box-header">
-                  <div class="two-item">Department & number</div>
-                  <div class="two-item">Title</div>
+                  <div class="two-item">Course Title</div>
+                  <div class="two-item">Department & Number</div>
                 </a>
 
                 {% if courses|length==0: %}
@@ -30,8 +30,9 @@
 
                 {% for course in courses: %}
                 <a href="/student/course?id={{course.get('id')}}" class="list-group-item list-group-item-action list-box no-gradient">
-                  <div class="two-item">{{course.get('dept_course')}}</div>
                   <div class="two-item">{{course.get('name')}}</div>
+
+                  <div class="two-item">{{course.get('dept_course')}}</div>
                 </a>
                 {% endfor %}
               </div>

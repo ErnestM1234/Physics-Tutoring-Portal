@@ -19,7 +19,7 @@
 
             <br><br><br>
 
-            <h3>AGGREGATE STATISTICS</h3>
+            <h3>Aggregate statistics</h3>
             <div class="stats-wrapper">
               <div class="stats-block">
                 <div class="stats-stats">
@@ -45,17 +45,19 @@
             <br>
             <br>
 
-            <h3>COURSE STATISTICS</h3>
+            <h3>Course statistics</h3>
 
             <div class ="list-group list-box-frame">
               <a class = "list-group-item disabled list-box list-box-header">
-                  <div class="four-item">Courses</div>
+                  <div class="four-item">Course Title</div>
+                  <div class="four-item">Dept & Num</div>
                   <div class="four-item">Approved Tutors</div>
                   <div class="four-item">Tutees</div>
               </a>
               {% for course in courses %}
                   <a href="{{'/admin/course/?course_id=' + course.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
                     <div class="four-item">{{course.name}}</div>
+                    <div class="four-item">{{course.dept_course}}</div>
                     <div class="four-item">{{approved_tutors_count[loop.index0]}}</div>
                     <div class="four-item">{{tutees_count[loop.index0]}}</div>
                   </a>
