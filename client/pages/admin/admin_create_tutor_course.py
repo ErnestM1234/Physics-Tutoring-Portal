@@ -46,6 +46,14 @@ def create_tutor_course_confirm():
 
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/create'), data=json.dumps(data), headers=headers)
     if res.status_code != 200:
+        if res.content and isinstance(res.content, bytes):
+            if res.content == b'{"message":"Cannot create duplicate tutor_courses."}\n':
+                session['error_message'] = "You cannot assign this tutor to this course because this tutor already has a relationship with this course."
+                return redirect('/error/')
+            else:
+                print(str(res.content))
+                session['error_message'] = "An error has occured. Please check that the provided information is valid."
+                return redirect('/error/')
         session['error_message'] = str(res.content)
         return redirect('/error/')
 

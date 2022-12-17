@@ -33,22 +33,25 @@ def tutor_application_confirm():
 
 
 
-    # create relationship btwn tutor and course
-    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/create/'), data=json.dumps(data), headers=headers)
-    if res.status_code != 200:
-        try:
-            content = res.json()
-            if str(content['message']) == 'Cannot create duplicate tutor_courses.':
-                session['error_message'] = 'You have already applied to this course.'
-                return redirect('/error/')
-        except:
-            pass
-        session['error_message'] = str(res.content)
-        return redirect('/error/')
-
     # mark student as a tutor
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps({'id': str(user['id']), 'is_tutor': True}), headers=headers)
     if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+
+    
+    # create relationship btwn tutor and course
+    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/create/'), data=json.dumps(data), headers=headers)
+    if res.status_code != 200:
+        if res.content and isinstance(res.content, bytes):
+            if res.content == b'{"message":"Cannot create duplicate tutor_courses."}\n':
+                session['error_message'] = "You have already applied to this coures."
+                return redirect('/error/')
+            else:
+                print(str(res.content))
+                session['error_message'] = "An error has occured. Please check that the provided information is valid."
+                return redirect('/error/')
+       
         session['error_message'] = str(res.content)
         return redirect('/error/')
 

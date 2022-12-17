@@ -50,6 +50,15 @@ def create_tutorship_confirm():
 
     res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutorship/create/'), data=json.dumps(data), headers=headers)
     if res.status_code != 200:
+        if res.content and isinstance(res.content, bytes):
+            if res.content == b'{"message":"Cannot create duplicate tutorships."}\n':
+                session['error_message'] = "This tutorship already exists."
+                return redirect('/error/')
+            else:
+                print(str(res.content))
+                session['error_message'] = "An error has occured. Please check that the provided information is valid."
+                return redirect('/error/')
+
         session['error_message'] = str(res.content)
         return redirect('/error/')
 
