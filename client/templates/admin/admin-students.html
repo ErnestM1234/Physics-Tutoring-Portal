@@ -67,12 +67,14 @@
             <div class ="list-group list-box-frame">
                 <a class = "list-group-item disabled list-box list-box-header">
                     <div class="two-item">Name</div>
+                    <div class="two-item">Email</div>
                     <div class="two-item">Netid</div>
                 </a>
 
                 {% for student in students %}
                     <a href="{{'/admin/student-profile/?student_id=' + student.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
                         <div class="two-item">{{student.name}}</div>
+                        <div class="two-item">{{student.email}}</div>
                         <div class="two-item">{{student.netid}}</div>
                     </a>
                 {% endfor %}

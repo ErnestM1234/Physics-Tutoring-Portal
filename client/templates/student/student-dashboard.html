@@ -20,6 +20,7 @@
                   <div class="four-item">Course Title</div>
                   <div class="four-item">Dept & Num</div>
                   <div class="four-item">Tutor name</div>
+                  <div class="four-item">Tutor Email</div>
                   <div class="four-item">Status</div>
                 </a>
 
@@ -40,6 +41,7 @@
                   <div class="four-item">{{tutorship.get('course').get('name')}}</div>
                   <div class="four-item">{{tutorship.get('course').get('dept_course')}}</div>
                   <div class="four-item">{{tutorship.get('tutor').get('name')}}</div>
+                  <div class="four-item">{{tutorship.get('tutor').get('email')}}</div>
                   {% if tutorship.get('status') == 'ACCEPTED' %}
                   <div class="four-item" style="color: green;">{{tutorship.get('status')}}</div>
                   {% elif tutorship.get('status') == 'REQUESTED' %}
