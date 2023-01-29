@@ -144,7 +144,7 @@ def login():
         data = {
             "netid": netid,
             "name" : user_info["name"],
-            "email": user_info["mail"],
+            "email": (str(user_info["mail"])).lower(),
         }
         res = requests.post(
             url = str(os.environ['API_ADDRESS']+'/api/user/create/'),

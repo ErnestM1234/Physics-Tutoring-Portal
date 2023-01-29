@@ -23,12 +23,14 @@
             <div class ="list-group list-box-frame">
                 <a class = "list-group-item disabled list-box list-box-header">
                     <div class="two-item">Name</div>
+                    <div class="two-item">Email</div>
                     <div class="two-item">NetId</div>
                 </a>
 
                 {% for admin in admins %}
                     <a href="{{'/admin/remove-admin/?user_id=' + admin.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
                         <div class="two-item">{{admin.name}}</div>
+                        <div class="two-item">{{admin.email}}</div>
                         <div class="two-item">{{admin.netid}}</div>
                     </a>
                 {% endfor %}

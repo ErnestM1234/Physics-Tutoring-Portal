@@ -49,7 +49,7 @@ def tutor_application_confirm():
                 return redirect('/error/')
             else:
                 print(str(res.content))
-                session['error_message'] = "An error has occured. Please check that the provided information is valid."
+                session['error_message'] = "An error has occurred. Please check that the provided information is valid."
                 return redirect('/error/')
        
         session['error_message'] = str(res.content)
