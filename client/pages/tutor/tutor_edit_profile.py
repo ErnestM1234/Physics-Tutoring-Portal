@@ -8,7 +8,7 @@ from pages.shared.get_user import *
 
 load_dotenv()
 
-@app.route('/tutor/editbio')
+@app.route('/tutor/edit-profile')
 def editBio():
     # verify is tutor
     user = get_user(requests)
@@ -27,5 +27,5 @@ def editBio():
     tutor = res.json()
 
     return render_template(
-        '/tutor/tutor-editbio.html', tutor=tutor, user=user
+        '/tutor/tutor-edit-profile.html', tutor=tutor, user=user
     )

@@ -57,6 +57,9 @@
             <li>
                 <strong>Status:</strong> {{tutor_course.status}}
             </li>
+            <li>
+                <strong>PUID:</strong> {{tutor.puid}}
+            </li>
                 {% if tutor_course.status == 'ACCEPTED' %}
                     <!-- <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Revoke</button> -->
                     <form action="/admin/tutors/update-tutor" method="GET">

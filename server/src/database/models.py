@@ -13,6 +13,7 @@ class Users(db.Model):
     name = db.Column('name',db.String(100),nullable=False)
     email = db.Column('email',db.String(50),unique=True,nullable=False)
     bio = db.Column('bio',db.String(500),nullable=True)
+    puid = db.Column('puid',db.String())
 
     is_student = db.Column('is_student',db.Boolean,default=True)
     is_tutor = db.Column('is_tutor',db.Boolean,default=False)
@@ -29,6 +30,7 @@ class Users(db.Model):
         self.is_student = is_student
         self.is_tutor = is_tutor
         self.is_admin = is_admin
+        self.puid = '',
 
 
     def __repr__(self):
@@ -46,6 +48,7 @@ class Users(db.Model):
             'is_student': self.is_student,
             'is_tutor': self.is_tutor,
             'is_admin': self.is_admin,
+            'puid': self.puid,
         }
 
 

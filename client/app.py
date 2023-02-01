@@ -105,8 +105,8 @@ from pages.tutor.tutor_dashboard import*
 from pages.tutor.tutor_courses import*
 from pages.tutor.tutor_application import*
 from pages.tutor.tutor_application_confirm import*
-from pages.tutor.tutor_editbio import*
-from pages.tutor.tutor_editbio_confirm import*
+from pages.tutor.tutor_edit_profile import*
+from pages.tutor.tutor_edit_profile_confirm import*
 from pages.tutor.tutor_student_accept_confirm import*
 from pages.tutor.tutor_student_accept import*
 from pages.tutor.tutor_student_dissolve_confirm import*

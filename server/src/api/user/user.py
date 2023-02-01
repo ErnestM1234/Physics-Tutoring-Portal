@@ -176,6 +176,7 @@ Parameters:
     - is_student  (boolean)?
     - is_tutor    (boolean)?
     - is_admin    (boolean)?
+    - puid        (string)?
 """
 class UpdateUserInputSchema(Schema):
     id = fields.String(required=True)
@@ -186,6 +187,7 @@ class UpdateUserInputSchema(Schema):
     is_student = fields.Boolean()
     is_tutor = fields.Boolean()
     is_admin = fields.Boolean()
+    puid = fields.String()
 update_user_input_schema = UpdateUserInputSchema()
 
 @app.route('/api/user/update/', methods=['POST'])
@@ -217,6 +219,8 @@ def  update_user():
             user.is_tutor = data.get('is_tutor')
         if data.get('is_admin') not in [None, '']:
             user.is_admin = data.get('is_admin')
+        if data.get('puid') not in [None, '']:
+            user.puid = data.get('puid')
         db.session.commit()
         return {"message": "success" }, 200
     except Exception as e:
