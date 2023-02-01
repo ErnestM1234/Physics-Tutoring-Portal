@@ -20,19 +20,8 @@
             <br>
 
             <form action = "/tutor/application/confirm" method = "POST">
-
-            <!--
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Choose the class you would like to become a tutor for:</label>
-                <select class="form-control" name="course_id" id="exampleFormControlSelect1">
-                  {% for course in courses: %}
-                    <option value="{{course.id}}">{{course.name}}</option>
-                  {% endfor %}
-                </select>
-              </div>
-
-            -->
               <br>
+              <!-- Enrollment Status -->
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Have you taken {{course.name}}?</label>
                 <select class="form-control" name ="taken_course" id="exampleFormControlSelect1">
@@ -42,11 +31,13 @@
                 </select>
               </div>
               <br>
+              <!-- Experience -->
               <div class="form-group">
                 <label for="exampleFormControlTextarea1">Brief description of experience with the subject:</label>
                 <textarea name="experience" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
               </div>
               <br>
+              <!-- Policies -->
               <a href="https://docs.google.com/document/d/1JIH6_cUSozt7KLOcld7FoW4Zs5U5atYPmVb5JyhhKrU/edit?usp=sharing" target="_blank">Tutoring Policies</a>
               <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="exampleCheck1" required>

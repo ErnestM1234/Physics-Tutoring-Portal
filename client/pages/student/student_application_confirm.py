@@ -23,6 +23,7 @@ def student_tutor_application_confirm():
     course_id = request.form.get('course_id')
     taken_course = request.form.get('taken_course')
     experience = request.form.get('experience')
+    puid = request.form.get('puid')
 
    
     data = {
@@ -33,8 +34,14 @@ def student_tutor_application_confirm():
         'status': 'REQUESTED'
     }
 
+    # make sure puid is an int
+    MAX_PUID_NUM = 1000000000
+    if puid is None or not puid.isdigit() or int(puid) > MAX_PUID_NUM:
+        session['error_message'] = 'invalid puid'
+        return redirect('/error/')
+
     # mark student as a tutor
-    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps({'id': str(user['id']), 'is_tutor': True}), headers=headers)
+    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/user/update/'), data=json.dumps({'id': str(user['id']), 'is_tutor': True, 'puid': puid}), headers=headers)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')

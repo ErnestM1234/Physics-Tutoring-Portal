@@ -48,7 +48,6 @@ def tutor_application_confirm():
                 session['error_message'] = "You have already applied to this coures."
                 return redirect('/error/')
             else:
-                print(str(res.content))
                 session['error_message'] = "An error has occurred. Please check that the provided information is valid."
                 return redirect('/error/')
        

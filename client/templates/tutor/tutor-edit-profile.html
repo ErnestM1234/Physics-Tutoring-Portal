@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Edit Bio</title>
+      <title>Edit Profile</title>
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -15,12 +15,7 @@
         <div>
           {% include '/components/tutor-dashboard-title.html' %}
             <br>
-            <h1>My tutor bio</h1>
-
-            <br>
-
-
-            <p> {{tutor.bio}}</p>
+            <h1>My tutor profile</h1>
 
             <hr style="height: 3px;">
 
@@ -33,11 +28,20 @@
             <form action = "/tutor/editbio/confirm" method = "POST">
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1"><h5>Edit bio</h5></label>
-                    <textarea class="form-control" name="bio" rows="5"></textarea>
-                    <input type = "submit" > 
+                    <textarea class="form-control" name="bio" rows="5">{{tutor.bio}}</textarea>
+                    <input type = "submit" value="Save" > 
                     <input type = "hidden" name = "tutor_id" value = "{{tutor.id}}">
                 </div>
             </form>
+
+            <form action = "/tutor/editpuid/confirm" method = "POST">
+              <div class="form-group">
+                  <label for="exampleFormControlTextarea1"><h5>Edit PUID</h5></label>
+                  <input class="form-control" type="text" value="{{tutor.puid}}" name="puid">
+                  <input type = "submit" value="Save"> 
+                  <input type = "hidden" name = "tutor_id" value = "{{tutor.id}}">
+              </div>
+          </form>
 
   
     
