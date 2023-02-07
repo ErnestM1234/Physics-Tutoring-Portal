@@ -4,6 +4,7 @@ from flask import jsonify, request
 from src.utils.auth import requires_auth
 from src.database.models import Tutorships, TutorCourses, Users
 from marshmallow import Schema, fields
+from src.services.gmail_service import send_tutorship_request_email
 
 
 """ GET /api/tutorship/
@@ -146,16 +147,24 @@ def create_tutorship():
         filters.append(Tutorships.student_id == student_id)
         filters.append(Tutorships.tutor_id == tutor_id)
         filters.append(Tutorships.course_id == course_id)
-
         duplicate_tutorship = Tutorships.query.filter(*filters).first()
-
-        if duplicate_tutorship is None:
-            tutorship = Tutorships(status, student_id, tutor_id, course_id)
-            db.session.add(tutorship)
-            db.session.commit()
-            return {"message": "success" }, 200
-        else:
+        if duplicate_tutorship is not None:
             return {"message": "Cannot create duplicate tutorships."}, 400
+
+        # create tutorship in database
+        tutorship = Tutorships(status, student_id, tutor_id, course_id)
+        db.session.add(tutorship)
+        db.session.commit()
+
+        # send email notification
+        if data.get('status') not in [None, ''] and data.get('status') == 'REQUESTED':
+            try:
+                tutor = tutor.serialize()
+                send_tutorship_request_email(tutor['email'])
+            except Exception as e:
+                print("email sending failed: " + str(e))
+        
+        return {"message": "success" }, 200
     except Exception as e:
         print(str(e))
         return {"error": str(e)}, 400
@@ -217,6 +226,22 @@ def  update_tutorship():
             tutorship.course_id = data.get('course_id')
 
         db.session.commit()
+
+        if data.get('status') not in [None, ''] and data.get('status') == 'REQUESTED':
+            try:
+                # get tutor
+                tutor_id = tutorship.tutor_id
+                tutor = Users.query.filter(Users.id == tutor_id).first()
+                if tutor is None:
+                    raise Exception("Tutor with id: " + str(tutor_id) + " cannot be found!")
+                tutor = tutor.serialize()
+
+                # send email
+                send_tutorship_request_email(tutor.email)
+            except Exception as e:
+                print("email sending failed: " + str(e))
+
+
         return {"message": "success" }, 200
     except Exception as e:
         print(str(e))
