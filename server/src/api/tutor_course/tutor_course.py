@@ -2,7 +2,7 @@ import json
 from app import app, db
 from flask import jsonify, request
 from marshmallow import Schema, fields
-from src.database.models import TutorCourses, Users
+from src.database.models import TutorCourses, Users, Courses
 
 
 """ GET /api/tutor_course/
@@ -67,6 +67,67 @@ def get_tutor_courses():
 
         tutor_courses = TutorCourses.query.filter(*filters).all()
         return jsonify([tutor_course.serialize() for tutor_course in tutor_courses ])
+   
+    except Exception as e:
+        print(str(e))
+        return {"error": str(e)}, 400
+
+
+""" GET /api/tutor_courses/deep/
+Parameters:
+    - tutor_id (int)?
+    - course_id (int)?
+    - status (string)?
+"""
+class GetTutorCoursesDeepInputSchema(Schema):
+    tutor_id = fields.Integer()
+    course_id = fields.Integer()
+    status = fields.String()
+get_tutor_courses_deep_input_schema = GetTutorCoursesDeepInputSchema()
+
+@app.route('/api/tutor_courses/deep/', methods=['GET']) 
+def get_tutor_courses_deep():
+    errors = get_tutor_courses_deep_input_schema.validate(request.args)
+    if errors:
+        print(str(errors))
+        return {"message": str(errors) }, 400
+
+    try:
+        tutor_id = request.args.get('tutor_id')
+        course_id = request.args.get('course_id')
+        status = request.args.get('status')
+
+        filters = []
+        if tutor_id:
+            filters.append(TutorCourses.tutor_id == tutor_id)
+        if course_id:
+            filters.append(TutorCourses.course_id == course_id)
+        if status:
+            filters.append(TutorCourses.status == status)
+
+        result = TutorCourses.query.filter(*filters).all()
+        tutor_courses = [tutor_course.serialize() for tutor_course in result]
+        # get courses and tutors
+        for tutor_course in tutor_courses:
+            # get user
+            try:
+                user = Users.query.filter(Users.id == tutor_course['tutor_id']).first()
+                if user is not None:
+                    tutor_course['tutor'] = user.serialize()
+            except Exception as e:
+                print("Failed to query user for /api/tutor_courses/deep/")
+                print("Exception:" + e)
+
+            # get course
+            try:
+                course = Courses.query.filter(Courses.id == tutor_course['course_id']).first()
+                if course is not None:
+                        tutor_course['course'] = course.serialize()
+            except Exception as e:
+                print("Failed to query course for /api/tutor_courses/deep/")
+                print("Exception:" + e)
+
+        return jsonify(tutor_courses)
    
     except Exception as e:
         print(str(e))
