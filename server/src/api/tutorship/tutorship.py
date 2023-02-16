@@ -89,6 +89,59 @@ def get_tutorships():
 
 
 
+
+""" GET /api/tutorships/count
+Parameters:
+    - id            (int)?
+    - status        (str)?
+    - student_id    (int)?
+    - tutor_id      (int)?
+    - course_id      (int)?
+"""
+class GetTutorshipsCountInputSchema(Schema):
+    id = fields.Integer()
+    status = fields.String()
+    student_id = fields.Integer()
+    tutor_id = fields.Integer()
+    course_id = fields.Integer()
+get_tutorships_count_input_schema = GetTutorshipsCountInputSchema()
+
+@app.route('/api/tutorships/count', methods=['GET'])
+@requires_auth
+def get_tutorship_count():
+    errors = get_tutorships_count_input_schema.validate(request.args)
+    if errors:
+        print(str(errors))
+        return {"message": str(errors) }, 400
+    
+    try:
+        id = request.args.get('id')
+        status = request.args.get('status')
+        student_id = request.args.get('student_id')
+        tutor_id = request.args.get('tutor_id')
+        course_id = request.args.get('course_id')
+
+        filters = []
+        if id:
+            filters.append(Tutorships.id == id)
+        if status:
+            filters.append(Tutorships.status == status)
+        if student_id:
+            filters.append(Tutorships.student_id == student_id)
+        if tutor_id:
+            filters.append(Tutorships.tutor_id == tutor_id)
+        if course_id:
+            filters.append(Tutorships.course_id == course_id)
+
+        tutorship_count = Tutorships.query.filter(*filters).count()
+        return jsonify({"count": tutorship_count})
+    except Exception as e:
+        print(str(e))
+        return {"error": str(e)}, 400
+
+
+
+
 """ POST /api/tutorship/create
 Parameters:
     - status        (str)!

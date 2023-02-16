@@ -1,7 +1,7 @@
 from app import app, db, context
 from flask import jsonify, request
-from src.database.models import Users
-from marshmallow import Schema, fields
+from src.database.models import Users, Tutorships
+from marshmallow import Schema, fields, validates, ValidationError
 import json
 from src.utils.auth import requires_auth
 
@@ -67,11 +67,11 @@ def get_user_auth():
 
 """ GET /api/users/
 Parameters:
-    - netid        (str)?
-    - email        (str)?
-    - is_student   (bool)?
-    - is_tutor     (bool)?
-    - is_admin     (bool)?
+    - netid             (str)?
+    - email             (str)?
+    - is_student        (bool)?
+    - is_tutor          (bool)?
+    - is_admin          (bool)?
 """
 class GetUsersInputSchema(Schema):
     id = fields.Integer()
@@ -124,6 +124,63 @@ def get_users():
 
 
 
+
+
+""" GET /api/users/tutorship_count/
+Parameters:
+    - ids           (str)?
+    - status        (str)?
+    - student_id    (int)?
+    - tutor_id      (int)?
+    - course_id     (int)?
+"""
+class GetTutorTutorshipCountInputSchema(Schema):
+    ids = fields.List(fields.String)
+    status = fields.String()
+    student_id = fields.Integer()
+    tutor_id = fields.Integer()
+    course_id = fields.Integer()
+
+get_tutor_tutorship_count_input_schema = GetTutorTutorshipCountInputSchema()
+
+@app.route('/api/users/tutorship_count', methods=['GET'])
+@requires_auth
+def get_users_tutorship_count():
+    # Not an amazing solution, but will have to do for now
+    args = request.args.to_dict()
+    args["ids"] = request.args.getlist("ids")
+    errors = get_tutor_tutorship_count_input_schema.validate(args)
+    if errors:
+        print(str(errors))
+        return {"message": str(errors) }, 400
+
+    try:
+        ids = request.args.getlist('ids')
+        status = request.args.get('status')
+        student_id = request.args.get('student_id')
+        tutor_id = request.args.get('tutor_id')
+        course_id = request.args.get('course_id')
+
+        filters = []
+        if status:
+            filters.append(Tutorships.status == status)
+        if student_id:
+            filters.append(Tutorships.student_id == student_id)
+        if tutor_id:
+            filters.append(Tutorships.tutor_id == tutor_id)
+        if course_id:
+            filters.append(Tutorships.course_id == course_id)
+
+        counts = {}
+        for id in ids:
+            copy = filters.copy()
+            copy.append(Tutorships.tutor_id == id)
+            counts[id] = Tutorships.query.filter(*copy).count()
+
+        return jsonify(counts)
+    except Exception as e:
+        print(str(e))
+        return {"error": str(e)}, 400
 
 """ POST /api/user/create/
 Parameters:

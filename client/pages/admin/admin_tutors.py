@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import json
 import os
 from dotenv import load_dotenv
@@ -67,102 +68,66 @@ def admin_tutors():
 
     # param validation
     course_id = request.args.get('course_id')
-    tutor_course_params = {}
-    tutors = None
     if course_id is not None:
         if course_id.isnumeric() and int(float(course_id)) >= 0:
-            tutor_course_params['course_id'] = int(float(course_id))
             course_id = int(float(course_id))
         else:
             session['error_message'] = "You have supplied an incorrect course id"
             return redirect('/error/')
-    else:
-        # get tutors
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/'), params={'is_tutor': True}, headers=headers)
+
+
+    # get course if course_id is supplied
+    course = None
+    if course_id:
+        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={"id": str(course_id)}, headers=headers)
         if res.status_code != 200:
             session['error_message'] = str(res.content)
             return redirect('/error/')
-        tutors = res.json()
-        for tutor in tutors:
-            params = {
-                "tutor_id": tutor['id'],
-                "status": 'ACCEPTED',
-            }
-            res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params=params, headers=headers)
-            if res.status_code != 200:
-                session['error_message'] = str(res.content)
-                return redirect('/error/')
-            tutorships = res.json()
-            tutor['tutorship_count'] = len(tutorships)
+        course = res.json()
 
-    
-    # get tutor_courses
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params=tutor_course_params, headers=headers)
+    # get tutor_courses (deep) (this means include course and tutor)
+    tutor_course_params = {}
+    if course_id is not None:
+        tutor_course_params['course_id'] = course_id
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/deep/'), params=tutor_course_params, headers=headers)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
     tutor_courses = res.json()
 
-    for tutor_course in tutor_courses:
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutor_course['course_id']}, headers=headers)
-        if res.status_code != 200:
-            session['error_message'] = str(res.content)
-            return redirect('/error/')
-        course2 = res.json()
-        course2_name = course2['name']
-        tutor_course['course_name']= course2_name
-
-        # get tutor_courses
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutor_course['tutor_id']}, headers=headers)
-        if res.status_code != 200:
-            session['error_message'] = str(res.content)
-            return redirect('/error/')
-        tutor = res.json()
-        tutor_course['tutor'] = tutor
-
-
+    # get list of accepted tutor courses
     approved_tutor_courses = list(filter(lambda _tutor_course: _tutor_course['status'] == 'ACCEPTED', tutor_courses))
-
-
-    student_count = []
-    # todo: make a specific endpoint for this
-    for tutor_course in approved_tutor_courses:
-        if course_id is not None:
-            params = {
-                "tutor_id": tutor_course['tutor_id'],
-                "course_id": course_id,
-                "status": 'ACCEPTED',
-            }
-        else:
-            params = {
-                "tutor_id": tutor_course['tutor_id'],
-                "status": 'ACCEPTED',
-            }
-        
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params=params, headers=headers)
-        if res.status_code != 200:
-            session['error_message'] = str(res.content)
-            return redirect('/error/')
-        tutorships = res.json()
-        # student_count.append(len(tutorships))
-        tutor_course['tutorship_count'] = len(tutorships)
-        
-
-
-
-
-
+    # get list of tutor_course requests
     tutor_requests = list(filter(lambda tutor_course: tutor_course['status'] == 'REQUESTED', tutor_courses))
-    denied_tutors = list(filter(lambda tutor_course: tutor_course['status'] == 'DENIED', tutor_courses))
+
+    # get a list of approved tutors (associated with the given course)
+    approved_tutors = [approved_tutor_course["tutor"] for approved_tutor_course in approved_tutor_courses]
+    approved_tutors = [dict(t) for t in {tuple(d.items()) for d in approved_tutors}] # remove duplicates
+
+
+    # get counts for accepted tutorships (requested/denied tutors have counts = 0)
+    tutorship_count_params = {
+        "ids": [tutor['id'] for tutor in approved_tutors],
+        "status": 'ACCEPTED',
+    }
+    if course_id is not None:
+        tutorship_count_params['course_id'] = course_id
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/users/tutorship_count'), params=tutorship_count_params, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+    counts = res.json()
+    for tutor in approved_tutors:
+        tutor["tutorship_count"] = counts[str(tutor['id'])]
 
 
     return render_template(
         '/admin/admin-tutors.html',
+        course=course,
         user=user,
         approved_tutor_courses = approved_tutor_courses, 
         tutor_requests=tutor_requests, 
         get_name = get_name, 
-        student_count = student_count,
-        tutors=tutors
+        tutors=approved_tutors
     )
 

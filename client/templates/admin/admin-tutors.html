@@ -45,8 +45,9 @@
                 </a>
                 {% for tutor_request in tutor_requests %}
                     <a href="{{'/admin/tutor-course?tutor_course_id=' + tutor_request.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
-                        <div class="two-item">{{get_name(tutor_request.tutor_id)}}</div>
-                        <div class="two-item">{{tutor_request.course_name}}</div>
+                        <!-- <div class="two-item">{{get_name(tutor_request.tutor_id)}}</div> -->
+                        <div class="two-item">{{tutor_request.tutor.name}}</div>
+                        <div class="two-item">{{tutor_request.course.name}}</div>
                     </a>
                 {% endfor %}
             </div>
@@ -97,30 +98,6 @@
 
 
             <br><br><br>
-
-
-
-
-            
-<!-- 
-
-            <h3>DENIED TUTORS</h3>
-    
-            <div class ="list-group list-box-frame">
-                <a class = "list-group-item disabled list-box list-box-header">
-                    <div class="three-item">Tutor Name</div>
-                    <div class="three-item">Course Name</div>
-                    <div class="three-item">Student Count</div>
-                  </a>
-                {% for denied_tutor in denied_tutors %}
-                    <a href="{{'/admin/tutor-profile/?tutor_id=' + denied_tutor.tutor_id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
-                        <div class="three-item">{{get_name(denied_tutor.tutor_id)}}</div>
-                        <div class="three-item">{{denied_tutor.course_name}}</div>
-                        <div class="three-item">{{student_count[loop.index0]}}</div>
-                    </a>
-                {% endfor %}
-              </table>
-            </div> -->
 
            
 
