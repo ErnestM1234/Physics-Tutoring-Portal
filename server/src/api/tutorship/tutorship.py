@@ -225,9 +225,9 @@ def create_tutorship():
                 if data.get('status') == 'REQUESTED':
                     send_tutorship_request_email(tutor['email'], student['name'], course['name'])
                 elif data.get('status') == 'ACCEPTED':
-                    send_tutorship_accept_email(tutor['email'], tutor['name'], course['name'])
+                    send_tutorship_accept_email(student['email'], tutor['name'], course['name'])
                 elif data.get('status') == 'REJECTED':
-                    send_tutorship_deny_email(tutor['email'], tutor['name'], course['name'])
+                    send_tutorship_deny_email(student['email'], tutor['name'], course['name'])
             except Exception as e:
                 print("email sending failed: " + str(e))
 
@@ -302,7 +302,7 @@ def  update_tutorship():
         student = Users.query.filter(*filters).first()
         if student is None:
             return {"message": "Given student id must be a student."}, 400
-        studnet = student.serialize()
+        student = student.serialize()
 
         # get tutor
         filters = []
@@ -327,9 +327,9 @@ def  update_tutorship():
                 if data.get('status') == 'REQUESTED':
                     send_tutorship_request_email(tutor['email'], student['name'], course['name'])
                 elif data.get('status') == 'ACCEPTED':
-                    send_tutorship_accept_email(tutor['email'], tutor['name'], course['name'])
+                    send_tutorship_accept_email(student['email'], tutor['name'], course['name'])
                 elif data.get('status') == 'REJECTED':
-                    send_tutorship_deny_email(tutor['email'], tutor['name'], course['name'])
+                    send_tutorship_deny_email(student['email'], tutor['name'], course['name'])
             except Exception as e:
                 print("email sending failed: " + str(e))
 

@@ -71,21 +71,21 @@ def send_tutorship_request_email(tutor_email, student_name, course_name):
     _send_email(tutor_email, subject, body)
 
 # sends notification to student about request accept
-def send_tutorship_accept_email(tutor_email, tutor_name, course_name):
+def send_tutorship_accept_email(student_email, tutor_name, course_name):
     # validate input
-    if _validate_email_message_information(tutor_email, tutor_name, course_name):
+    if _validate_email_message_information(student_email, tutor_name, course_name):
         return
     # send email
     subject = REQUEST_ACCEPT_SUBJECT
     body = REQUEST_ACCEPT_BODY.format(tutor_name=tutor_name, course_name=course_name)
-    _send_email(tutor_email, subject, body)
+    _send_email(student_email, subject, body)
 
 # sends notification to student about request deny
-def send_tutorship_deny_email(tutor_email, tutor_name, course_name):
+def send_tutorship_deny_email(student_email, tutor_name, course_name):
     # validate input
-    if _validate_email_message_information(tutor_email, tutor_name, course_name):
+    if _validate_email_message_information(student_email, tutor_name, course_name):
         return
     # send email
     subject = REQUEST_DENY_SUBJECT
     body = REQUEST_DENY_BODY.format(tutor_name=tutor_name, course_name=course_name)
-    _send_email(tutor_email, subject, body)
+    _send_email(student_email, subject, body)
