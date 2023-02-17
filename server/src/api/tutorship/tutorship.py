@@ -2,9 +2,9 @@ import json
 from app import app, db
 from flask import jsonify, request
 from src.utils.auth import requires_auth
-from src.database.models import Tutorships, TutorCourses, Users
+from src.database.models import Tutorships, TutorCourses, Users, Courses
 from marshmallow import Schema, fields
-from src.services.gmail_service import send_tutorship_request_email
+from src.services.gmail_service import send_tutorship_request_email, send_tutorship_accept_email, send_tutorship_deny_email
 
 
 """ GET /api/tutorship/
@@ -186,6 +186,13 @@ def create_tutorship():
         if tutor is None:
             return {"message": "Given tutor id must be a tutor."}, 400
 
+        
+        filters = []
+        filters.append(Courses.id == course_id)
+        course = Courses.query.filter(*filters).first()
+        if course is None:
+            return {"message": "Given course must exist."}, 400
+
         # check that tutor_course has been approved
         filters = []
         filters.append(TutorCourses.tutor_id == tutor_id)
@@ -210,13 +217,20 @@ def create_tutorship():
         db.session.commit()
 
         # send email notification
-        if data.get('status') not in [None, ''] and data.get('status') == 'REQUESTED':
+        tutor = tutor.serialize()
+        student = student.serialize()
+        course = course.serialize()
+        if data.get('status') not in [None, '']:
             try:
-                tutor = tutor.serialize()
-                send_tutorship_request_email(tutor['email'])
+                if data.get('status') == 'REQUESTED':
+                    send_tutorship_request_email(tutor['email'], student['name'], course['name'])
+                elif data.get('status') == 'ACCEPTED':
+                    send_tutorship_accept_email(tutor['email'], tutor['name'], course['name'])
+                elif data.get('status') == 'REJECTED':
+                    send_tutorship_deny_email(tutor['email'], tutor['name'], course['name'])
             except Exception as e:
                 print("email sending failed: " + str(e))
-        
+
         return {"message": "success" }, 200
     except Exception as e:
         print(str(e))
@@ -280,17 +294,42 @@ def  update_tutorship():
 
         db.session.commit()
 
-        if data.get('status') not in [None, ''] and data.get('status') == 'REQUESTED':
-            try:
-                # get tutor
-                tutor_id = tutorship.tutor_id
-                tutor = Users.query.filter(Users.id == tutor_id).first()
-                if tutor is None:
-                    raise Exception("Tutor with id: " + str(tutor_id) + " cannot be found!")
-                tutor = tutor.serialize()
+        
+        # get student
+        filters = []
+        filters.append(Users.id == tutorship.student_id)
+        filters.append(Users.is_student == True)
+        student = Users.query.filter(*filters).first()
+        if student is None:
+            return {"message": "Given student id must be a student."}, 400
+        studnet = student.serialize()
 
-                # send email
-                send_tutorship_request_email(tutor.email)
+        # get tutor
+        filters = []
+        filters.append(Users.id == tutorship.tutor_id)
+        filters.append(Users.is_tutor == True)
+        tutor = Users.query.filter(*filters).first()
+        if tutor is None:
+            return {"message": "Given tutor id must be a tutor."}, 400
+        tutor = tutor.serialize()
+
+        # get course
+        filters = []
+        filters.append(Courses.id == tutorship.course_id)
+        course = Courses.query.filter(*filters).first()
+        if course is None:
+            return {"message": "Given course must exist."}, 400
+        course = course.serialize()
+
+         # send email notification
+        if data.get('status') not in [None, '']:
+            try:
+                if data.get('status') == 'REQUESTED':
+                    send_tutorship_request_email(tutor['email'], student['name'], course['name'])
+                elif data.get('status') == 'ACCEPTED':
+                    send_tutorship_accept_email(tutor['email'], tutor['name'], course['name'])
+                elif data.get('status') == 'REJECTED':
+                    send_tutorship_deny_email(tutor['email'], tutor['name'], course['name'])
             except Exception as e:
                 print("email sending failed: " + str(e))
 
