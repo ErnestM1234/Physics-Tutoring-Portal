@@ -2,6 +2,7 @@
 <html>
     <head>
       <title>Physics Tutoring Portal Students </title>
+      <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -17,49 +18,6 @@
             <br>
 
             <br><br><br>
-
-            <!--
-            <h3>TUTORSHIPS BY STUDENT</h3> -->
-
-            <!-- create fake users for testing purposes
-            <a href="/admin/user/create-user">Add a new user</a><br>
-            -->
-    
-            <!--
-    
-            <div class ="list">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th class="bg-white" scope="col">Id</th>
-                        <th class="bg-white" scope="col">Student Id</th>
-                        <th class="bg-white" scope="col">Student Name</th>
-                        <th class="bg-white" scope="col">Tutor Id</th>
-                        <th class="bg-white" scope="col">Tutor Name</th>
-                        <th class="bg-white" scope="col">Course</th>
-                        <th class="bg-white" scope="col">Course Name</th>
-                        <th class="bg-white" scope="col">Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {% for tutorship in tutorships %}
-                            <tr>
-                                <td class="bg-white">{{tutorship.id}}</td>
-                                <td class="bg-white">{{tutorship.student_id}}</td>
-                                <td class="bg-white"><a href="{{'/admin/student-profile/?student_id=' + tutorship.student_id | string}}">{{tutorship.student.name}}</a></td>
-                                <td class="bg-white">{{tutorship.tutor_id}}</td>
-                                <td class="bg-white"><a href="{{'/admin/tutor-profile/?tutor_id=' + tutorship.tutor_id | string}}">{{tutorship.tutor.name}}</a></td>
-                                <td class="bg-white">{{tutorship.course_id}}</td>
-                                <td class="bg-white">{{tutorship.course.name}}</td>
-                                <td class="bg-white">{{tutorship.status}}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-
-        -->
 
             <h3>STUDENTS</h3>
 
