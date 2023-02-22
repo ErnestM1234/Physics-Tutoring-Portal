@@ -2,7 +2,7 @@
 
 import datetime
 from os import environ as env
-from flask import Flask, render_template, redirect, session
+from flask import Flask, render_template, redirect, send_from_directory, session, url_for
 import requests
 from dotenv import find_dotenv, load_dotenv
 import json
@@ -26,9 +26,12 @@ def home():
     return render_template('landing.html')
 
 
-
-
-
+# favicon
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico',
+                               mimetype='image/vnd.microsoft.icon')
 
 
 

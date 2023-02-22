@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Physics Tutoring Portal Tutorship </title>
+      <title>Physics Tutoring Portal Course </title>
+      <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
 
@@ -113,33 +114,6 @@
           </div>
 
           <br><br><br>
-
-
-
-<!-- 
-          <h3>DENIED TUTORS</h3>
-  
-          <div class ="list-group list-box-frame">
-              <a class = "list-group-item disabled list-box list-box-header">
-                  <div class="three-item">Tutor Name</div>
-                  <div class="three-item">Course Name</div>
-                  <div class="three-item">Student Count</div>
-                </a>
-              {% for denied_tutor in denied_tutors %}
-                  <a href="{{'/admin/tutor-profile/?tutor_id=' + denied_tutor.tutor_id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
-                      <div class="three-item">{{get_name(denied_tutor.tutor_id)}}</div>
-                      <div class="three-item">{{denied_tutor.course_name}}</div>
-                      <div class="three-item">{{student_count[loop.index0]}}</div>
-                  </a>
-              {% endfor %}
-            </table>
-          </div> -->
-
-
-
-
-
-
 
             
     
