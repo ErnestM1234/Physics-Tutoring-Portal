@@ -1,25 +1,11 @@
+from email.mime.text import MIMEText
 import os
 import smtplib
 import ssl
 from email.message import EmailMessage
 from dotenv import load_dotenv
 import re
-
-
-
-NEW_REQUEST_SUBJECT = "Physics Tutoring - New Tutoring Request"
-NEW_REQUEST_BODY = """{student_name} has just requested you as a tutor for {course_name}!
-Check it out at https://www.princetonphysicstutoring.org, or email pptutoringportal@gmail.com if you have any questions or concerns.
-"""
-REQUEST_ACCEPT_SUBJECT = "Physics Tutoring - Your New Tutor"
-REQUEST_ACCEPT_BODY = """{tutor_name} has accepted you as a student for {course_name}!
-See their contact info at https://www.princetonphysicstutoring.org, or email pptutoringportal@gmail.com if you have any questions or concerns.
-"""
-REQUEST_DENY_SUBJECT = "Physics Tutoring Notification"
-REQUEST_DENY_BODY = """{tutor_name} has declined your request for a tutor in {course_name}.
-See more available tutors at https://www.princetonphysicstutoring.org, or email pptutoringportal@gmail.com if you have any questions or concerns.
-"""
-
+from src.services.gmail_service.templates import templates
 
 def _send_email(email_receiver, subject, body):
     load_dotenv()
@@ -66,8 +52,8 @@ def send_tutorship_request_email(tutor_email, student_name, course_name):
     if _validate_email_message_information(tutor_email, student_name, course_name):
         return
     # send email
-    subject = NEW_REQUEST_SUBJECT
-    body = NEW_REQUEST_BODY.format(student_name=student_name, course_name=course_name)
+    subject = templates["TUTORSHIP_REQUEST_SUBJECT"]
+    body = MIMEText(templates["TUTORSHIP_REQUEST_BODY"].format(student_name=student_name, course_name=course_name), 'html')
     _send_email(tutor_email, subject, body)
 
 # sends notification to student about request accept
@@ -76,8 +62,8 @@ def send_tutorship_accept_email(tutor_email, tutor_name, course_name):
     if _validate_email_message_information(tutor_email, tutor_name, course_name):
         return
     # send email
-    subject = REQUEST_ACCEPT_SUBJECT
-    body = REQUEST_ACCEPT_BODY.format(tutor_name=tutor_name, course_name=course_name)
+    subject = templates["TUTORSHIP_ACCEPT_SUBJECT"]
+    body = MIMEText(templates["TUTORSHIP_ACCEPT_BODY"].format(tutor_name=tutor_name, course_name=course_name), 'html')
     _send_email(tutor_email, subject, body)
 
 # sends notification to student about request deny
@@ -86,6 +72,36 @@ def send_tutorship_deny_email(tutor_email, tutor_name, course_name):
     if _validate_email_message_information(tutor_email, tutor_name, course_name):
         return
     # send email
-    subject = REQUEST_DENY_SUBJECT
-    body = REQUEST_DENY_BODY.format(tutor_name=tutor_name, course_name=course_name)
+    subject = templates["TUTORSHIP_DENY_SUBJECT"]
+    body = MIMEText(templates["TUTORSHIP_DENY_BODY"].format(tutor_name=tutor_name, course_name=course_name), 'html')
+    _send_email(tutor_email, subject, body)
+
+# sends notification to tutor about tutor course accept (only if they have never tutored before)
+def send_tutor_course_first_accept_email(tutor_email, tutor_name, course_name):
+    # validate input
+    if _validate_email_message_information(tutor_email, tutor_name, course_name):
+        return
+    # send email
+    subject = templates["TUTOR_COURSE_ACCEPT_FIRST_SUBJECT"]
+    body = MIMEText(templates["TUTOR_COURSE_ACCEPT_FIRST_BODY"].format(tutor_name=tutor_name, course_name=course_name), 'html')
+    _send_email(tutor_email, subject, body)
+
+# sends notification to tutor about tutor course accept
+def send_tutor_course_accept_email(tutor_email, course_name):
+    # validate input
+    if _validate_email_message_information(tutor_email, course_name, course_name):
+        return
+    # send email
+    subject = templates["TUTOR_COURSE_ACCEPT_SUBJECT"]
+    body = MIMEText(templates["TUTOR_COURSE_ACCEPT_BODY"].format(course_name=course_name), 'html')
+    _send_email(tutor_email, subject, body)
+
+# send notification to tutor about tutor course denial
+def send_tutor_course_deny_email(tutor_email, course_name):
+    # validate input
+    if _validate_email_message_information(tutor_email, course_name, course_name):
+        return
+    # send email
+    subject = templates["TUTOR_COURSE_DENY_SUBJECT"]
+    body = MIMEText(templates["TUTOR_COURSE_DENY_BODY"].format(course_name=course_name), 'html')
     _send_email(tutor_email, subject, body)

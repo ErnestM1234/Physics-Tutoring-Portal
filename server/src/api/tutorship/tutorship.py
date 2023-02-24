@@ -4,7 +4,7 @@ from flask import jsonify, request
 from src.utils.auth import requires_auth
 from src.database.models import Tutorships, TutorCourses, Users, Courses
 from marshmallow import Schema, fields
-from src.services.gmail_service import send_tutorship_request_email, send_tutorship_accept_email, send_tutorship_deny_email
+from src.services.gmail_service.gmail_service import send_tutorship_request_email, send_tutorship_accept_email, send_tutorship_deny_email
 
 
 """ GET /api/tutorship/
@@ -302,7 +302,7 @@ def  update_tutorship():
         student = Users.query.filter(*filters).first()
         if student is None:
             return {"message": "Given student id must be a student."}, 400
-        studnet = student.serialize()
+        student = student.serialize()
 
         # get tutor
         filters = []
