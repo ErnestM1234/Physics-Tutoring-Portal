@@ -36,31 +36,12 @@ def tutor_profile():
         return redirect('/error/')
     tutor = res.json()
 
-    # get tutor-courses
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'tutor_id': tutor_id}, headers=headers)
+    # get tutor-courses (deep)
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/deep/'), params={'tutor_id': tutor_id}, headers=headers)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
     tutor_courses = res.json()
-
-    # get tutorships
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'tutor_id': tutor_id}, headers=headers)
-    if res.status_code != 200:
-        session['error_message'] = str(res.content)
-        return redirect('/error/')
-    tutorships = res.json()
-
-    for tutor_course in tutor_courses:
-        # get tutorship count (number of students that the tutor is tutoring) by class
-        student_count = len(list(filter(lambda tutorship: tutorship['status'] == 'ACCEPTED' and tutorship['course_id'] == tutor_course['course_id'] and tutor_course['status'] == "ACCEPTED", tutorships)))
-        tutor_course["student_count"] = student_count
-
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutor_course.get('course_id')}, headers=headers)
-        if res.status_code != 200:
-            session['error_message'] = str(res.content)
-            return redirect('/error/')
-        course = res.json()
-        tutor_course['course'] = course
 
     isAStudent = 'Is a Student'
     isATutor = 'Not a Tutor'
@@ -77,8 +58,8 @@ def tutor_profile():
         user=user,
         tutor=tutor,
         tutor_courses=tutor_courses, 
-        isATutor = isATutor, 
-        isAnAdmin = isAnAdmin, 
-        isAStudent = isAStudent
+        isATutor=isATutor, 
+        isAnAdmin=isAnAdmin, 
+        isAStudent=isAStudent
     )
 
