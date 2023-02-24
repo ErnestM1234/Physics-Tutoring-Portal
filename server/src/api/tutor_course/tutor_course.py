@@ -110,23 +110,12 @@ def get_tutor_courses_deep():
         tutor_courses = [tutor_course.serialize() for tutor_course in result]
         # get courses and tutors
         for tutor_course in tutor_courses:
-            # get user
-            try:
-                user = Users.query.filter(Users.id == tutor_course['tutor_id']).first()
-                if user is not None:
-                    tutor_course['tutor'] = user.serialize()
-            except Exception as e:
-                print("Failed to query user for /api/tutor_courses/deep/")
-                print("Exception:" + e)
-
-            # get course
-            try:
-                course = Courses.query.filter(Courses.id == tutor_course['course_id']).first()
-                if course is not None:
-                        tutor_course['course'] = course.serialize()
-            except Exception as e:
-                print("Failed to query course for /api/tutor_courses/deep/")
-                print("Exception:" + e)
+            tutor = Users.query.filter(Users.id == tutor_course["tutor_id"]).first()
+            if tutor:
+                tutor_course["tutor"] = tutor.serialize()
+            course = Courses.query.filter(Courses.id == tutor_course["course_id"]).first()
+            if course:
+                tutor_course["course"] = course.serialize()
 
         return jsonify(tutor_courses)
    
