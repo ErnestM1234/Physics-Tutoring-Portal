@@ -72,6 +72,9 @@ def get_tutor_courses():
     except Exception as e:
         print(str(e))
         return {"error": str(e)}, 400
+    
+
+
 
 
 """ GET /api/tutor_courses/deep/
