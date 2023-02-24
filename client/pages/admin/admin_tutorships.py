@@ -39,47 +39,17 @@ def admin_tutorships():
         course = res.json()
 
     # get tutorships
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params=tutorship_params, headers=headers)
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/deep/'), params=tutorship_params, headers=headers)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
     tutorships = res.json()
 
-    for tutorship in tutorships:
-        # TODO: implement a faster way of doing this (python lists have O(1) look up time)
-        
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('student_id')}, headers=headers)
-        if res.status_code != 200:
-            session['error_message'] = str(res.content)
-            return redirect('/error/')
-        student = res.json()
-
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship.get('tutor_id')}, headers=headers)
-        if res.status_code != 200:
-            session['error_message'] = str(res.content)
-            return redirect('/error/')
-        tutor = res.json()
-
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutorship.get('course_id')}, headers=headers)
-        if res.status_code != 200:
-            session['error_message'] = str(res.content)
-            return redirect('/error/')
-        course2 = res.json()
-
-        if not student or not tutor or not course2:
-            session['error_message'] = "There is a missing tutor or course associated with this user!"
-            return redirect('/error/')
-
-
-        tutorship['student'] = student
-        tutorship['tutor'] = tutor
-        tutorship['course'] = course2
-
     return render_template(
         '/admin/admin-tutorships.html',
         user=user,
         tutorships=tutorships,
-        course = course,
+        course=course,
         course_id=course_id
     )
 
