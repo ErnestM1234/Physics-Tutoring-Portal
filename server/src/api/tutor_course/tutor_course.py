@@ -3,6 +3,7 @@ from app import app, db
 from flask import jsonify, request
 from marshmallow import Schema, fields
 from src.database.models import TutorCourses, Users, Courses
+from src.services.gmail_service.gmail_service import send_tutor_course_first_accept_email, send_tutor_course_accept_email, send_tutor_course_deny_email
 
 
 """ GET /api/tutor_course/
@@ -167,30 +168,61 @@ def create_tutor_course():
         taken_course = data.get('taken_course') or ''
         experience = data.get('experience') or ''
 
-        # only approved tutors can have an accepted status
-        if status == "ACCEPTED":
-            # check that tutor_id is a tutor
-            filters = []
-            filters.append(Users.id == tutor_id)
-            filters.append(Users.is_tutor == True)
-            tutor = Users.query.filter(*filters).first()
-            if tutor is None:
-                return {"message": "Given user must be a tutor to have an accepted status for tutoring a course."}, 400
+        # check that tutor_id is a tutor
+        filters = []
+        filters.append(Users.id == tutor_id)
+        filters.append(Users.is_tutor == True)
+        tutor = Users.query.filter(*filters).first()
+        if tutor is None:
+            return {"message": "Given user must be a tutor to have an accepted status for a tutor_course relationship."}, 400
 
         # Prevent duplicate tutor_courses (where tutor and course repeat)
         filters = []
         filters.append(TutorCourses.tutor_id == tutor_id)
         filters.append(TutorCourses.course_id == course_id)
-
         duplicate_tutor_course = TutorCourses.query.filter(*filters).first()
-
-        if duplicate_tutor_course is None:
-            tutor_course = TutorCourses(tutor_id, course_id, status, taken_course, experience)
-            db.session.add(tutor_course)
-            db.session.commit()
-            return {"message": "success" }, 200
-        else:
+        if duplicate_tutor_course is not None:
             return {"message": "Cannot create duplicate tutor_courses."}, 400
+        
+        # create tutor course
+        tutor_course = TutorCourses(tutor_id, course_id, status, taken_course, experience)
+        db.session.add(tutor_course)
+        db.session.commit()
+
+        # send update email
+        if data.get('status') not in [None, '']:
+            try:
+                # get course
+                filters = []
+                filters.append(Courses.id == course_id)
+                course = Courses.query.filter(*filters).first()
+                if course is None:
+                    raise("course could not be found")
+                course = course.serialize()
+
+                # get tutor
+                tutor = tutor.serialize()
+
+                # send message
+                if data.get('status') == 'ACCEPTED':
+                    # check if this is the first course the tutor is tutoring
+                    filters = []
+                    filters.append(TutorCourses.tutor_id == tutor_id)
+                    filters.append(TutorCourses.status == 'ACCEPTED')
+                    if TutorCourses.query.filter(*filters).count() <= 1:
+                        # send first tutor_course email
+                        send_tutor_course_first_accept_email(tutor["email"], tutor["name"], course["name"])
+                    else:
+                        # send generic tutor_course email
+                        send_tutor_course_accept_email(tutor["email"], course["name"])
+                elif data.get('status') == 'DENIED':
+                    send_tutor_course_deny_email(tutor["email"], course["name"])
+
+            except Exception as e:
+                print("email sending failed: " + str(e))
+
+        
+        return {"message": "success" }, 200
     except Exception as e:
         print(str(e))
         return {"error": str(e)}, 400
@@ -229,12 +261,29 @@ def  update_tutor_course():
         tutor_course = TutorCourses.query.filter(TutorCourses.id == id).first()
         if tutor_course is None:
             return {"message": "Tutor course could not be found."}, 400
+        
+        # get tutor_id and course_id (for sending email later)
+        ser_tutor_course = tutor_course.serialize()
+        tutor_id = ser_tutor_course["tutor_id"]
+        course_id = ser_tutor_course["course_id"]
+        tutor = None
 
-
+        # update tutor_course relationship
         if data.get('tutor_id') not in [None, '']:
+            # check that tutor_id is a tutor (if they are updating tutor_id)
+            filters = []
+            filters.append(Users.id == data.get('tutor_id'))
+            filters.append(Users.is_tutor == True)
+            tutor = Users.query.filter(*filters).first()
+            if tutor is None:
+                return {"message": "Given user must be a tutor to have an accepted status for a tutor_course relationship."}, 400
+            # update tutor_course object
             tutor_course.tutor_id = data.get('tutor_id')
+            # set tutor_id to the new tutor_id
+            tutor_id = data.get('tutor_id')
         if data.get('course_id') not in [None, '']:
             tutor_course.course_id = data.get('course_id')
+            course_id = data.get('course_id')
         if data.get('status') not in [None, '']:
             tutor_course.status = data.get('status')
         if data.get('taken_course') not in [None, '']:
@@ -242,18 +291,47 @@ def  update_tutor_course():
         if data.get('experience') not in [None, '']:
             tutor_course.experience = data.get('experience')
 
-            # only approved tutors can have an accepted status
-            if tutor_course.status == "ACCEPTED":
-                # check that tutor_id is a tutor
-                filters = []
-                filters.append(Users.id == tutor_course.tutor_id)
-                filters.append(Users.is_tutor == True)
-                tutor = Users.query.filter(*filters).first()
-                if tutor is None:
-                    return {"message": "Given user must be a tutor to have an accepted status for tutoring a course."}, 400
-
         db.session.commit()
-        return {"message": "success" }, 200
+
+        # send update email
+        if data.get('status') not in [None, '']:
+            try:
+                # get course
+                filters = []
+                filters.append(Courses.id == course_id)
+                course = Courses.query.filter(*filters).first()
+                if course is None:
+                    raise("course could not be found")
+                course = course.serialize()
+
+                # get tutor
+                if not tutor: # check if got tutor from earlier
+                    filters = []
+                    filters.append(Users.id == tutor_id)
+                    filters.append(Users.is_tutor == True)
+                    tutor = Users.query.filter(*filters).first()
+                    if tutor is None:
+                        raise("tutor could not be found")
+                tutor = tutor.serialize()
+
+                # send message
+                if data.get('status') == 'ACCEPTED':
+                    # check if this is the first course the tutor is tutoring
+                    filters = []
+                    filters.append(TutorCourses.tutor_id == tutor_id)
+                    filters.append(TutorCourses.status == 'ACCEPTED')
+                    if TutorCourses.query.filter(*filters).count() <= 1:
+                        # send first tutor_course email
+                        send_tutor_course_first_accept_email(tutor["email"], tutor["name"], course["name"])
+                    else:
+                        # send generic tutor_course email
+                        send_tutor_course_accept_email(tutor["email"], course["name"])
+                elif data.get('status') == 'DENIED':
+                    send_tutor_course_deny_email(tutor["email"], course["name"])
+
+            except Exception as e:
+                print("email sending failed: " + str(e))
+        return {"message": "success"}, 200
     except Exception as e:
         print(str(e))
         return {"error": str(e)}, 400
