@@ -2,7 +2,7 @@ import json
 from app import app, db
 from flask import jsonify, request
 from marshmallow import Schema, fields
-from src.database.models import TutorCourses, Users, Courses
+from src.database.models import TutorCourses, Users, Courses, Tutorships
 from src.services.gmail_service.gmail_service import send_tutor_course_first_accept_email, send_tutor_course_accept_email, send_tutor_course_deny_email
 
 
@@ -110,12 +110,30 @@ def get_tutor_courses_deep():
         tutor_courses = [tutor_course.serialize() for tutor_course in result]
         # get courses and tutors
         for tutor_course in tutor_courses:
+            # get sub objects
             tutor = Users.query.filter(Users.id == tutor_course["tutor_id"]).first()
             if tutor:
                 tutor_course["tutor"] = tutor.serialize()
             course = Courses.query.filter(Courses.id == tutor_course["course_id"]).first()
             if course:
                 tutor_course["course"] = course.serialize()
+            # get counts
+            tutor_course["tutor_total_accepted_tutorship_count"] = 0
+            tutor_course["accepted_tutorship_count"] = 0
+            
+            count = Tutorships.query.filter(*[
+                Tutorships.status == "ACCEPTED",
+                Tutorships.tutor_id == tutor_course["tutor_id"],
+            ]).count()
+            if count:
+                tutor_course["tutor_total_accepted_tutorship_count"] = count
+            count = Tutorships.query.filter(*[
+                Tutorships.status == "ACCEPTED",
+                Tutorships.tutor_id == tutor_course["tutor_id"],
+                Tutorships.course_id == tutor_course["course_id"]
+            ]).count()
+            if count:
+                tutor_course["accepted_tutorship_count"] = count
 
         return jsonify(tutor_courses)
    

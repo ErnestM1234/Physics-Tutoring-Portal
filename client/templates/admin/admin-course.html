@@ -69,7 +69,7 @@
             <br>
             <br>
 
-            <h3><strong>Tutors for {{course.dept_course}}: </strong></h3>
+            <h3><strong>Tutors for {{course.dept_course}} </strong></h3>
 
 
             <h3>Accepted tutors</h3>
@@ -78,15 +78,13 @@
               <a class = "list-group-item disabled list-box list-box-header">
                   <div class="three-item">Tutor Name</div>
                   <div class="three-item">Course Title</div>
-                  <div class="three-item">Student Count</div>
-                  <!--<th class="bg-white" scope="col">Profile</th>-->
-                  <!--<th class="bg-white" scope="col">Action</th>-->
+                  <div class="three-item">Course Student Count</div>
               </a>
-              {% for tutor_course in tutor_courses %}
-                  <a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_course.tutor_id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
-                      <div class="three-item">{{get_name(tutor_course.tutor_id)}}</div>
-                      <div class="three-item">{{tutor_course.course_name}}</div>
-                      <div class="three-item">{{student_count[loop.index0]}}</div>
+              {% for approved_tutor_course in approved_tutor_courses %}
+                  <a href="{{'/admin/tutor-profile/?tutor_id=' + approved_tutor_course.tutor_id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
+                      <div class="three-item">{{get_name(approved_tutor_course.tutor_id)}}</div>
+                      <div class="three-item">{{approved_tutor_course.course.name}}</div>
+                      <div class="three-item">{{approved_tutor_course.accepted_tutorship_count}}</div>
                   </a>
               {% endfor %}
           </div>
@@ -102,13 +100,13 @@
               <a class = "list-group-item disabled list-box list-box-header">
                   <div class="three-item">Tutor Name</div>
                   <div class="three-item">Course Title</div>
-                  <div class="three-item">Student Count</div>
+                  <div class="three-item">Total Student Count</div>
               </a>
-              {% for tutor_request in tutor_requests %}
-                  <a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_request.tutor_id | string }}"class = "list-group-item list-group-item-action list-box no-gradient">
-                      <div class="three-item">{{get_name(tutor_request.tutor_id)}}</div>
-                      <div class="three-item">{{tutor_request.course_name}}</div>
-                      <div class="three-item">{{student_count[loop.index0]}}</div>
+              {% for tutor_course_request in tutor_course_requests %}
+                  <a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_course_request.tutor_id | string }}"class = "list-group-item list-group-item-action list-box no-gradient">
+                      <div class="three-item">{{get_name(tutor_course_request.tutor_id)}}</div>
+                      <div class="three-item">{{tutor_course_request.course.name}}</div>
+                      <div class="three-item">{{tutor_course_request.tutor_total_accepted_tutorship_count}}</div>
                   </a>
               {% endfor %}
           </div>
