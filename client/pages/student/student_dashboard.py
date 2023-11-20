@@ -21,44 +21,19 @@ def student_dashboard():
     # get headers
     headers = get_header()
 
-    # get tutorships
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/'), params={'student_id': user['id']}, headers=headers)
+    # get tutorships, tutors, and courses
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/deep/'), params={'student_id': user['id']}, headers=headers)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
     tutorships = res.json()
 
-    for tutorship in tutorships:
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': tutorship['tutor_id']}, headers=headers)
-        if res.status_code != 200:
-            session['error_message'] = str(res.content)
-            return redirect('/error/')
-        tutor = res.json()
-        tutorship['tutor'] = tutor
-
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutorship['course_id']}, headers=headers)
-        if res.status_code != 200:
-            session['error_message'] = str(res.content)
-            return redirect('/error/')
-        course = res.json()
-        tutorship['course'] = course
-
-
-    # get any applications to tutor
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/'), params={'tutor_id': user['id']}, headers=headers)
+    # get tutor courses
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/deep/'), params={'tutor_id': user['id']}, headers=headers)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
     tutor_courses = res.json()
-
-    # addition info about tutor application
-    for tutor_course in tutor_courses:
-        res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/course/'), params={'id': tutor_course['course_id']}, headers=headers)
-        if res.status_code != 200:
-            session['error_message'] = str(res.content)
-            return redirect('/error/')
-        course = res.json()
-        tutor_course['course'] = course
 
     return render_template(
         '/student/student-dashboard.html',
