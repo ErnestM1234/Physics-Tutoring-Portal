@@ -96,7 +96,7 @@ def admin_tutors():
     tutor_courses = res.json()
 
     # get list of accepted tutor courses
-    approved_tutor_courses = list(filter(lambda _tutor_course: _tutor_course['status'] == 'ACCEPTED', tutor_courses))
+    approved_tutor_courses = list(filter(lambda _tutor_course: _tutor_course['status'] in ['ACCEPTED', 'UNAVAILABLE'], tutor_courses))
     # get list of tutor_course requests
     tutor_requests = list(filter(lambda tutor_course: tutor_course['status'] == 'REQUESTED', tutor_courses))
 

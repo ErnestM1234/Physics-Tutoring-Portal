@@ -70,9 +70,9 @@ def tutor_dashboard():
     accepted_tutorships = list(filter(lambda tutorship: tutorship['status'] == 'ACCEPTED', tutorships))
     requested_tutorships = list(filter(lambda tutorship: tutorship['status'] == 'REQUESTED', tutorships))
 
-    accepted_tutor_courses = list(filter(lambda tutor_course: tutor_course['status'] == 'ACCEPTED', tutor_courses))
+    accepted_tutor_courses = list(filter(lambda tutor_course: tutor_course['status'] in ['ACCEPTED', 'UNAVAILABLE'], tutor_courses))
 
-    other_tutor_courses = list(filter(lambda tutor_course: tutor_course['status'] != 'ACCEPTED', tutor_courses))
+    other_tutor_courses = list(filter(lambda tutor_course: tutor_course['status'] not in ['ACCEPTED', 'UNAVAILABLE'], tutor_courses))
 
     return render_template(
         '/tutor/tutor-dashboard.html', tutor=tutor, accepted_tutorships=accepted_tutorships, requested_tutorships=requested_tutorships, accepted_tutor_courses=accepted_tutor_courses, other_tutor_courses=other_tutor_courses, tutor_courses = tutor_courses, user=user

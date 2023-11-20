@@ -70,3 +70,39 @@ def edit_puid_confirm():
         return redirect('/error/')
 
     return redirect('/tutor/edit-profile')
+
+
+@app.route('/tutor/editavailability/confirm', methods=['POST'])
+def edit_availability_confirm():
+    # verify is tutor
+    user = get_user(requests)
+    if user is None or "id" not in user.keys() or user['is_tutor'] == False:
+        return render_template(
+            '/tutor/tutor-no-access.html',
+            message='You do not have permission to access this page'
+        )
+    # get headers
+    headers = get_header()
+
+    tutor_course_id = request.form.get('tutor_course_id')
+    if tutor_course_id is None:
+        session['error_message'] = 'invalid tutor course id'
+        return redirect('/error/')
+    
+    # check if invalid status
+    status = request.form.get('status')
+    if status == None and status != 'ACCEPTED' and status != 'UNAVAILABLE':
+        session['error_message'] = 'Invalid Status!'
+        return redirect('/error/')
+
+    data = {
+        'id': str(tutor_course_id),
+        'status': str(status),
+    }
+
+    res = requests.post(url = str(os.environ['API_ADDRESS']+'/api/tutor_course/update/'), data=json.dumps(data), headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+
+    return redirect('/tutor/edit-profile')

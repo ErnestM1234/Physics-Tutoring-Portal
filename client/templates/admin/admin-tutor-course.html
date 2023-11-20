@@ -61,7 +61,7 @@
             <li>
                 <strong>PUID:</strong> {{tutor.puid}}
             </li>
-                {% if tutor_course.status == 'ACCEPTED' %}
+                {% if tutor_course.status == 'ACCEPTED' or tutor_course.status == 'UNAVAILABLE' %}
                     <!-- <button onclick="set_tutor_course_status( {{tutor_course.id}}, 'DENIED' )">Revoke</button> -->
                     <form action="/admin/tutors/update-tutor" method="GET">
                         <input type="hidden" name="tutor_course_id" value="{{tutor_course.id}}" readonly>

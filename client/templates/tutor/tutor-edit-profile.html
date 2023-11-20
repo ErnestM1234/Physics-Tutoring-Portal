@@ -15,39 +15,82 @@
 
         <div>
           {% include '/components/tutor-dashboard-title.html' %}
-            <br>
-            <h1>My tutor profile</h1>
+          <br>
+          <h1>My tutor profile</h1>
 
-            <hr style="height: 3px;">
+          <hr style="height: 3px;">
 
-            Please use this space to describe yourself, your experience, your availability,
-            and anything else you would like students to know.
-            (Note that both students and admins can see your bio.)
-            <br>
-            <br>
+          Please use this space to describe yourself, your experience, your availability,
+          and anything else you would like students to know.
+          (Note that both students and admins can see your bio.)
+          <br>
+          <br>
 
-            <form action = "/tutor/editbio/confirm" method = "POST">
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1"><h5>Edit bio</h5></label>
-                    <textarea class="form-control" name="bio" rows="5">{{tutor.bio}}</textarea>
-                    <input type = "submit" value="Save" > 
-                    <input type = "hidden" name = "tutor_id" value = "{{tutor.id}}">
-                </div>
-            </form>
-
-            <br>
-            <form action = "/tutor/editpuid/confirm" method = "POST">
+          <!-- Edit Bio -->
+          <form action = "/tutor/editbio/confirm" method = "POST">
               <div class="form-group">
-                  <label for="exampleFormControlTextarea1"><h5>Edit PUID</h5></label>
-                  <input class="form-control" type="text" value="{{tutor.puid}}" name="puid">
-                  <input type = "submit" value="Save"> 
+                  <label for="exampleFormControlTextarea1"><h5>Edit bio</h5></label>
+                  <textarea class="form-control" name="bio" rows="5">{{tutor.bio}}</textarea>
+                  <input type = "submit" value="Save" > 
                   <input type = "hidden" name = "tutor_id" value = "{{tutor.id}}">
               </div>
           </form>
+          <br>
 
-  
-    
-        </div>
+          <!-- Edit PUID -->
+          <form action = "/tutor/editpuid/confirm" method = "POST">
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1"><h5>Edit PUID</h5></label>
+                <input class="form-control" type="text" value="{{tutor.puid}}" name="puid">
+                <input type = "submit" value="Save"> 
+                <input type = "hidden" name = "tutor_id" value = "{{tutor.id}}">
+            </div>
+          </form>
+          <br>
+
+          <!-- Edit Stauts -->
+          <div class="list-group list-box-frame">
+            <a class="list-group-item disabled list-box list-box-header">
+              <div class="three-item">Course Title</div>
+              <div class="three-item">Department & Number</div>
+              <div class="three-item">Available</div>
+            </a>
+
+            {% if tutor_courses|length==0 %}
+              <a class="list-group-item disabled list-box">
+                <div class="one-item">No courses to show.</div>
+              </a>
+            {% endif %}
+
+            {% for tutor_course in tutor_courses %}
+              {% if tutor_course.get('status') == "ACCEPTED" or tutor_course.get('status') == "UNAVAILABLE" %}
+                <a class="list-group-item list-group-item-action list-box no-gradient">
+                  <div class="three-item">{{tutor_course.course.get('name')}}</div>
+                  <div class="three-item">{{tutor_course.course.get('dept_course')}}</div>
+                  <form class="three-item" action = "/tutor/editavailability/confirm" method = "POST">
+                    <label class="switch">
+                      <input onChange="this.form.submit()" type="checkbox" {{ "checked" if tutor_course.get('status') == "ACCEPTED" }}>
+                      <span class="slider round"></span>
+                    </label>
+                    <input type="hidden" name="tutor_id" value="{{tutor.id}}">
+                    <input type="hidden" name="tutor_course_id" value="{{tutor_course.id}}">
+                    <input type="hidden" name="status" value={{ "UNAVAILABLE" if tutor_course.get('status') == "ACCEPTED" else "ACCEPTED" }}>
+                  </form>
+                </a>
+              {% elif tutor_course.get('status') == "REQUESTED" %}
+                <a class="list-group-item list-group-item-action list-box list-box-disabled">
+                  <div class="three-item">{{tutor_course.course.get('name')}}</div>
+                  <div class="three-item">{{tutor_course.course.get('dept_course')}}</div>
+                  <form class="three-item">
+                    <label class="switch">
+                      <input type="checkbox" disabled="disabled">
+                      <span class="slider round"></span>
+                    </label>
+                  </form>
+                </a>
+              {% endif %}
+            {% endfor %}
+          </div>
 
         
         {% include "/components/tutor-sidebar-footer.html" %}

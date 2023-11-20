@@ -26,7 +26,7 @@ def update_tutor_course_confirm():
     tutor_id = request.args.get('tutor_id')
     tutor_course_id = request.args.get('tutor_course_id')
     status = str(request.args.get('status'))
-    if tutor_id is None or tutor_id == "" or tutor_course_id is None or tutor_course_id == '' or status is None or status not in ['DENIED', 'ACCEPTED', 'REQUESTED']:
+    if tutor_id is None or tutor_id == "" or tutor_course_id is None or tutor_course_id == '' or status is None or status not in ['DENIED', 'UNAVAILABLE', 'ACCEPTED', 'REQUESTED']:
         session['error_message'] = 'Invalid arguments'
         return redirect('/error/')
     try:
@@ -94,7 +94,7 @@ def update_tutor_course():
     tutor_id = request.args.get('tutor_id')
     tutor_course_id = request.args.get('tutor_course_id')
     status = str(request.args.get('status'))
-    if tutor_id is None or tutor_id == "" or tutor_course_id is None or tutor_course_id == '' or status is None or status not in ['DENIED', 'ACCEPTED', 'REQUESTED']:
+    if tutor_id is None or tutor_id == "" or tutor_course_id is None or tutor_course_id == '' or status is None or status not in ['DENIED', 'UNAVAILABLE', 'ACCEPTED', 'REQUESTED']:
         session['error_message'] = 'Invalid arguments'
         return redirect('/error/')
     try:

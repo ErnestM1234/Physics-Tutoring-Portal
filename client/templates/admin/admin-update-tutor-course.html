@@ -45,7 +45,7 @@
                     {% if tutorship_count != 0 %}
                         <p>Denying this tutor will delete {{ tutorship_count }} tutorships! </p>
                     {% endif %}
-                {% elif status == 'ACCEPTED'  %}
+                {% elif status == 'ACCEPTED' or status == 'UNAVAILABLE'  %}
                     <form action="/admin/tutors/update-tutor/confirm" method="GET">
                         <input type="hidden" name="tutor_course_id" value="{{tutor_course_id}}" readonly>
                         <input type="hidden" name="status" value="ACCEPTED" readonly>

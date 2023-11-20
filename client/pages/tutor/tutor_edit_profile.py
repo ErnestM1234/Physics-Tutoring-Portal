@@ -26,6 +26,15 @@ def editBio():
         return redirect('/error/')
     tutor = res.json()
 
+    # get tutor_courses (deep)
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutor_courses/deep/'), params={'tutor_id': user['id']}, headers=headers)
+    if res.status_code != 200:
+        session['error_message'] = str(res.content)
+        return redirect('/error/')
+    tutor_courses = res.json()
+    tutor_courses.sort(key=lambda x: x["course"]["dept_course"])
+
+
     return render_template(
-        '/tutor/tutor-edit-profile.html', tutor=tutor, user=user
+        '/tutor/tutor-edit-profile.html', tutor=tutor, user=user, tutor_courses=tutor_courses,
     )

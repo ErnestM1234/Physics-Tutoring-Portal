@@ -17,7 +17,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 db = SQLAlchemy(app)
 
 # context
-context = { 'netid': None }
+context = { 'netid': None, 'user': None }
 
 # (clear db and ) put all tables into db
 # pylint: disable-next=unused-import

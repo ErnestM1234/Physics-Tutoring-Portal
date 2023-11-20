@@ -264,7 +264,7 @@ def create_tutorship():
         filters = []
         filters.append(TutorCourses.tutor_id == tutor_id)
         filters.append(TutorCourses.course_id == course_id)
-        filters.append(TutorCourses.status == 'ACCEPTED')
+        filters.append(TutorCourses.status.in_(['ACCEPTED', 'UNAVAILABLE']))
         tutor_course = TutorCourses.query.filter(*filters).first()
         if tutor_course is None:
             return {"message": "Given tutor must have an accepted status with the given course."}, 400
@@ -346,7 +346,7 @@ def  update_tutorship():
             filters = []
             filters.append(TutorCourses.tutor_id == tutorship.tutor_id)
             filters.append(TutorCourses.course_id == tutorship.course_id)
-            filters.append(TutorCourses.status == 'ACCEPTED')
+            filters.append(TutorCourses.status.in_(['ACCEPTED', 'UNAVAILABLE']))
             tutor_course = TutorCourses.query.filter(*filters).first()
             if tutor_course is None:
                 return {"message": "Given tutor must have an accepted status with the given course."}, 400

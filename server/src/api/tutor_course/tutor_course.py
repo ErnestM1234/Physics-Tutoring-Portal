@@ -1,7 +1,8 @@
 import json
-from app import app, db
+from app import app, db, context
 from flask import jsonify, request
 from marshmallow import Schema, fields
+from src.utils.auth import requires_auth
 from src.database.models import TutorCourses, Users, Courses, Tutorships
 from src.services.gmail_service.gmail_service import send_tutor_course_first_accept_email, send_tutor_course_accept_email, send_tutor_course_deny_email
 
@@ -218,7 +219,7 @@ def create_tutor_course():
                     # check if this is the first course the tutor is tutoring
                     filters = []
                     filters.append(TutorCourses.tutor_id == tutor_id)
-                    filters.append(TutorCourses.status == 'ACCEPTED')
+                    filters.append(TutorCourses.status in ['ACCEPTED', 'UNAVAILABLE'])
                     if TutorCourses.query.filter(*filters).count() <= 1:
                         # send first tutor_course email
                         send_tutor_course_first_accept_email(tutor["email"], tutor["name"], course["name"])
@@ -259,6 +260,7 @@ class UpdateTutorCourseInputSchema(Schema):
 update_tutor_course_input_schema = UpdateTutorCourseInputSchema()
 
 @app.route('/api/tutor_course/update/', methods=['POST'])
+@requires_auth
 def  update_tutor_course():
     data = json.loads(request.data)
     errors = update_tutor_course_input_schema.validate(data)
@@ -267,81 +269,130 @@ def  update_tutor_course():
         return {"message": str(errors) }, 400
 
     try:
+        # get tutor_course
         id = data.get('id')
         tutor_course = TutorCourses.query.filter(TutorCourses.id == id).first()
         if tutor_course is None:
             return {"message": "Tutor course could not be found."}, 400
         
-        # get tutor_id and course_id (for sending email later)
-        ser_tutor_course = tutor_course.serialize()
-        tutor_id = ser_tutor_course["tutor_id"]
-        course_id = ser_tutor_course["course_id"]
-        tutor = None
+        # get access_level
+        user = context['user']
+        if user is None:
+            return {"message": "User could not be found."}, 400
+        access_level = None
+        if user.is_admin: access_level = "ADMIN"
+        elif user.is_tutor: access_level = "TUTOR"
+        elif user.is_student: access_level = "STUDENT"
 
-        # update tutor_course relationship
-        if data.get('tutor_id') not in [None, '']:
-            # check that tutor_id is a tutor (if they are updating tutor_id)
-            filters = []
-            filters.append(Users.id == data.get('tutor_id'))
-            filters.append(Users.is_tutor == True)
-            tutor = Users.query.filter(*filters).first()
-            if tutor is None:
-                return {"message": "Given user must be a tutor to have an accepted status for a tutor_course relationship."}, 400
-            # update tutor_course object
-            tutor_course.tutor_id = data.get('tutor_id')
-            # set tutor_id to the new tutor_id
-            tutor_id = data.get('tutor_id')
-        if data.get('course_id') not in [None, '']:
-            tutor_course.course_id = data.get('course_id')
-            course_id = data.get('course_id')
-        if data.get('status') not in [None, '']:
-            tutor_course.status = data.get('status')
-        if data.get('taken_course') not in [None, '']:
-            tutor_course.taken_course = data.get('taken_course')
-        if data.get('experience') not in [None, '']:
-            tutor_course.experience = data.get('experience')
+        # get tutor_id
+        tutor_id = data.get('tutor_id', None)
+        if tutor_id == None:
+            tutor_id = tutor_course.tutor_id
+        
+        # Tutor Updates:
+        # In the case that the person updating is an admin, check if the admin is the tutor in questoin. In this case, no need for
+        # sending email updating them if they have been accepted into the course
+        if user.id == tutor_id and (access_level == "TUTOR" or access_level == "ADMIN") :
+            # Tutors can only update tutor_course status to "ACCEPTED" or "UNAVAILABLE"
+            # only if their tutor course was already in an "ACCEPTED" or "UNAVAILABLE"
+            # status already
 
-        db.session.commit()
+            # get new status
+            status = data.get('status', None)
 
-        # send update email
-        if data.get('status') not in [None, '']:
-            try:
-                # get course
+            # check that this is a valid status
+            if status != "ACCEPTED" and status != "UNAVAILABLE" and access_level != "ADMIN":
+                # throw unauthroized error
+                print("Unauthorized status")
+                return {"error": str("Unauthorized status")}, 401
+            
+            # check that tutor has already been approved for this course
+            if tutor_course.status != "ACCEPTED" and tutor_course.status != "UNAVAILABLE" and access_level != "ADMIN":
+                # throw unauthroized error
+                print("Unauthorized")
+                return {"error": str("Unauthorized - You are not approved for tutoring this course")}, 401
+            
+            # update the status
+            tutor_course.status = status
+            db.session.commit()
+            return {"message": "success"}, 200
+
+        # Admin Updates:
+        elif access_level == "ADMIN":
+            # get tutor_id and course_id (for sending email later)
+            ser_tutor_course = tutor_course.serialize()
+            tutor_id = ser_tutor_course["tutor_id"]
+            course_id = ser_tutor_course["course_id"]
+            tutor = None
+
+            # update tutor_course relationship
+            if data.get('tutor_id') not in [None, '']:
+                # check that tutor_id is a tutor (if they are updating tutor_id)
                 filters = []
-                filters.append(Courses.id == course_id)
-                course = Courses.query.filter(*filters).first()
-                if course is None:
-                    raise("course could not be found")
-                course = course.serialize()
+                filters.append(Users.id == data.get('tutor_id'))
+                filters.append(Users.is_tutor == True)
+                tutor = Users.query.filter(*filters).first()
+                if tutor is None:
+                    return {"message": "Given user must be a tutor to have an accepted status for a tutor_course relationship."}, 400
+                # update tutor_course object
+                tutor_course.tutor_id = data.get('tutor_id')
+                # set tutor_id to the new tutor_id
+                tutor_id = data.get('tutor_id')
+            if data.get('course_id') not in [None, '']:
+                tutor_course.course_id = data.get('course_id')
+                course_id = data.get('course_id')
+            if data.get('status') not in [None, '']:
+                tutor_course.status = data.get('status')
+            if data.get('taken_course') not in [None, '']:
+                tutor_course.taken_course = data.get('taken_course')
+            if data.get('experience') not in [None, '']:
+                tutor_course.experience = data.get('experience')
 
-                # get tutor
-                if not tutor: # check if got tutor from earlier
+            db.session.commit()
+
+            # send update email
+            if data.get('status') not in [None, '']:
+                try:
+                    # get course
                     filters = []
-                    filters.append(Users.id == tutor_id)
-                    filters.append(Users.is_tutor == True)
-                    tutor = Users.query.filter(*filters).first()
-                    if tutor is None:
-                        raise("tutor could not be found")
-                tutor = tutor.serialize()
+                    filters.append(Courses.id == course_id)
+                    course = Courses.query.filter(*filters).first()
+                    if course is None:
+                        raise Exception("course could not be found")
+                    course = course.serialize()
 
-                # send message
-                if data.get('status') == 'ACCEPTED':
-                    # check if this is the first course the tutor is tutoring
-                    filters = []
-                    filters.append(TutorCourses.tutor_id == tutor_id)
-                    filters.append(TutorCourses.status == 'ACCEPTED')
-                    if TutorCourses.query.filter(*filters).count() <= 1:
-                        # send first tutor_course email
-                        send_tutor_course_first_accept_email(tutor["email"], tutor["name"], course["name"])
-                    else:
-                        # send generic tutor_course email
-                        send_tutor_course_accept_email(tutor["email"], course["name"])
-                elif data.get('status') == 'DENIED':
-                    send_tutor_course_deny_email(tutor["email"], course["name"])
+                    # get tutor
+                    if not tutor: # check if got tutor from earlier
+                        filters = []
+                        filters.append(Users.id == tutor_id)
+                        filters.append(Users.is_tutor == True)
+                        tutor = Users.query.filter(*filters).first()
+                        if tutor is None:
+                            raise Exception("tutor could not be found")
+                    tutor = tutor.serialize()
 
-            except Exception as e:
-                print("email sending failed: " + str(e))
-        return {"message": "success"}, 200
+                    # send message
+                    if data.get('status') == 'ACCEPTED' or data.get('status') == 'UNAVAILABLE':
+                        # check if this is the first course the tutor is tutoring
+                        filters = []
+                        filters.append(TutorCourses.tutor_id == tutor_id)
+                        filters.append(TutorCourses.status == 'ACCEPTED' or TutorCourses.status == 'UNAVAILABLE')
+                        if TutorCourses.query.filter(*filters).count() <= 1:
+                            # send first tutor_course email
+                            send_tutor_course_first_accept_email(tutor["email"], tutor["name"], course["name"])
+                        else:
+                            # send generic tutor_course email
+                            send_tutor_course_accept_email(tutor["email"], course["name"])
+                    elif data.get('status') == 'DENIED':
+                        send_tutor_course_deny_email(tutor["email"], course["name"])
+
+                except Exception as e:
+                    print("email sending failed: " + str(e))
+            return {"message": "success"}, 200
+        else: # student
+            print("Unauthorized")
+            return {"error": str("Unauthorized")}, 401
+
     except Exception as e:
         print(str(e))
         return {"error": str(e)}, 400

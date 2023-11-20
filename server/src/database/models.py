@@ -134,7 +134,8 @@ class TutorCourses(db.Model):
     experience = db.Column('experience',db.String(),nullable=True)
 
     # todo (Ernest or Elise): add statuses and validation
-    VALID_STATUS = ['REQUESTED', 'ACCEPTED', 'DENIED', 'NONE']
+    # unavailable is still accepted, but no longer taking students
+    VALID_STATUS = ['REQUESTED', 'ACCEPTED', 'DENIED', 'NONE', 'UNAVAILABLE']
 
     def __init__(self, tutor_id, course_id, status, taken_course, experience):
         self.tutor_id = tutor_id

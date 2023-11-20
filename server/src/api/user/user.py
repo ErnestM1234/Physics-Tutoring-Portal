@@ -35,7 +35,7 @@ def get_user():
 
 
 
-""" GET /api/user-auth-id/
+""" POST /api/user-auth-id/
 Parameters:
     - netid (string)!
 """

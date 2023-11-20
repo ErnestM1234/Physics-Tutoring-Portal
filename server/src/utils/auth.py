@@ -51,6 +51,7 @@ def requires_auth(f):
         netid = get_auth_netid()
         try:
             user = Users.query.filter(Users.netid == netid).first()
+            context['user'] = user
         except Exception as e:
             print(str(e))
             raise AuthError({"code": "invalid_header",
