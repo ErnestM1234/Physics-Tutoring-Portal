@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+    <head>
+        <title>Physics Tutoring Portal Request All Tutors</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
+    </head>
+
+    <body class="princeton-gradient">
+        &nbsp;
+        {% include "/components/student-sidebar-header.html" %}
+
+        <div>
+            <h1></b>Request all tutors</h1>
+
+            <br><br><br>
+
+            Are you sure you want to request all tutors for {{course.get('dept_course')}}?
+            <br>
+            <a href="/student/tutor/request-all/confirm?course_id={{course.get('id')}}">
+                <button type="submit" class="submit-button" >Request All</button>
+            </a>
+
+        </div>
+
+        {% include "/components/student-sidebar-footer.html" %}
+    </body>
+
+</html>

@@ -53,7 +53,7 @@
             <a class="list-group-item disabled list-box list-box-header">
               <div class="three-item">Course Title</div>
               <div class="three-item">Department & Number</div>
-              <div class="three-item">Available</div>
+              <div class="three-item">Available*</div>
             </a>
 
             {% if tutor_courses|length==0 %}
@@ -91,6 +91,8 @@
               {% endif %}
             {% endfor %}
           </div>
+          <br/>
+          * Availability controls your visibility to students looking for tutors for a course. Turn on/off availability to new receive tutorship requests.
 
         
         {% include "/components/tutor-sidebar-footer.html" %}

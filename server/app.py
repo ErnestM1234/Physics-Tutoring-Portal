@@ -35,6 +35,7 @@ with app.app_context():
 from src.api.user.user import *
 from src.api.course.course import *
 from src.api.tutorship.tutorship import *
+from src.api.tutorship.tutorship_request_all import *
 from src.api.tutor_course.tutor_course import *
 
 
