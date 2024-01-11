@@ -82,7 +82,7 @@
               </a>
               {% for approved_tutor_course in approved_tutor_courses %}
                   <a href="{{'/admin/tutor-profile/?tutor_id=' + approved_tutor_course.tutor_id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
-                      <div class="three-item">{{get_name(approved_tutor_course.tutor_id)}}</div>
+                      <div class="three-item">{{approved_tutor_course.tutor.name}}</div>
                       <div class="three-item">{{approved_tutor_course.course.name}}</div>
                       <div class="three-item">{{approved_tutor_course.accepted_tutorship_count}}</div>
                   </a>
@@ -104,7 +104,7 @@
               </a>
               {% for tutor_course_request in tutor_course_requests %}
                   <a href="{{'/admin/tutor-profile/?tutor_id=' + tutor_course_request.tutor_id | string }}"class = "list-group-item list-group-item-action list-box no-gradient">
-                      <div class="three-item">{{get_name(tutor_course_request.tutor_id)}}</div>
+                      <div class="three-item">{{tutor_course_request.tutor.name}}</div>
                       <div class="three-item">{{tutor_course_request.course.name}}</div>
                       <div class="three-item">{{tutor_course_request.tutor_total_accepted_tutorship_count}}</div>
                   </a>

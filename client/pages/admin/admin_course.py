@@ -10,15 +10,6 @@ from pages.shared.get_user import *
 
 load_dotenv()
 
-def get_name(id):
-    # this is very slow!! replace this!!
-    headers = get_header()
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={"id": id}, headers=headers)
-    user = res.json()
-    # verify is admin
-    if 'id' not in user.keys():
-        return redirect('/')
-    return user['name']
 
 @app.route('/admin/course/')
 def admin_course():
@@ -78,7 +69,6 @@ def admin_course():
         course_id=course_id,
         approved_tutor_courses=approved_tutor_courses,
         tutor_course_requests=tutor_course_requests,
-        get_name=get_name,
     )
 
 
