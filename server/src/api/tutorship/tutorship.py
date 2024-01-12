@@ -204,10 +204,9 @@ def get_tutorships_page_deep():
         if course_id:
             filters.append(Tutorships.course_id == course_id)
 
-        # tutorships = Tutorships.query.filter(*filters).all()
-        # check the orderby
-        tutorships = Tutorships.query.filter(*filters).order_by(Tutorships.course_id).paginate(page=page,per_page=size,error_out=False)
-        tutorships = [tutorship.serialize() for tutorship in tutorships]
+        # TODO: check the orderby
+        res = Tutorships.query.filter(*filters).order_by(Tutorships.course_id).paginate(page=page,per_page=size,error_out=False)
+        tutorships = [tutorship.serialize() for tutorship in res.items]
 
         # get the courses and tutors and students
         for tutorship in tutorships:
