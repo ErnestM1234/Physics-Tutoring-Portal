@@ -23,7 +23,21 @@ def admin_tutorships():
 
     # param validation
     course_id = request.args.get('course_id')
-    tutorship_params = {}
+    page = request.args.get('page', '1')
+    size = request.args.get('size', '15')
+
+    try:
+        page = int(page)
+        size = int(size)
+    except:
+        session['error_message'] = 'a valid page and size must be provided'
+        return redirect('/error/')
+    
+    tutorship_params = {
+        'page': page,
+        'size': size
+    }
+
     course = None
     if course_id is not None:
         if course_id.isnumeric() and int(float(course_id)) >= 0:
@@ -39,7 +53,7 @@ def admin_tutorships():
         course = res.json()
 
     # get tutorships
-    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/deep/'), params=tutorship_params, headers=headers)
+    res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/tutorships/page/deep/'), params=tutorship_params, headers=headers)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
         return redirect('/error/')
@@ -50,6 +64,10 @@ def admin_tutorships():
         user=user,
         tutorships=tutorships,
         course=course,
-        course_id=course_id
+        course_id=course_id,
+        page=page,
+        size=size,
+        next_page="/admin/tutorships/?page=" + str(page + 1) + "&size=" + str(size),
+        prev_page="/admin/tutorships/?page=" + str(page - 1) + "&size=" + str(size)
     )
 

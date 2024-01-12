@@ -90,7 +90,6 @@ def get_tutorships():
 
 
 
-
 """ GET /api/tutorships/deep/
 Parameters:
     - id            (int)?
@@ -155,6 +154,77 @@ def get_tutorships_deep():
         return {"error": str(e)}, 400
 
 
+
+""" GET /api/tutorships/page/deep/
+Parameters:
+    - id            (int)?
+    - status        (str)?
+    - student_id    (int)?
+    - tutor_id      (int)?
+    - course_id      (int)?
+    - page           (int)!
+    - size           (int)!
+"""
+class GetTutorshipsPageDeepInputSchema(Schema):
+    id = fields.Integer()
+    status = fields.String()
+    student_id = fields.Integer()
+    tutor_id = fields.Integer()
+    course_id = fields.Integer()
+    page = fields.Integer(required=True)
+    size = fields.Integer(required=True)
+get_tutorships_page_deep_input_schema = GetTutorshipsPageDeepInputSchema()
+
+@app.route('/api/tutorships/page/deep/', methods=['GET'])
+@requires_auth
+def get_tutorships_page_deep():
+    errors = get_tutorships_page_deep_input_schema.validate(request.args)
+    if errors:
+        print(str(errors))
+        return {"message": str(errors) }, 400
+    
+    try:
+        id = request.args.get('id')
+        status = request.args.get('status')
+        student_id = request.args.get('student_id')
+        tutor_id = request.args.get('tutor_id')
+        course_id = request.args.get('course_id')
+        page = int(request.args.get('page')) # type: ignore
+        size = int(request.args.get('size')) # type: ignore
+
+        filters = []
+        if id:
+            filters.append(Tutorships.id == id)
+        if status:
+            filters.append(Tutorships.status == status)
+        if student_id:
+            filters.append(Tutorships.student_id == student_id)
+        if tutor_id:
+            filters.append(Tutorships.tutor_id == tutor_id)
+        if course_id:
+            filters.append(Tutorships.course_id == course_id)
+
+        # tutorships = Tutorships.query.filter(*filters).all()
+        # check the orderby
+        tutorships = Tutorships.query.filter(*filters).order_by(Tutorships.course_id).paginate(page=page,per_page=size,error_out=False)
+        tutorships = [tutorship.serialize() for tutorship in tutorships]
+
+        # get the courses and tutors and students
+        for tutorship in tutorships:
+            tutor = Users.query.filter(Users.id == tutorship["tutor_id"]).first()
+            if tutor:
+                tutorship["tutor"] = tutor.serialize()
+            student = Users.query.filter(Users.id == tutorship["student_id"]).first()
+            if student:
+                tutorship["student"] = student.serialize()
+            course = Courses.query.filter(Courses.id == tutorship["course_id"]).first()
+            if course:
+                tutorship["course"] = course.serialize()
+
+        return jsonify(tutorships)
+    except Exception as e:
+        print(str(e))
+        return {"error": str(e)}, 400
 
 
 

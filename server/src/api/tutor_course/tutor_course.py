@@ -145,7 +145,6 @@ def get_tutor_courses_deep():
         print(str(e))
         return {"error": str(e)}, 400
 
-
              
 
 """ POST /api/tutor_course/create/
