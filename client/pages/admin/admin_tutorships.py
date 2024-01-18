@@ -77,7 +77,6 @@ def admin_tutorships():
     return render_template(
         '/admin/admin-tutorships.html',
         user=user,
-        # tutorships=tutorships,
         course=course,
         course_id=course_id,
         page=page,

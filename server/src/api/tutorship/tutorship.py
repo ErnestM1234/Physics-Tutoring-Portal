@@ -427,10 +427,8 @@ def  update_tutorship():
             tutorship.tutor_id = data.get('tutor_id')
         if data.get('course_id') not in [None, '']:
             tutorship.course_id = data.get('course_id')
+        db.session.commit() # update tutorship
 
-        db.session.commit()
-
-        
         # get student
         filters = []
         filters.append(Users.id == tutorship.student_id)
@@ -457,7 +455,20 @@ def  update_tutorship():
             return {"message": "Given course must exist."}, 400
         course = course.serialize()
 
-         # send email notification
+        # withdraw other tutorship requests
+        try:
+            if data.get('status') not in [None, ''] and data.get('status') == 'ACCEPTED':
+                # delete tutorship requests made by same student for same course
+                filters = []
+                filters.append(Tutorships.course_id == tutorship.course_id)
+                filters.append(Tutorships.student_id == tutorship.student_id)
+                filters.append(Tutorships.status == 'REQUESTED')
+                Tutorships.query.filter(*filters).delete()
+                db.session.commit()
+        except Exception as e:
+            return {"error": "Failed to withdraw other tutorship requests" + str(e)}, 500
+
+        # send email notification
         if data.get('status') not in [None, '']:
             try:
                 if data.get('status') == 'REQUESTED':
