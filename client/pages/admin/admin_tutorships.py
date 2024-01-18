@@ -59,15 +59,32 @@ def admin_tutorships():
         return redirect('/error/')
     tutorships = res.json()
 
+    # pagination formatting
+    tutorships_pag_headers = ['Student Name','Tutor Name','Course Title','Dept & Num','Status']
+    tutorships_pag_entries = [
+        {
+            'url': '/admin/tutorship/?tutorship_id=' + str(tutorship['id']),
+            'entries': [  
+                tutorship['student']['name'],
+                tutorship['tutor']['name'],
+                tutorship['course']['name'],
+                tutorship['course']['dept_course'],
+                tutorship['status'],
+            ]
+        } for tutorship in tutorships
+    ]
+
     return render_template(
         '/admin/admin-tutorships.html',
         user=user,
-        tutorships=tutorships,
+        # tutorships=tutorships,
         course=course,
         course_id=course_id,
         page=page,
         size=size,
         next_page="/admin/tutorships/?page=" + str(page + 1) + "&size=" + str(size),
-        prev_page="/admin/tutorships/?page=" + str(page - 1) + "&size=" + str(size)
+        prev_page="/admin/tutorships/?page=" + str(page - 1) + "&size=" + str(size),
+        tutorships_pag_headers=tutorships_pag_headers,
+        tutorships_pag_entries=tutorships_pag_entries
     )
 

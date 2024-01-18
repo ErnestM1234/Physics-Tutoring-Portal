@@ -1,0 +1,19 @@
+<div class="page-table">
+    <a href="{{prev_page}}" class="pag-button">&nbsp;<&nbsp;</a> &nbsp; page: {{page}} &nbsp; size: {{size}} &nbsp;<a href="{{next_page}}" class="pag-button">&nbsp;>&nbsp;</a>
+    <div class ="list-group list-box-frame">
+        <a class = "list-group-item disabled list-box list-box-header multi-item-container">
+            {% for entry in headers %}
+                <div class="multi-item">{{entry}}</div>
+            {% endfor %}
+
+        </a>
+        {% for row in rows %}
+        <a href="{{row.url}}"class = "list-group-item list-group-item-action list-box no-gradient multi-item-container">
+            {% for entry in row.entries %}
+                <div class="multi-item">{{entry}}</div>
+            {% endfor %}
+        </a>
+              
+        {% endfor %}
+      </div>
+</div>

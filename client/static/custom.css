@@ -218,6 +218,15 @@ span {
     font-size: 12px;
   }
 }
+
+.multi-item-container {
+  display: flex;
+}
+.multi-item {
+  width: 100%;
+  justify-content: left;
+}
+
 .one-item {
   width: 100%;
   text-align: center;
@@ -393,6 +402,40 @@ span {
   font-size: 35px;
   margin: 25px;
 }
+
+.pag-button {
+  width: 100px;
+  height: 50px;
+  background-color: white;
+  border-width: 2px;
+  border-color: rgb(255, 145, 60);
+  border-style: solid;
+  border-radius: 20px;
+  scale: 1;
+  color: black;
+  text-decoration: none;
+  font-size: 1em;
+}
+
+.pag-button:hover {
+  color: black;
+  background-color: rgb(255, 242, 224);
+}
+
+.pag-button-deactivated {
+  width: 100px;
+  height: 50px;
+  background-color: rgb(163, 163, 163);
+  border-width: 2px;
+  border-color: rgb(218, 123, 50);
+  border-style: solid;
+  border-radius: 20px;
+  scale: 1;
+  color: rgb(66, 66, 66);
+  text-decoration: none;
+  font-size: 1em;
+}
+
 
 .submit-button {
   width: 100px;
