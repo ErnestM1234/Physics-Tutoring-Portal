@@ -291,7 +291,7 @@ def  update_tutor_course():
         # Tutor Updates:
         # TODO: In the case that the person updating is an admin, check if the admin is the tutor in question. In this case, no need for
         # sending email updating them if they have been accepted into the course
-        if user.id == tutor_id and access_level == "TUTOR" or (access_level == "ADMIN"):
+        if user.id == tutor_id and access_level == "TUTOR":
             # Tutors can only update their statuses as follows:
             # ---Beginning Status--- ---Updated Status---
 
@@ -309,7 +309,7 @@ def  update_tutor_course():
             # get new status
             cur_status = tutor_course.status
             new_status = data.get('status', None)
-            
+
             # state machine logic
             if cur_status == "DENIED": # state = DENIED
                 if new_status == "DENIED" or new_status == "REQUESTED":
