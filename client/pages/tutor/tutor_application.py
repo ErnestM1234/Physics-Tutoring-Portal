@@ -26,7 +26,6 @@ def tutorApplication():
         return redirect('/error/')
     course = res.json()
 
-
     res = requests.get(url = str(os.environ['API_ADDRESS']+'/api/user/'), params={'id': user['id']}, headers=headers)
     if res.status_code != 200:
         session['error_message'] = str(res.content)
@@ -34,7 +33,5 @@ def tutorApplication():
     tutor = res.json()
 
     return render_template(
-        '/tutor/tutor-application.html', tutor=tutor, course_id = course_id, course=course, 
-        user=user
-
+        '/tutor/tutor-application.html', tutor=tutor, course_id=course_id, course=course, user=user
     )

@@ -207,7 +207,7 @@ def create_tutor_course():
                 filters.append(Courses.id == course_id)
                 course = Courses.query.filter(*filters).first()
                 if course is None:
-                    raise("course could not be found")
+                    raise Exception("course could not be found")
                 course = course.serialize()
 
                 # get tutor
@@ -289,32 +289,76 @@ def  update_tutor_course():
             tutor_id = tutor_course.tutor_id
         
         # Tutor Updates:
-        # In the case that the person updating is an admin, check if the admin is the tutor in questoin. In this case, no need for
+        # TODO: In the case that the person updating is an admin, check if the admin is the tutor in question. In this case, no need for
         # sending email updating them if they have been accepted into the course
-        if user.id == tutor_id and (access_level == "TUTOR" or access_level == "ADMIN") :
-            # Tutors can only update tutor_course status to "ACCEPTED" or "UNAVAILABLE"
-            # only if their tutor course was already in an "ACCEPTED" or "UNAVAILABLE"
-            # status already
+        if user.id == tutor_id and access_level == "TUTOR" or (access_level == "ADMIN"):
+            # Tutors can only update their statuses as follows:
+            # ---Beginning Status--- ---Updated Status---
+
+            # - DENIED             ->   DENIED
+            # - DENIED             ->   REQUESTED
+
+            # - UNAVAILBLE         ->   UNAVAILBLE
+            # - UNAVAILBLE         ->   ACCEPTED    (which here means available for teaching)
+
+            # - REQUESTED          ->   REQUESTED
+
+            # - ACCEPTED           ->   ACCEPTED
+            # - ACCEPTED           ->   UNAVAILABLE
 
             # get new status
-            status = data.get('status', None)
+            cur_status = tutor_course.status
+            new_status = data.get('status', None)
+            
+            # state machine logic
+            if cur_status == "DENIED": # state = DENIED
+                if new_status == "DENIED" or new_status == "REQUESTED":
+                    # update the status
+                    tutor_course.status = new_status
+                    db.session.commit()
+                    return {"message": "success"}, 200
+                else:
+                    # return an error
+                    print("Tutor is unauthorized to perform this action.")
+                    return {"error": str("Tutor is unauthorized to perform this action.")}, 401
+                
+            elif cur_status == "UNAVAILABLE": # state = UNAVAILABLE
+                if new_status == "UNAVAILABLE" or new_status == "ACCEPTED":
+                    # update the status
+                    tutor_course.status = new_status
+                    db.session.commit()
+                    return {"message": "success"}, 200
+                else:
+                    # return an error
+                    print("Tutor is unauthorized to perform this action.")
+                    return {"error": str("Tutor is unauthorized to perform this action.")}, 401
+                
+            elif cur_status == "REQUESTED": # state = REQUESTED
+                if new_status == "REQUESTED":
+                    # update the status
+                    tutor_course.status = new_status
+                    db.session.commit()
+                    return {"message": "success"}, 200
+                else:
+                    # return an error
+                    print("Tutor is unauthorized to perform this action.")
+                    return {"error": str("Tutor is unauthorized to perform this action.")}, 401
+                
+            elif cur_status == "ACCEPTED": # state = ACCEPTED
+                if new_status == "ACCEPTED" or new_status == "UNAVAILABLE":
+                    # update the status
+                    tutor_course.status = new_status
+                    db.session.commit()
+                    return {"message": "success"}, 200
+                else:
+                    # return an error
+                    print("Tutor is unauthorized to perform this action.")
+                    return {"error": str("Tutor is unauthorized to perform this action.")}, 401
 
-            # check that this is a valid status
-            if status != "ACCEPTED" and status != "UNAVAILABLE" and access_level != "ADMIN":
-                # throw unauthroized error
-                print("Unauthorized status")
-                return {"error": str("Unauthorized status")}, 401
-            
-            # check that tutor has already been approved for this course
-            if tutor_course.status != "ACCEPTED" and tutor_course.status != "UNAVAILABLE" and access_level != "ADMIN":
-                # throw unauthroized error
-                print("Unauthorized")
-                return {"error": str("Unauthorized - You are not approved for tutoring this course")}, 401
-            
-            # update the status
-            tutor_course.status = status
-            db.session.commit()
-            return {"message": "success"}, 200
+            else: # state = ???
+                # return an error
+                print("Tutor is unauthorized to perform this action.")
+                return {"error": str("Tutor is unauthorized to perform this action.")}, 401
 
         # Admin Updates:
         elif access_level == "ADMIN":
@@ -370,7 +414,7 @@ def  update_tutor_course():
                             raise Exception("tutor could not be found")
                     tutor = tutor.serialize()
 
-                    # send message
+                    # send email message
                     if data.get('status') == 'ACCEPTED' or data.get('status') == 'UNAVAILABLE':
                         # check if this is the first course the tutor is tutoring
                         filters = []
