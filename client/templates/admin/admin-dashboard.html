@@ -1,5 +1,48 @@
 <!DOCTYPE html>
 <html>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+    <script>
+      (function (window, document) {
+        "use strict";
+        window.onload = doCount;
+        function doCount ()  {
+          const total_courses_element = document.getElementById("total_courses_counter");
+          const total_students_element = document.getElementById("total_students_counter");
+          const total_tutors_element = document.getElementById("total_tutors_counter");
+          let total_courses = JSON.parse('{{ total_courses | int }}');
+          let total_students = JSON.parse('{{ total_students | int }}');
+          let total_tutors = JSON.parse('{{ total_tutors | int }}');
+          var [total_courses_counter, total_students_counter, total_tutors_counter] = [0,0,0]
+          var course_countup = setInterval(function () {
+            total_courses_counter += Math.max(1, Math.floor(total_courses / 20));
+            total_courses_element.textContent = total_courses_counter;
+            if (total_courses_counter >= total_courses) {
+              total_courses_counter = total_courses;
+              total_courses_element.textContent = total_courses_counter;
+              clearInterval(course_countup);
+            }
+          }, 50);
+          var students_countup = setInterval(function () {
+            total_students_counter += Math.max(1, Math.floor(total_students / 20));
+            total_students_element.textContent = total_students_counter;
+            if (total_students_counter >= total_students) {
+              total_students_counter = total_students;
+              total_students_element.textContent = total_students_counter;
+              clearInterval(students_countup);
+            }
+          }, 50);
+          var tutors_countup = setInterval(function () {
+            total_tutors_counter += Math.max(1, Math.floor(total_tutors / 20));
+            total_tutors_element.textContent = total_tutors_counter;
+            if (total_tutors_counter >= total_tutors) {
+              total_tutors_counter = total_tutors;
+              total_tutors_element.textContent = total_tutors_counter;
+              clearInterval(tutors_countup);
+            }
+          }, 50);
+        }
+      })(window, document);
+    </script>
     <head>
       <title>Physics Tutoring Portal Admin Dashboard</title>
       <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -8,7 +51,6 @@
       <link rel="stylesheet" href= "{{url_for('static', filename='custom.css')}}">
       <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-
     <body class="princeton-gradient">
       &nbsp;
       {% include "/components/admin-sidebar-header.html" %}
@@ -24,19 +66,19 @@
             <div class="stats-wrapper">
               <div class="stats-block">
                 <div class="stats-stats">
-                  {{total_courses}}<br>
+                  <div id="total_courses_counter">0</div>
                   Courses
                 </div>
               </div>
               <div class="stats-block">
                 <div class="stats-stats">
-                  {{total_students}}<br>
+                  <div id="total_students_counter">0</div>
                   Students
                 </div>
               </div>
               <div class="stats-block">
                 <div class="stats-stats">
-                  {{total_tutors}}<br>
+                  <div id="total_tutors_counter">0</div>
                   Tutors
                 </div>
               </div>
@@ -59,8 +101,8 @@
                   <a href="{{'/admin/course/?course_id=' + course.id | string}}"class = "list-group-item list-group-item-action list-box no-gradient">
                     <div class="four-item">{{course.name}}</div>
                     <div class="four-item">{{course.dept_course}}</div>
-                    <div class="four-item">{{approved_tutors_count[loop.index0]}}</div>
-                    <div class="four-item">{{tutees_count[loop.index0]}}</div>
+                    <div class="four-item">{{course.approved_tutors_count}}</div>
+                    <div class="four-item">{{course.tutees_count}}</div>
                   </a>
               {% endfor %}
           </div>

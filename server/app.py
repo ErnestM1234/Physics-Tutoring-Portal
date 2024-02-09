@@ -37,6 +37,7 @@ from src.api.course.course import *
 from src.api.tutorship.tutorship import *
 from src.api.tutorship.tutorship_request_all import *
 from src.api.tutor_course.tutor_course import *
+from src.api.stats.stats import *
 
 
 if __name__ == '__main__':
